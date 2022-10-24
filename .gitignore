@@ -1,0 +1,12 @@
+# Ignore IntelliJ
+.idea
+idea/
+.idea/
+
+
+# Ignore vsCode
+.vscode
+.DS_STORE
+.vs/
+
+
