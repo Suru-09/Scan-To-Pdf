@@ -1,12 +1,14 @@
 import React from 'react';
-import {View, Text} from React
+import { Text, View } from 'react-native';
 
-export default class App extends React.Component{
-    render(){
-        return(
-            <View>
-                <Text>App starts here</Text>
-            </View>
-        );
-    }
+const YourApp = () => {
+    return (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            <Text>
+                Try editing me! 🎉
+            </Text>
+        </View>
+    );
 }
+
+export default YourApp;
