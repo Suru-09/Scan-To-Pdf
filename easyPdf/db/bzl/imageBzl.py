@@ -7,7 +7,7 @@ from ..models import Image
 
 
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
+@permission_classes([AllowAny])
 def get_all_images(request):
     if request.method == 'GET':
         images = Image.objects.all()

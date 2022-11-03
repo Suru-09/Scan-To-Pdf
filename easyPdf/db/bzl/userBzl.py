@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
+@permission_classes([AllowAny])
 def get_all_users(request):
     if request.method == 'GET':
         users = User.objects.all()

@@ -7,7 +7,7 @@ from ..models import Document
 
 
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
+@permission_classes([AllowAny])
 def get_all_docs(request):
     if request.method == 'GET':
         documents = Document.objects.all()
