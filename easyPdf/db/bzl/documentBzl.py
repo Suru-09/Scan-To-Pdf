@@ -6,12 +6,30 @@ from ..dto.documentDTO import DocumentDto
 from ..models import Document
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
+def get_all_create_doc(request):
+    if request.method == 'GET':
+        return get_all_docs(request)
+    elif request.method == 'POST':
+        return create_doc(request)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
 @permission_classes([AllowAny])
 def get_all_docs(request):
     if request.method == 'GET':
         documents = Document.objects.all()
         doc_dto = DocumentDto(documents, many=True)
         return Response(doc_dto.data)
-    else:
-        return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+@permission_classes([AllowAny])
+def create_doc(request):
+    if request.method == 'POST':
+        doc_dto = DocumentDto(data=request.data)
+        if doc_dto.is_valid():
+            doc_dto.save()
+            return Response("Document has been created!", status=status.HTTP_200_OK)
+        return Response('DTO not VALID', status=status.HTTP_400_BAD_REQUEST)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)

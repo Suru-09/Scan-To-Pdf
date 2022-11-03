@@ -1,10 +1,13 @@
-from django.urls import path
-from .views.userViews import getUsers
-from .views.documentsViews import getDocs
-from .views.imagesViews import getImages
+from django.urls import path, include
+from .views.userViews import getUsersCreateUser
+from .views.documentsViews import getDocsCreateDoc
+from .views.imagesViews import getImagesCreateImage
 
+user_patterns = [
+    path('', getUsersCreateUser),
+]
 urlpatterns = [
-    path('get-users', getUsers),
-    path('get-documents', getDocs),
-    path('get-images', getImages)
+    path('users', include(user_patterns)),
+    path('documents', getDocsCreateDoc),
+    path('images', getImagesCreateImage)
 ]
