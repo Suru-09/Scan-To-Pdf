@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 # users
-from .views.userViews import getUsersCreateUser
+from .views.userViews import getUsersCreateUser, log_user
 
 # documents
 from .views.documentsViews import getDocsCreateDoc
@@ -11,6 +11,7 @@ from .views.imagesViews import getImagesCreateImage
 
 user_patterns = [
     path('', getUsersCreateUser),
+    path('login', log_user)
 ]
 
 document_patterns = [
@@ -22,7 +23,7 @@ images_patterns = [
 ]
 
 urlpatterns = [
-    path('users', include(user_patterns)),
+    path('users/', include(user_patterns)),
     path('documents', include(document_patterns)),
     path('images', include(images_patterns))
 ]

@@ -6,5 +6,13 @@ class UserDto(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'id', 'first_name', 'password', 'last_name', 'username', 'email'
+            'first_name', 'last_name' , 'username', 'password', 'email'
+        )
+
+
+class UserLoginDto(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+             'username', 'password'
         )
