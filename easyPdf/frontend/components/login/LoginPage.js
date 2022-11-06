@@ -1,17 +1,29 @@
-import React from "react";
+import React , {useState} from "react";
 import { VStack } from 'react-native-flex-layout';
-import { IconComponentProvider, Icon, Button  } from "@react-native-material/core";
+import { IconComponentProvider, Icon, Button, TextInput, IconButton   } from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { TextInput, IconButton } from "@react-native-material/core";
 import flex from "react-native-flex-layout/src/Flex";
+import {useDispatch} from "react-redux";
+import {loginUser} from "../../redux/actions/userActions";
 
 const LoginPage = () => {
+    const [user, setUser] = useState({
+        username: "",
+        password: "",
+    })
+
+    const dispatch = useDispatch()
+
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
             <VStack spacing={30} style={{ marginHorizontal:"10%",  justifyContent: "center", alignItems: "center", display:"flex", maxWidth:"80%", marginTop:"40%", marginBottom:"40%" }} >
                 <Icon name="home" size={35} color="black" />
-                <TextInput variant="outlined" label="username" style={{ width:"100%" }} />
                 <TextInput
+                    onChange={(text) => {setUser({...user, username: text})}}
+                    variant="outlined" label="username" style={{ width:"100%" }}
+                />
+                <TextInput
+                  onChange={(text) => {setUser({...user, password: text})}}
                   label="password"
                   variant="outlined"
                   style={{ width:"100%" }}
@@ -19,7 +31,13 @@ const LoginPage = () => {
                     <IconButton icon={props => <Icon name="eye" {...props} />} {...props} />
                   )}
                 />
-                <Button title="Login" />
+                <Button
+                    onPress={() => {
+                        console.log("WTF");
+                        dispatch(loginUser(user));
+
+                    }}
+                    title="Login" />
             </VStack>
         </IconComponentProvider>
     );
