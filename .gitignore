@@ -19,9 +19,9 @@ node_modules/
 *.log
 *.pot
 *.pyc
-easyPdf/bzl/__pycache__
-easyPdf/dto/__pycache__
-easyPdf/easyPdf/__pycache__
+easyPdf/db/bzl/__pycache__
+easyPdf/db/dto/__pycache__
+easyPdf/db/easyPdf/__pycache__
 easyPdf/frontend/__pycache__
 media
 
