@@ -1,25 +1,25 @@
 from django.urls import path, include
 
 # users
-from .views.userViews import getUsersCreateUser, log_user
+from .bzl.userBzl import find_user, get_all_create_user
 
 # documents
-from .views.documentsViews import getDocsCreateDoc
+from .bzl.documentBzl import get_all_create_doc
 
 # images
-from .views.imagesViews import getImagesCreateImage
+from .bzl.imageBzl import get_all_create_image
 
 user_patterns = [
-    path('', getUsersCreateUser),
-    path('login', log_user)
+    path('', get_all_create_user),
+    path('login', find_user)
 ]
 
 document_patterns = [
-    path('', getDocsCreateDoc),
+    path('', get_all_create_doc),
 ]
 
 images_patterns = [
-    path('', getImagesCreateImage)
+    path('', get_all_create_image)
 ]
 
 urlpatterns = [

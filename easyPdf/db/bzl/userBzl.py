@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -7,6 +8,7 @@ from ..dto.userDTO import UserDto, UserLoginDto
 from django.contrib.auth.models import User
 
 
+@csrf_exempt
 @api_view(['GET', 'POST'])
 def get_all_create_user(request):
     if request.method == 'GET':
@@ -33,7 +35,7 @@ def create_user(request):
         if user_dto.is_valid():
             user_dto.save()
             return Response("User has been created!", status=status.HTTP_200_OK)
-        return Response('User DTO not VALID OR ALREADY EXISTS(e.g. admin mindfuck)', status=status.HTTP_400_BAD_REQUEST)
+        return Response('User DTO not VALID OR ALREADY EXISTS(e.g. admin mindfuck)', status=status.HTTP_409_CONFLICT)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
 
