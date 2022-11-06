@@ -19,7 +19,10 @@ node_modules/
 *.log
 *.pot
 *.pyc
-__pycache__
+easyPdf/bzl/__pycache__
+easyPdf/dto/__pycache__
+easyPdf/easyPdf/__pycache__
+easyPdf/frontend/__pycache__
 media
 
 # Backup files #
