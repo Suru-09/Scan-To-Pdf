@@ -5,7 +5,8 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 import {useDispatch} from "react-redux";
 import {loginUser} from "../../redux/actions/userActions";
-import logUserIn from "../../api/login/LoginApi";
+import {logUserIn} from "../../bzl/login/LoginBzl";
+
 
 const LoginPage = () => {
     const [user, setUser] = useState({
@@ -34,7 +35,7 @@ const LoginPage = () => {
                 />
                 <Button
                     onPress={() => {
-                        logUserIn(user.username, user.password).then(r => console.log(r));
+                        logUserIn(user).then(r => console.log(r));
                         dispatch(loginUser(user));
                     }}
                     title="Login" />

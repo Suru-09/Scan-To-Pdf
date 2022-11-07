@@ -1,11 +1,13 @@
 import React from 'react';
-import logUserIn from "../../api/login/LoginApi";
-import navigation from "../../components/navigation/Navigation";
+import {UserAPI} from "../../api/login/LoginApi";
 
-const logUserIn = async (username, pw) => {
-    const response = await logUserIn(username, pw);
+
+export const logUserIn = async (user) => {
+    const response = await UserAPI.logUserIn(user);
+    console.log(`Si aia a fost: ${response.ok}`)
     if(response.ok)
     {
-        navigation.navigate('/home');
+        const banana = 5;
+        console.log(`Wtf ${banana}`);
     }
 }
