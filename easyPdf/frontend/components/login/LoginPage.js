@@ -5,6 +5,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 import {useDispatch} from "react-redux";
 import {loginUser} from "../../redux/actions/userActions";
+import logUserIn from "../../api/login/LoginApi";
 
 const LoginPage = () => {
     const [user, setUser] = useState({
@@ -33,9 +34,8 @@ const LoginPage = () => {
                 />
                 <Button
                     onPress={() => {
-                        console.log("WTF");
+                        logUserIn(user.username, user.password).then(r => console.log(r));
                         dispatch(loginUser(user));
-
                     }}
                     title="Login" />
             </VStack>
