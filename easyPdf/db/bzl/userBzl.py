@@ -39,10 +39,11 @@ def create_user(request):
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@csrf_exempt
+@api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def find_user(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         user_dto = UserLoginDto(data=request.data)
         print(user_dto)
         if not user_dto.is_valid():

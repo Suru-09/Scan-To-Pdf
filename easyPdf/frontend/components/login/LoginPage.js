@@ -1,14 +1,21 @@
 import React , {useState} from "react";
+
+// React-native materials
 import { VStack } from 'react-native-flex-layout';
 import { IconComponentProvider, Icon, Button, TextInput, IconButton   } from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
+
+
 import {useDispatch} from "react-redux";
+
+// Bzl and Api
 import {loginUser} from "../../redux/actions/userActions";
 import {logUserIn} from "../../bzl/login/LoginBzl";
+import {httpsUrl} from "../../constants/HttpsUrl";
 
 
-const LoginPage = () => {
+const LoginPage = ({navigation}) => {
     const [user, setUser] = useState({
         username: "",
         password: "",
@@ -21,11 +28,13 @@ const LoginPage = () => {
             <VStack spacing={30} style={{ marginHorizontal:"10%",  justifyContent: "center", alignItems: "center", display:"flex", maxWidth:"80%", marginTop:"40%", marginBottom:"40%" }} >
                 <Icon name="home" size={35} color="black" />
                 <TextInput
-                    onChange={(text) => {setUser({...user, username: text})}}
+                    onChangeText={(text) => setUser({...user, username: text})}
                     variant="outlined" label="username" style={{ width:"100%" }}
                 />
                 <TextInput
-                  onChange={(text) => {setUser({...user, password: text})}}
+                  onChangeText={(text) => {
+                      setUser({...user, password: text})
+                }}
                   label="password"
                   variant="outlined"
                   style={{ width:"100%" }}
@@ -34,9 +43,11 @@ const LoginPage = () => {
                   )}
                 />
                 <Button
-                    onPress={() => {
+                    onPress={async () => {
                         logUserIn(user).then(r => console.log(r));
                         dispatch(loginUser(user));
+                        console.log(httpsUrl);
+                        navigation.navigate('/home');
                     }}
                     title="Login" />
             </VStack>

@@ -1,4 +1,4 @@
-import {Types} from "../constants/Types";
+import {Types} from "../../constants/Types";
 
 export const loginUser = (loginUser) => {
     console.log("pLM")

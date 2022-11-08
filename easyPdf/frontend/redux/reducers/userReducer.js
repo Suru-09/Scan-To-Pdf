@@ -1,4 +1,4 @@
-import {Types} from "../constants/Types";
+import {Types} from "../../constants/Types";
 
 
 const DEFAULT_STATE = {};
