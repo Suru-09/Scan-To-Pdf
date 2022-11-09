@@ -44,10 +44,12 @@ const LoginPage = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
-                        logUserIn(user).then(r => console.log(r));
+                        logUserIn(user).then(r => {
+                            // TO DO: Add a warning for not being able to log in instead of null
+                            r ? navigation.navigate('Home') : null;
+                        });
                         dispatch(loginUser(user));
                         console.log(httpsUrl);
-                        navigation.navigate('/home');
                     }}
                     title="Login" />
             </VStack>
