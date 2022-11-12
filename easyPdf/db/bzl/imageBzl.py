@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from ..dto.imageDTO import ImageDto
 from ..models import Image
 
+# Other business logic
+from PIL import Image
+
 
 @api_view(['GET', 'PUT'])
 def get_all_create_image(request):
@@ -33,3 +36,14 @@ def create_image(request):
             return Response("Image has been created!", status=status.HTTP_200_OK)
         return Response('Image DTO not VALID', status=status.HTTP_400_BAD_REQUEST)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+class ImageToPdf:
+
+    @staticmethod
+    def image_to_pdf(path_list):
+        image_list = []
+        for path in path_list:
+            image = Image.open(path)
+            image_list.append(image.convert('RGB'))
+        return image_list

@@ -33,3 +33,13 @@ def create_doc(request):
             return Response("Document has been created!", status=status.HTTP_200_OK)
         return Response('DTO not VALID', status=status.HTTP_400_BAD_REQUEST)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+@permission_classes([AllowAny])
+def get_first_three_docs(request, *args, **kwargs):
+    if request.method == 'GET':
+        user_fk = request.data.lookup_url_kwarg
+        documents = Document.objects.all().filter(user_fk=user_fk).order_by('date')[:3][::-1]
+        doc_dto = DocumentDto(documents, many=True)
+        return Response(doc_dto.data)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
