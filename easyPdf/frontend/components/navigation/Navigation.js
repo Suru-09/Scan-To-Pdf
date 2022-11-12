@@ -5,14 +5,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 // My components
 import LoginPage from "../login/LoginPage";
 import HomePage from "../home/HomePage";
+import SignupPage from "../signup/SignupPage";
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
     return(
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'#FFFFFF'}}}>
                 <Stack.Screen name="LoginPage" component={LoginPage} />
+                <Stack.Screen name="SignupPage" component={SignupPage} />
                 <Stack.Screen name="Home" component={HomePage}/>
             </Stack.Navigator>
         </NavigationContainer>
