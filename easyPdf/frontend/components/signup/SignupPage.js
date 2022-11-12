@@ -35,15 +35,18 @@ const SignupPage = ({navigation}) => {
                 <TextInput
                     onChangeText={(text) => setUser({...user, username: text})}
                     variant="outlined" label="username" style={{ width:"100%" }}
+                    value={user.username}
                 />
                 <TextInput
                     onChangeText={(text) => setUser({...user, email: text})}
                     variant="outlined" label="e-mail" style={{ width:"100%" }}
+                    value={user.email}
                 />
                 <TextInput
                   onChangeText={(text) => {
                       setUser({...user, password: text})
                 }}
+                  value={user.password}
                   label="password"
                   variant="outlined"
                   style={{ width:"100%" }}
@@ -58,6 +61,7 @@ const SignupPage = ({navigation}) => {
                   onChangeText={(text) => {
                       setUser({...user, confirmPassword: text})
                 }}
+                  value={user.confirmPassword}
                   label="confirm password"
                   variant="outlined"
                   style={{ width:"100%" }}

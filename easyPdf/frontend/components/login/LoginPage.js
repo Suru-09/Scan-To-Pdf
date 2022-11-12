@@ -8,12 +8,12 @@ import flex from "react-native-flex-layout/src/Flex";
 
 
 import {useDispatch} from "react-redux";
-
 // Bzl and Api
 import {loginUser} from "../../redux/actions/userActions";
 import {logUserIn} from "../../bzl/login/LoginBzl";
 import {httpsUrl} from "../../constants/HttpsUrl";
-
+import {useIsFocused} from "@react-navigation/native";
+import {Keyboard} from "react-native";
 
 
 const LoginPage = ({navigation}) => {
@@ -33,6 +33,7 @@ const LoginPage = ({navigation}) => {
                     onChangeText={(text) => setUser({...user, username: text})}
                     variant="outlined" label="username" style={{ width:"100%" }}
                     placeholder="username"
+                    value={user.username}
                 />
                 <TextInput
                   onChangeText={(text) => {
@@ -40,7 +41,7 @@ const LoginPage = ({navigation}) => {
                   }}
                   label="password"
                   placeholder="password"
-                  // defaultValue={user.password}
+                  value={user.password}
                   variant="outlined"
                   style={{ width:"100%" }}
                   secureTextEntry={!user.passwordVisibility}
