@@ -22,8 +22,11 @@ const SignupPage = ({navigation}) => {
         email: "",
         password: "",
         confirmPassword: "",
+    })
+
+    const [visual, setVisual] = useState({
         passwordVisibility: false,
-        conformVisibility: false,
+        confirmPasswordVisibility: false,
     })
 
     const dispatch = useDispatch()
@@ -50,11 +53,11 @@ const SignupPage = ({navigation}) => {
                   label="password"
                   variant="outlined"
                   style={{ width:"100%" }}
-                  secureTextEntry={!user.passwordVisibility}
+                  secureTextEntry={!visual.passwordVisibility}
                   trailing={props => (
                     <IconButton
-                        onPress={() => setUser({...user, passwordVisibility: !user.passwordVisibility})}
-                        icon={props => <Icon name={user.passwordVisibility ? 'eye-off' : 'eye'} {...props} />} {...props} />
+                        onPress={() => setVisual({...visual, passwordVisibility: !visual.passwordVisibility})}
+                        icon={props => <Icon name={visual.passwordVisibility ? 'eye-off' : 'eye'} {...props} />} {...props} />
                   )}
                 />
                 <TextInput
@@ -65,11 +68,11 @@ const SignupPage = ({navigation}) => {
                   label="confirm password"
                   variant="outlined"
                   style={{ width:"100%" }}
-                  secureTextEntry={!user.conformVisibility}
+                  secureTextEntry={!visual.confirmPasswordVisibility}
                   trailing={props => (
                     <IconButton
-                        onPress={() => setUser({...user, conformVisibility: !user.conformVisibility})}
-                        icon={props => <Icon name={user.conformVisibility ? 'eye' : 'eye-off'} {...props} />} {...props} />
+                        onPress={() => setVisual({...visual, confirmPasswordVisibility: !visual.confirmPasswordVisibility})}
+                        icon={props => <Icon name={visual.confirmPasswordVisibility ? 'eye-off' : 'eye'} {...props} />} {...props} />
                   )}
                 />
                 <Button
