@@ -25,6 +25,11 @@ easyPdf/db/easyPdf/__pycache__
 easyPdf/frontend/__pycache__
 media
 
+# Ignore URL from ngrok
+frontend/constants/httpUrl.json
+easyPdf/frontend/constants/httpUrl.json
+*httpUrls.json
+
 # Backup files #
 *.bak
 

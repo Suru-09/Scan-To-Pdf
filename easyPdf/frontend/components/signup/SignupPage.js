@@ -13,6 +13,7 @@ import {useDispatch} from "react-redux";
 import {loginUser} from "../../redux/actions/userActions";
 import {logUserIn} from "../../bzl/login/LoginBzl";
 import {httpsUrl} from "../../constants/HttpsUrl";
+import {signUserUp} from "../../bzl/signup/SignupBzl";
 
 
 
@@ -77,7 +78,12 @@ const SignupPage = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
-                        navigation.navigate('Home');
+                        signUserUp(user).then(r => {
+                            // TO DO: Add a warning for not being able to log in instead of null
+                            // BE CAREFUL if user already exists database will return HTTP_409 CONFLICT
+                            // It is not an URL conflict !!!!
+                            r ? navigation.navigate('LoginPage') : null;
+                        })
                     }}
                     title="Sign up" />
                 <HStack spacing={3}>
