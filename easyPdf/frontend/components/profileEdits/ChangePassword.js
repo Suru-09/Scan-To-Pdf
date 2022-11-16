@@ -8,17 +8,19 @@ import flex from "react-native-flex-layout/src/Flex";
 
 
 import {useDispatch} from "react-redux";
-// Bzl and Api
-import {loginUser} from "../../redux/actions/userActions";
-import {logUserIn} from "../../bzl/login/LoginBzl";
-import {httpsUrl} from "../../constants/HttpsUrl";
-import {useIsFocused} from "@react-navigation/native";
-import {Keyboard} from "react-native";
 
+// Bzl and Api
+import {changePassword} from "../../bzl/changeUser/ChangeUserBzl";
+
+// redux
+import store from '../../redux/store.js'
+
+
+const state = store.getState();
 
 const ChangePassword = ({navigation}) => {
     const [user, setUser] = useState({
-        oldPassword: "",
+        password: "",
         newPassword: "",
         confirmPassword: "",
     })
@@ -36,11 +38,11 @@ const ChangePassword = ({navigation}) => {
                 <Icon name="account-circle" size={50} color="black" />
                 <TextInput
                   onChangeText={(text) => {
-                      setUser({...user, oldPassword: text})
+                      setUser({...user, password: text})
                   }}
                   label="old password"
                   placeholder="old password"
-                  value={user.oldPassword}
+                  value={user.password}
                   variant="outlined"
                   style={{ width:"100%" }}
                   secureTextEntry={!visual.oldPasswordVisibility}
@@ -84,10 +86,15 @@ const ChangePassword = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
-                        navigation.navigate('Home');
+                        console.log(state);
+                        const username = "portocala";
+                        const neededUser = {username: username, password: user.password, newPassword: user.newPassword}
+                        changePassword(neededUser).then(r => {
+                            console.log(r);
+                            r ? navigation.navigate('Home') : null;
+                        });
+
                     }}
-                        // dispatch(loginUser(user));
-                        // console.log(httpsUrl);
                     title="Save"
                 />
             </VStack>

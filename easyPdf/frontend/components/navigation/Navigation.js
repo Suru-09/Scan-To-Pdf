@@ -16,7 +16,7 @@ const Navigation = () => {
     return(
         <NavigationContainer >
             <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'#FFFFFF'}}}>
-                <Stack.Screen name="LoginPage" component={LoginPage} />
+                <Stack.Screen name="LoginPage" component={ChangePassword} />
                 <Stack.Screen name="SignupPage" component={SignupPage} />
                 <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
                 <Stack.Screen name="ChangePassword" component={ChangePassword} />

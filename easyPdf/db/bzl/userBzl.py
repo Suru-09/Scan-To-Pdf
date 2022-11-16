@@ -66,11 +66,33 @@ def find_user(request):
 @csrf_exempt
 @api_view(['UPDATE'])
 @permission_classes([AllowAny])
-def update_user(request):
+def change_password(request):
     if request.method == 'UPDATE':
+        print(request.data['username'])
+        print(request.data['password'])
+        password = request.data['password']
+        user = User.objects.get(username=request.data['username'])
+        if not user:
+            return Response('Could not find user!', status=status.HTTP_404_NOT_FOUND)
+        if not user.check_password(password):
+            return Response('Password does not match!', status=status.HTTP_401_UNAUTHORIZED)
+        user.set_password(request.data['newPassword'])
+        user.save()
+        return Response("User has been updated!", status=status.HTTP_200_OK)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_user_after_username_password(request):
+    if request.method == 'GET':
         user_dto = UserLoginDto(data=request.data)
         if not user_dto.is_valid():
-            user_dto.save()
-            return Response("User has been updated!", status=status.HTTP_200_OK)
-        return Response("Incorrect Password/Username", status=status.HTTP_404_NOT_FOUND)
+            users = User.objects.all().filter(username=user_dto.data.get('username'),
+                                              password=user_dto.data.get('password'))
+            if len(users) > 1:
+                return Response('BAD REQUEST', status=status.HTTP_409_CONFLICT)
+            return users[0].data
+        return Response('BAD REQUEST', status=status.HTTP_404_NOT_FOUND)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
