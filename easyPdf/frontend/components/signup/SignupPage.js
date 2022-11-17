@@ -10,9 +10,6 @@ import flex from "react-native-flex-layout/src/Flex";
 import {useDispatch} from "react-redux";
 
 // Bzl and Api
-import {loginUser} from "../../redux/actions/userActions";
-import {logUserIn} from "../../bzl/login/LoginBzl";
-import {httpsUrl} from "../../constants/HttpsUrl";
 import {signUserUp} from "../../bzl/signup/SignupBzl";
 
 

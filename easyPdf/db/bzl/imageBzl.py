@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from ..dto.imageDTO import ImageDto
+from ..serializers.imageSerializer import ImageSerializer
 from ..models import Image
 
 # Other business logic
@@ -22,7 +22,7 @@ def get_all_create_image(request):
 def get_all_images(request):
     if request.method == 'GET':
         images = Image.objects.all()
-        image_dto = ImageDto(images, many=True)
+        image_dto = ImageSerializer(images, many=True)
         return Response(image_dto.data)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
@@ -30,7 +30,7 @@ def get_all_images(request):
 @permission_classes([AllowAny])
 def create_image(request):
     if request.method == 'PUT':
-        image_dto = ImageDto(data=request.data)
+        image_dto = ImageSerializer(data=request.data)
         if image_dto.is_valid():
             image_dto.save()
             return Response("Image has been created!", status=status.HTTP_200_OK)

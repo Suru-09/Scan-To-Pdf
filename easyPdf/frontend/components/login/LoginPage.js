@@ -12,8 +12,10 @@ import {useDispatch} from "react-redux";
 import {loginUser} from "../../redux/actions/userActions";
 import {logUserIn} from "../../bzl/login/LoginBzl";
 import {httpsUrl} from "../../constants/HttpsUrl";
-import {useIsFocused} from "@react-navigation/native";
-import {Keyboard} from "react-native";
+
+import store from "../../redux/store";
+
+const state = store.getState();
 
 
 const LoginPage = ({navigation}) => {
@@ -58,9 +60,10 @@ const LoginPage = ({navigation}) => {
                     onPress={async () => {
                         logUserIn(user).then(r => {
                             // TO DO: Add a warning for not being able to log in instead of null
-                            r ? navigation.navigate('Home') : null;
+                            console.log(r);
+                            r.ok ? dispatch(loginUser(r.userReturned)) : null;
+                            r.ok ? navigation.navigate('Home') : null;
                         });
-                        dispatch(loginUser(user));
                         console.log(httpsUrl);
                     }}
                     title="Login"

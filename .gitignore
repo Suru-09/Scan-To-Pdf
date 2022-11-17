@@ -20,7 +20,7 @@ node_modules/
 *.pot
 *.pyc
 easyPdf/db/bzl/__pycache__
-easyPdf/db/dto/__pycache__
+easyPdf/db/serializers/__pycache__
 easyPdf/db/easyPdf/__pycache__
 easyPdf/frontend/__pycache__
 media

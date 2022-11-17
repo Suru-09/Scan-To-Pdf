@@ -4,8 +4,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from ..dto.userDTO import UserDto, UserLoginDto
-from django.contrib.auth.models import User
+from ..serializers.userSerializer import UserSerializer, UserLoginSerializer
+
+from ..models import MyUser
 
 
 @csrf_exempt
@@ -21,8 +22,8 @@ def get_all_create_user(request):
 @permission_classes([AllowAny])
 def get_all_users(request):
     if request.method == 'GET':
-        users = User.objects.all()
-        user_dto = UserDto(users, many=True)
+        users = MyUser.objects.all()
+        user_dto = UserSerializer(users, many=True)
         return Response(user_dto.data)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
@@ -30,18 +31,17 @@ def get_all_users(request):
 @permission_classes([AllowAny])
 def create_user(request):
     if request.method == 'POST':
-        user_dto = UserDto(data=request.data)
+        user_dto = UserSerializer(data=request.data)
         print(user_dto)
         if user_dto.is_valid():
-            first_name = user_dto.data.get('first_name')
-            last_name = user_dto.data.get('last_name')
             username = user_dto.data.get('username')
             password = user_dto.data.get('password')
             email = user_dto.data.get('email')
-            user = User(first_name=first_name, last_name=last_name, username=username, email=email)
+            user = MyUser(username=username, email=email)
             user.set_password(password)
             user.save()
             return Response("User has been created!", status=status.HTTP_200_OK)
+        print(user_dto.errors)
         return Response('User DTO not VALID OR ALREADY EXISTS(e.g. admin mindfuck)', status=status.HTTP_409_CONFLICT)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
@@ -51,16 +51,20 @@ def create_user(request):
 @permission_classes([AllowAny])
 def find_user(request):
     if request.method == 'POST':
-        user_dto = UserLoginDto(data=request.data)
+        user_dto = UserLoginSerializer(data=request.data)
         print(user_dto)
-        if not user_dto.is_valid():
+        if user_dto.is_valid():
             username = user_dto.data.get('username')
             password = user_dto.data.get('password')
             found_user = authenticate(username=username, password=password)
+            print(MyUser.objects.all())
             if not found_user:
+                print(MyUser.objects.all().filter(username=username))
                 return Response("Incorrect Password/Username", status=status.HTTP_404_NOT_FOUND)
-            return Response("You logged in", status=status.HTTP_200_OK)
+            return Response(UserSerializer(found_user).data, status=status.HTTP_200_OK)
+        print(user_dto.errors)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @csrf_exempt
@@ -68,31 +72,15 @@ def find_user(request):
 @permission_classes([AllowAny])
 def change_password(request):
     if request.method == 'UPDATE':
-        print(request.data['username'])
-        print(request.data['password'])
+        my_user_id = request.data['id']
         password = request.data['password']
-        user = User.objects.get(username=request.data['username'])
+        user = MyUser.objects.get(id=my_user_id)
         if not user:
             return Response('Could not find user!', status=status.HTTP_404_NOT_FOUND)
         if not user.check_password(password):
             return Response('Password does not match!', status=status.HTTP_401_UNAUTHORIZED)
-        user.set_password(request.data['newPassword'])
+        user.set_password(request.data['new_password'])
         user.save()
         return Response("User has been updated!", status=status.HTTP_200_OK)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
-
-@csrf_exempt
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def get_user_after_username_password(request):
-    if request.method == 'GET':
-        user_dto = UserLoginDto(data=request.data)
-        if not user_dto.is_valid():
-            users = User.objects.all().filter(username=user_dto.data.get('username'),
-                                              password=user_dto.data.get('password'))
-            if len(users) > 1:
-                return Response('BAD REQUEST', status=status.HTTP_409_CONFLICT)
-            return users[0].data
-        return Response('BAD REQUEST', status=status.HTTP_404_NOT_FOUND)
-    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)

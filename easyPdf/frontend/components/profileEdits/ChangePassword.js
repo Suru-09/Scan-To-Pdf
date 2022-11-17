@@ -86,9 +86,10 @@ const ChangePassword = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
-                        console.log(state);
-                        const username = "portocala";
-                        const neededUser = {username: username, password: user.password, newPassword: user.newPassword}
+                        console.log(state.userReducer.loginUser.id);
+                        const neededUser = {id: state.userReducer.loginUser.id, password: user.password, new_password: user.newPassword}
+                        console.log(`I am the neededUser: ${neededUser}`);
+                        console.log(neededUser);
                         changePassword(neededUser).then(r => {
                             console.log(r);
                             r ? navigation.navigate('Home') : null;
