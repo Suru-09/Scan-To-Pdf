@@ -8,3 +8,11 @@ class DocumentSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'name', 'date', 'size'
         )
+
+
+class DocIDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Document
+        fields = (
+            'id'
+        )

@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 // React-native materials
 import { HStack, Box} from 'react-native-flex-layout';
@@ -6,7 +6,21 @@ import { AppBar, IconComponentProvider, Icon, IconButton} from "@react-native-ma
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 
+// React-native camera
+import { Camera, CameraType } from 'expo-camera';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+
+
 const CapturePage = () => {
+
+    const[permission, requestPermission] = Camera.useCameraPermissions();
+
+
+    useEffect( () => {
+        requestPermission();
+    }, [])
+
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
             <Box>
@@ -25,6 +39,7 @@ const CapturePage = () => {
                  />
 
                 <Box w='100%' h='85%' style={{ backgroundColor: '#2C2E30' }}>
+                     <Camera type={CameraType.back}  style={{height: "100%"}}/>
                 </Box>
 
                 <AppBar

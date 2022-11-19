@@ -6,16 +6,13 @@ import { IconComponentProvider, Icon, Button, TextInput, IconButton, Text} from 
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 
-
+// redux
 import {useDispatch} from "react-redux";
+
 // Bzl and Api
 import {loginUser} from "../../redux/actions/userActions";
 import {logUserIn} from "../../bzl/login/LoginBzl";
 import {httpsUrl} from "../../constants/HttpsUrl";
-
-import store from "../../redux/store";
-
-const state = store.getState();
 
 
 const LoginPage = ({navigation}) => {
@@ -58,11 +55,17 @@ const LoginPage = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
-                        logUserIn(user).then(r => {
-                            // TO DO: Add a warning for not being able to log in instead of null
-                            console.log(r);
-                            r.ok ? dispatch(loginUser(r.loggedUser)) : null;
-                            r.ok ? navigation.navigate('Home') : null;
+                        logUserIn(user).then(response => {
+                            console.log(response);
+                            if (response.ok)
+                            {
+                                dispatch(loginUser(response.loggedUser));
+                                navigation.navigate('Home');
+                            }
+                            else
+                            {
+                                // TO DO: handle error log in maybe with an alert pop-up(invalid whatever).
+                            }
                         });
                         console.log(httpsUrl);
                     }}

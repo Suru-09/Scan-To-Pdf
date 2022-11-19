@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return(
         <NavigationContainer >
-            <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'#FFFFFF'}}}>
+            <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'#303030'}}}>
                 <Stack.Screen name="LoginPage" component={HomePage} />
                 <Stack.Screen name="SignupPage" component={SignupPage} />
                 <Stack.Screen name="ChangeEmail" component={ChangeEmail} />

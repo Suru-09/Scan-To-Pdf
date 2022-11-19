@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Image, Document
+from .models import IMG, Document
 
 from django import forms
 from django.contrib.auth.models import Group
@@ -75,5 +75,5 @@ class UserAdmin(BaseUserAdmin):
 # Register your models here.
 admin.site.register(MyUser, UserAdmin)
 admin.site.unregister(Group)
-admin.site.register(Image)
+admin.site.register(IMG)
 admin.site.register(Document)
