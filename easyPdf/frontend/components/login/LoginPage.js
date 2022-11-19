@@ -61,7 +61,7 @@ const LoginPage = ({navigation}) => {
                         logUserIn(user).then(r => {
                             // TO DO: Add a warning for not being able to log in instead of null
                             console.log(r);
-                            r.ok ? dispatch(loginUser(r.userReturned)) : null;
+                            r.ok ? dispatch(loginUser(r.loggedUser)) : null;
                             r.ok ? navigation.navigate('Home') : null;
                         });
                         console.log(httpsUrl);

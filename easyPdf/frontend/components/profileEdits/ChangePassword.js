@@ -7,8 +7,6 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 
 
-import {useDispatch} from "react-redux";
-
 // Bzl and Api
 import {changePassword} from "../../bzl/changeUser/ChangeUserBzl";
 
@@ -29,8 +27,6 @@ const ChangePassword = ({navigation}) => {
         newPasswordVisibility: false,
         confirmPasswordVisibility: false,
     })
-
-    const dispatch = useDispatch()
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
@@ -86,8 +82,8 @@ const ChangePassword = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
-                        console.log(state.userReducer.loginUser.id);
-                        const neededUser = {id: state.userReducer.loginUser.id, password: user.password, new_password: user.newPassword}
+                        const userId = await state.userReducer.loginUser.id;
+                        const neededUser = {id: userId, password: user.password, new_password: user.newPassword}
                         console.log(`I am the neededUser: ${neededUser}`);
                         console.log(neededUser);
                         changePassword(neededUser).then(r => {

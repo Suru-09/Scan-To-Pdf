@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 # users
-from .bzl.userBzl import find_user, get_all_create_user, get_user_after_username_password, change_password
+from .bzl.userBzl import find_user, get_all_create_user, change_password
 
 # documents
 from .bzl.documentBzl import get_all_create_doc
