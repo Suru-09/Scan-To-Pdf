@@ -12,6 +12,9 @@ from ..serializers.imageSerializer import ImageSerializer, ImageIDSerializer
 from ..models import IMG
 
 # Other business logic imports
+import io, base64
+from io import BytesIO
+from PIL import Image
 
 
 @csrf_exempt
@@ -37,8 +40,19 @@ def get_all_images(request):
 def create_image(request):
     if request.method == 'POST':
         image_serializer = ImageSerializer(data=request.data)
-        if image_serializer.is_valid():
-            image_serializer.save()
+        if not image_serializer.is_valid():
+            img_io = BytesIO()
+
+            image_data=request.data.get('image')
+            img = Image.open(io.BytesIO(base64.decodebytes(bytes(image_data, "utf-8"))))
+            order_no=request.data.get('order_no')
+            size=request.data.get('size')
+            document_fk=request.data.get('document_fk')
+
+            img.save(img_io,format='JPEG',quality=100)
+            image = IMG(image=img_io, order_no=order_no, size=size, document_fk=document_fk)
+            print(img)
+            image.save()
             return Response("Image has been created!", status=status.HTTP_200_OK)
         print(image_serializer.errors)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)

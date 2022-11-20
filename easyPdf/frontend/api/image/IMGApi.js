@@ -6,7 +6,7 @@ export const ImgAPI = {
 }
 
 const saveImg = (imageInfo) => {
-    const {url, order_no, size, document_fk} = imageInfo;
+    const {image, order_no, size, document_fk} = imageInfo;
     return fetch(`${httpsUrl}/db/images/`, {
         method: 'POST',
         headers: {
@@ -14,7 +14,7 @@ const saveImg = (imageInfo) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            url: url,
+            image: image,
             order_no: order_no,
             size: size,
             document_fk: document_fk

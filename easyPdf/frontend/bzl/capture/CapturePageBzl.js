@@ -11,31 +11,36 @@ const createDocument = async (docInfo) => {
     return response;
 }
 
-const saveImages = async (imageUrlArr, doc_fk) => {
-    for(let i = 0 ; i < imageUrlArr.size; ++i)
+const saveImages = async (imageArr, doc_fk) => {
+    for(let i = 0 ; i < imageArr.size; ++i)
     {
-        await ImgAPI.saveImage(imageUrlArr[i], i + 1, i * 10, doc_fk);
+        const response = await ImgAPI.saveImage(imageArr[i].base64, i + 1, i * 10, doc_fk);
+        if(response.ok === false)
+        {
+            return {"ok": false};
+        }
     }
     return {"ok": true};
 }
 
-export const checkDirectoryAndSaveImage = async (user, imageUrlArr, doc_name) => {
-    const userDirectory = `${FileSystem.documentDirectory}${user.id}/`
-    const imageUri = `${userDirectory}${photo.uri}`;
+export const checkDirectoryAndSaveImage = async (user, imageArr, doc_name) => {
+    const userDirectory = `${FileSystem.documentDirectory}${user.id}/`;
     FileSystem.getInfoAsync(userDirectory).then(async (dir) => {
         if (dir.exists && dir.isDirectory) {
-            await FileSystem.copyAsync(imageUri).then((result) => {
-                console.log(`The given image has been copied!: ${result}`);
-            });
-
-            const doc_pk =
-                await createDocument(user.id, {"name": doc_name, "size": 150});
-            const resp = await saveImages(imageUrlArr, doc_pk);
-            return resp.ok;
-        } else if (!dir.exists && !dir.isDirectory) {
-
-        } else {
+            return await createDocAndSaveImgs(user, imageArr, doc_name);
+        }
+        else if (!dir.exists && !dir.isDirectory) {
+            await FileSystem.makeDirectoryAsync(userDirectory);
+            return await createDocAndSaveImgs(user, imageArr, doc_name);
+        }
+        else {
             console.log(`This is bad!`);
         }
     });
+}
+
+const createDocAndSaveImgs = async(user, imageArr, doc_name) => {
+    const doc_pk = await createDocument(user.id, {"name": doc_name, "size": 150});
+    const resp = await saveImages(imageArr, doc_pk);
+    return resp.ok;
 }

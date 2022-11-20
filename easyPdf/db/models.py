@@ -62,6 +62,7 @@ class Document(models.Model):
 
 class IMG(models.Model):
     url = models.CharField(max_length=512, default='', blank=True, help_text="Insert a link to an image")
+    image = models.ImageField(null=True, blank=True, upload_to="images/")
     hash = models.CharField(max_length=32, null=True, blank=True)
     order_no = models.IntegerField(null=False, default=0)
     size = models.IntegerField(null=False, default=0)

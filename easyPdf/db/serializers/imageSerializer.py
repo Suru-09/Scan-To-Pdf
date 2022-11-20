@@ -6,7 +6,7 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = IMG
         fields = (
-            'url', 'order_no', 'size', 'document_fk'
+            'image', 'order_no', 'size', 'document_fk'
         )
 
 
