@@ -55,14 +55,12 @@ class MyUser(AbstractBaseUser):
 
 class Document(models.Model):
     name = models.CharField(max_length=200, null=False, default="doc")
-    user_fk = models.ForeignKey(MyUser, null=True, on_delete=models.CASCADE, db_column='user_id')
+    user_fk = models.ForeignKey(MyUser, null=False, on_delete=models.CASCADE, db_column='user_id')
     date = models.DateTimeField(auto_now_add=True, null=True)
     size = models.IntegerField(null=False, default=0)
 
 
 class IMG(models.Model):
-    name = models.CharField(max_length=200, null=False, default="image")
-    image = models.ImageField(null=True, blank=True, upload_to="images/")
     url = models.CharField(max_length=512, default='', blank=True, help_text="Insert a link to an image")
     hash = models.CharField(max_length=32, null=True, blank=True)
     order_no = models.IntegerField(null=False, default=0)
@@ -70,15 +68,8 @@ class IMG(models.Model):
     document_fk = models.ForeignKey(Document, null=True, on_delete=models.CASCADE, db_column='document_id')
 
     def __str__(self):
-        if self.image:
-            name = f"{self.image}"
-        else:
-            name = self.url
-        return name
+        return self.url
 
     def get_hash(self):
-        if self.image:
-            self.hash = hash(self.image)
-        else:
-            self.hash = hash(self.url)
+        self.hash = hash(self.url)
         self.save()

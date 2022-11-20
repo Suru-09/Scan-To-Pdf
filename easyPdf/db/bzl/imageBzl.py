@@ -15,11 +15,11 @@ from ..models import IMG
 
 
 @csrf_exempt
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'POST'])
 def get_all_create_image(request):
     if request.method == 'GET':
         return get_all_images(request)
-    elif request.method == 'PUT':
+    elif request.method == 'POST':
         return create_image(request)
     return Response("Invalid request", status=status.HTTP_400_BAD_REQUEST)
 
@@ -35,7 +35,7 @@ def get_all_images(request):
 
 @permission_classes([AllowAny])
 def create_image(request):
-    if request.method == 'PUT':
+    if request.method == 'POST':
         image_serializer = ImageSerializer(data=request.data)
         if image_serializer.is_valid():
             image_serializer.save()

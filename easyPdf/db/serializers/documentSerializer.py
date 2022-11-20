@@ -6,7 +6,7 @@ class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = (
-            'id', 'name', 'date', 'size'
+            'name', 'size', 'user_fk'
         )
 
 

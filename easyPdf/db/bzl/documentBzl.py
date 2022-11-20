@@ -7,7 +7,7 @@ from ..serializers.documentSerializer import DocumentSerializer, DocIDSerializer
 from ..models import Document
 
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'POST'])
 def get_all_create_doc(request):
     if request.method == 'GET':
         return get_all_docs(request)
@@ -31,7 +31,9 @@ def create_doc(request):
         doc_dto = DocumentSerializer(data=request.data)
         if doc_dto.is_valid():
             doc_dto.save()
-            return Response("Document has been created!", status=status.HTTP_200_OK)
+            document_id = doc_dto.data.get('id')
+            return Response(document_id, status=status.HTTP_200_OK)
+        print(doc_dto.errors)
         return Response('DTO not VALID', status=status.HTTP_400_BAD_REQUEST)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
