@@ -22,12 +22,17 @@ const CapturePage = () => {
     const cameraRef = useRef();
 
     const takePicture = async () => {
-        if (cameraRef.current)
+        console.log("Take picture\n");
+        if (cameraRef.current && isCameraReady)
         {
-            const options = {quality: 1, base64: true, exif: false};
+            console.log("Camera ref\n");
+            const options = {quality: 1, base64: true, exif: false, allowsEditing: true};
             const photo = await cameraRef.current.takePictureAsync(options);
+            console.log("Poza: ", photo);
             if(photo.uri)
             {
+                console.log(photo.uri);
+                console.log("WTF");
                 //Alert.alert("picture source", data);
                 console.log("WTF", photo.uri);
             }
