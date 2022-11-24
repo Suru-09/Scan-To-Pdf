@@ -1,21 +1,22 @@
 import React , {useState} from "react";
 
 // React-native materials
-import { VStack, HStack } from 'react-native-flex-layout';
+import { VStack } from 'react-native-flex-layout';
 import { IconComponentProvider, Icon, Button, TextInput, IconButton, Text} from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 
-// redux
-import {useDispatch} from "react-redux";
 
+import {useDispatch} from "react-redux";
 // Bzl and Api
 import {loginUser} from "../../redux/actions/userActions";
 import {logUserIn} from "../../bzl/login/LoginBzl";
 import {httpsUrl} from "../../constants/HttpsUrl";
+import {useIsFocused} from "@react-navigation/native";
+import {Keyboard} from "react-native";
 
 
-const LoginPage = ({navigation}) => {
+const ChangeUsername = ({navigation}) => {
     const [user, setUser] = useState({
         username: "",
         password: "",
@@ -33,16 +34,16 @@ const LoginPage = ({navigation}) => {
                 <Icon name="account-circle" size={50} color="black" />
                 <TextInput
                     onChangeText={(text) => setUser({...user, username: text})}
-                    variant="outlined" label="username" style={{ width:"100%" }}
-                    placeholder="username"
+                    variant="outlined" label="new username" style={{ width:"100%" }}
+                    placeholder="new username"
                     value={user.username}
                 />
                 <TextInput
                   onChangeText={(text) => {
                       setUser({...user, password: text})
                   }}
-                  label="password"
-                  placeholder="password"
+                  label="enter password"
+                  placeholder="enter password"
                   value={user.password}
                   variant="outlined"
                   style={{ width:"100%" }}
@@ -55,33 +56,15 @@ const LoginPage = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
-                        logUserIn(user).then(response => {
-                            console.log(response);
-                            if (response.ok)
-                            {
-                                dispatch(loginUser(response.loggedUser));
-                                navigation.navigate('Home');
-                            }
-                            else
-                            {
-                                // TO DO: handle error log in maybe with an alert pop-up(invalid whatever).
-                            }
-                        });
-                        console.log(httpsUrl);
+                        navigation.navigate('Home');
                     }}
-                    title="Login"
+                        // dispatch(loginUser(user));
+                        // console.log(httpsUrl);
+                    title="Save"
                 />
-
-                <HStack spacing={3}>
-                    <Text variant="subtitle2">Don't have an account?</Text>
-                    <Button variant="text" uppercase={false}
-                        onPress={async () =>{navigation.navigate('SignupPage')}}
-                        title="Sign Up"
-                    />
-                </HStack>
             </VStack>
         </IconComponentProvider>
     );
 }
 
-export default LoginPage;
+export default ChangeUsername;

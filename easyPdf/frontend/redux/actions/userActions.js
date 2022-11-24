@@ -1,7 +1,7 @@
 import {Types} from "../../constants/Types";
 
 export const loginUser = (loginUser) => {
-    console.log("pLM")
+    console.log(`loginUserACTION ${loginUser}`)
     return{
         type: Types.LOGIN,
         payload: loginUser

@@ -20,10 +20,15 @@ node_modules/
 *.pot
 *.pyc
 easyPdf/db/bzl/__pycache__
-easyPdf/db/dto/__pycache__
+easyPdf/db/serializers/__pycache__
 easyPdf/db/easyPdf/__pycache__
 easyPdf/frontend/__pycache__
 media
+
+# Ignore URL from ngrok
+frontend/constants/httpUrl.json
+easyPdf/frontend/constants/httpUrl.json
+*httpUrls.json
 
 # Backup files #
 *.bak
@@ -154,3 +159,4 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+easyPdf/frontend/constants/httpUrl.json

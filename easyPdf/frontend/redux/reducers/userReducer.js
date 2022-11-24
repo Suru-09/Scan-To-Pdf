@@ -8,12 +8,12 @@ const userReducer = (state = DEFAULT_STATE, action) => {
     console.log(action.type)
     switch (action.type) {
         case Types.CREATE_USER:
-            console.log(action.payload)
             return {
                 ...state,
                 user: action.payload
             }
         case Types.LOGIN:
+            console.log(action.payload)
             return {
                 ...state,
                 loginUser: action.payload

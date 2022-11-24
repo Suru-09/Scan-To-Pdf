@@ -28,6 +28,7 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*', '.ngrok.io']
+AUTH_USER_MODEL = 'db.MyUser'
 
 SESSION_COOKIE_HTTPONLY = False
 CORS_ORIGIN_ALLOW_ALL = True
