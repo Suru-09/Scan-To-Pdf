@@ -1,46 +1,57 @@
 import React from 'react';
 
 // expo-file-system
-import {FileSystem} from 'expo-file-system';
 import {DocAPI} from "../../api/document/DocApi";
 import {ImgAPI} from "../../api/image/IMGApi";
 
 
-const createDocument = async (docInfo) => {
-    const response = await DocAPI.createDocument(docInfo);
+const createDocument = async (userID, docInfo) => {
+    const response = await DocAPI.createDocument(userID, docInfo);
     return response;
 }
 
 const saveImages = async (imageArr, doc_fk) => {
-    for(let i = 0 ; i < imageArr.size; ++i)
+    for(let i = 0 ; i < imageArr.length; ++i)
     {
-        const response = await ImgAPI.saveImage(imageArr[i].base64, i + 1, i * 10, doc_fk);
+        // TO DO: complete image parameters correctly
+        console.log("Trimit save-ul!");
+        //console.log(imageArr[i].base64)
+        var isBase64 = require('is-base64');
+        const base64 = imageArr[i].base64.replaceAll(" ", "+");
+        console.log(isBase64(base64));
+        console.log(isBase64(imageArr[i].base64))
+        const response = await ImgAPI.saveImage(
+            {
+            // expo-camera bug
+            "image": base64,
+            "order_no": i + 1,
+            "size": i * 10,
+            "document_fk": doc_fk});
+        // If any of the pages is not saved correctly then we return ok == False and the index of the
+        // image from the image array
         if(response.ok === false)
         {
-            return {"ok": false};
+            // TO DO: Before return delete all images created so far
+            return {"ok": false, "page_number": i};
         }
     }
     return {"ok": true};
 }
 
-export const checkDirectoryAndSaveImage = async (user, imageArr, doc_name) => {
-    const userDirectory = `${FileSystem.documentDirectory}${user.id}/`;
-    FileSystem.getInfoAsync(userDirectory).then(async (dir) => {
-        if (dir.exists && dir.isDirectory) {
-            return await createDocAndSaveImgs(user, imageArr, doc_name);
-        }
-        else if (!dir.exists && !dir.isDirectory) {
-            await FileSystem.makeDirectoryAsync(userDirectory);
-            return await createDocAndSaveImgs(user, imageArr, doc_name);
-        }
-        else {
-            console.log(`This is bad!`);
-        }
-    });
-}
-
-const createDocAndSaveImgs = async(user, imageArr, doc_name) => {
+export const createDocAndSaveImgs = async (user, imageArr, doc_name) => {
+    console.log(`I am image array: `);
+    console.log(imageArr[0].uri);
+    console.log(imageArr.length);
     const doc_pk = await createDocument(user.id, {"name": doc_name, "size": 150});
+    console.log(`Doc_pk: ${doc_pk}`);
+    console.log(JSON.stringify(doc_pk));
     const resp = await saveImages(imageArr, doc_pk);
+
+    if (resp.ok === false)
+    {
+        // TO DO: delete document based on the doc primary key (doc_pk)
+    }
+
+    console.log(`OK: ${resp.ok}`);
     return resp.ok;
 }

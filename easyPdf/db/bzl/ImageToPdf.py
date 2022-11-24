@@ -14,5 +14,5 @@ class ImageToPdf:
                 image = Image.open(path)
                 image_list.append(image.convert('RGB'))
         safe_path = os.path.abspath(os.path.expanduser(upload_to + f'/{pdf_name}.pdf'))
-        print(safe_path)
         image_1.save(safe_path, save_all=True, append_images=image_list)
+        return safe_path

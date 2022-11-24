@@ -39,12 +39,15 @@ def get_all_images(request):
 
 @permission_classes([AllowAny])
 def create_image(request):
+    print("Am intrat pe create_image!")
     if request.method == 'POST':
+        print(request.data['image'])
         image_serializer = ImgB64Serializer(data=request.data)
+        print(image_serializer)
         if image_serializer.is_valid():
-            image_serializer.save()
-            return Response("Image has been created!", status=status.HTTP_200_OK)
-        return Response(image_serializer.errors,  status=status.HTTP_417_EXPECTATION_FAILED)
+            image = image_serializer.save()
+            return Response(image, status=status.HTTP_200_OK)
+        return Response(image_serializer.errors, status=status.HTTP_417_EXPECTATION_FAILED)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -60,8 +63,8 @@ def get_images_for_document(request):
             image_serializer = ImageSerializer(images, many=True)
             image_serializer.is_valid(raise_exception=True)
             return Response(image_serializer.validated_data)
-        return Response(doc_serializer.errors,  status=status.HTTP_417_EXPECTATION_FAILED)
-    return Response('BAD REQUEST',  status=status.HTTP_400_BAD_REQUEST)
+        return Response(doc_serializer.errors, status=status.HTTP_417_EXPECTATION_FAILED)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt

@@ -2,13 +2,19 @@ import React, {useEffect, useRef, useState} from "react";
 
 // React-native materials
 import { HStack, Box} from 'react-native-flex-layout';
-import { AppBar, IconComponentProvider, Icon, IconButton} from "@react-native-material/core";
+import {AppBar, IconComponentProvider, Icon, IconButton, FAB} from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 
 // React-native camera
 import { Camera, CameraType } from 'expo-camera';
 import {Alert, Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
+
+
+// Bzl
+import {createDocAndSaveImgs} from '../../bzl/capture/CapturePageBzl.js'
+import isBase64 from "is-base64";
 
 
 
@@ -26,22 +32,23 @@ const CapturePage = () => {
         if (cameraRef.current && isCameraReady)
         {
             console.log("Camera ref\n");
-            const options = {quality: 1, base64: true, exif: false, allowsEditing: true};
+            const options = {quality: 0, base64: true};
             const photo = await cameraRef.current.takePictureAsync(options);
-            console.log("Poza: ", photo);
             if(photo.uri)
             {
                 console.log(photo.uri);
                 console.log("WTF");
                 //Alert.alert("picture source", data);
                 console.log("WTF", photo.uri);
+                var isBase64 = require('is-base64');
+                console.log(isBase64(photo.base64));
             }
-            setPhotoArray(oldArray => [...oldArray, photo.uri]);
+            setPhotoArray(oldArray => [...oldArray, photo]);
         }
     }
 
     const onSaveDoc = () => {
-        console.log(photoArray);
+        createDocAndSaveImgs({"id": 1}, photoArray, "my_doc").then();
     }
 
     // The idea is something like:
@@ -90,13 +97,23 @@ const CapturePage = () => {
                     )}
                  />
 
-                <Box w='100%' h='85%' style={{ backgroundColor: '#2C2E30' }}>
+                <Box w='100%' h='87%' style={{ backgroundColor: '#2C2E30' }}>
                      <Camera ref={cameraRef}
                              type={CameraType.back}
                              style={{height: "90%"}}
                              onCameraReady={onCameraReady}
                      />
-                    <Button title="Wtf" onPress={takePicture} />
+                    <IconButton
+                        onPress={takePicture}
+                        variant="extended"
+                        icon={props => <Icon name="camera-iris" size={55} {...props} />}
+                        style={{
+                            height: "15%",
+                            bottom: "3%",
+                            width: "15%",
+                            left: "42.5%",
+                        }}
+                        color="white" useNativeDriver="false" />
                 </Box>
 
                 <AppBar

@@ -4,9 +4,11 @@ import {httpsUrl} from "../../constants/HttpsUrl";
 
 export const DocAPI = {
     createDocument: createDoc,
+    deleteDocument: deleteDoc,
 }
 
-const createDoc = (userID, docInformation) => {
+async function createDoc(userID, docInformation)
+{
     const {name, size} = docInformation;
     return fetch(`${httpsUrl}/db/documents/`, {
         method: 'POST',
@@ -18,6 +20,20 @@ const createDoc = (userID, docInformation) => {
             name: name,
             user_fk: userID,
             size: size
+        })
+    });
+}
+
+async function deleteDoc(docID)
+{
+    return fetch(`${httpsUrl}/db/documents/doc`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: docID
         })
     });
 }
