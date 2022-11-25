@@ -1,3 +1,5 @@
+import base64
+
 from rest_framework import serializers
 from ..models import IMG
 
@@ -37,8 +39,8 @@ class ImgB64Serializer(serializers.ModelSerializer):
         fields = ('image', 'order_no', 'size', 'document_fk')
 
     def create(self, validated_data):
-        image = validated_data.pop('image')
-        order_no = validated_data.pop('order_no')
-        size = validated_data.pop('size')
-        document_fk = validated_data.pop('document_fk')
+        image = validated_data.get('image')
+        order_no = validated_data.get('order_no')
+        size = validated_data.get('size')
+        document_fk = validated_data.get('document_fk')
         return IMG.objects.create(image=image, order_no=order_no, size=size, document_fk=document_fk)

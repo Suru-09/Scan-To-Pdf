@@ -8,8 +8,6 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 // React-native camera
 import { Camera, CameraType } from 'expo-camera';
-import {Alert, Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
 
 
 // Bzl
@@ -17,14 +15,11 @@ import {createDocAndSaveImgs} from '../../bzl/capture/CapturePageBzl.js'
 import isBase64 from "is-base64";
 
 
-
 const CapturePage = () => {
 
     const[permission, requestPermission] = Camera.useCameraPermissions();
-    const[camera, setCamera] = useState();
     const[photoArray, setPhotoArray] = useState([]);
     const[isCameraReady, setIsCameraReady] = useState(false);
-    const [isPreview, setIsPreview] = useState(false);
     const cameraRef = useRef();
 
     const takePicture = async () => {
@@ -32,14 +27,11 @@ const CapturePage = () => {
         if (cameraRef.current && isCameraReady)
         {
             console.log("Camera ref\n");
-            const options = {quality: 0, base64: true};
+            const options = {quality: 1, base64: true};
             const photo = await cameraRef.current.takePictureAsync(options);
             if(photo.uri)
             {
-                console.log(photo.uri);
-                console.log("WTF");
-                //Alert.alert("picture source", data);
-                console.log("WTF", photo.uri);
+                console.log(`Photo URI: ${photo.uri}`);
                 var isBase64 = require('is-base64');
                 console.log(isBase64(photo.base64));
             }

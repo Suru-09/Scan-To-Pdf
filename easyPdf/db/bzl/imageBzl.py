@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -41,12 +42,11 @@ def get_all_images(request):
 def create_image(request):
     print("Am intrat pe create_image!")
     if request.method == 'POST':
-        print(request.data['image'])
         image_serializer = ImgB64Serializer(data=request.data)
-        print(image_serializer)
         if image_serializer.is_valid():
             image = image_serializer.save()
-            return Response(image, status=status.HTTP_200_OK)
+            return Response(JsonResponse({'id': image.id}), status=status.HTTP_200_OK)
+        print(image_serializer.errors)
         return Response(image_serializer.errors, status=status.HTTP_417_EXPECTATION_FAILED)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 

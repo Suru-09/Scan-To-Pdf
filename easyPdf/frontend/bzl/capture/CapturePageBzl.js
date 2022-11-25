@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 
 // expo-file-system
 import {DocAPI} from "../../api/document/DocApi";
 import {ImgAPI} from "../../api/image/IMGApi";
-
 
 const createDocument = async (userID, docInfo) => {
     const response = await DocAPI.createDocument(userID, docInfo);
@@ -14,16 +13,11 @@ const saveImages = async (imageArr, doc_fk) => {
     for(let i = 0 ; i < imageArr.length; ++i)
     {
         // TO DO: complete image parameters correctly
-        console.log("Trimit save-ul!");
-        //console.log(imageArr[i].base64)
-        var isBase64 = require('is-base64');
-        const base64 = imageArr[i].base64.replaceAll(" ", "+");
-        console.log(isBase64(base64));
-        console.log(isBase64(imageArr[i].base64))
+        console.log(doc_fk);
         const response = await ImgAPI.saveImage(
             {
             // expo-camera bug
-            "image": base64,
+            "image": imageArr[i].base64,
             "order_no": i + 1,
             "size": i * 10,
             "document_fk": doc_fk});
@@ -45,7 +39,7 @@ export const createDocAndSaveImgs = async (user, imageArr, doc_name) => {
     const doc_pk = await createDocument(user.id, {"name": doc_name, "size": 150});
     console.log(`Doc_pk: ${doc_pk}`);
     console.log(JSON.stringify(doc_pk));
-    const resp = await saveImages(imageArr, doc_pk);
+    const resp = await saveImages(imageArr, doc_pk.id);
 
     if (resp.ok === false)
     {

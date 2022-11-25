@@ -69,7 +69,7 @@ class IMG(models.Model):
     document_fk = models.ForeignKey(Document, null=True, on_delete=models.CASCADE, db_column='document_id')
 
     def __str__(self):
-        return self.url
+        return f'{self.document_fk} url: {self.url}'
 
     def get_hash(self):
         self.hash = hash(self.url)

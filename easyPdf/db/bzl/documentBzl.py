@@ -38,7 +38,7 @@ def create_doc(request):
         if doc_dto.is_valid():
             doc_dto.save()
             document_id = doc_dto.data.get('id')
-            return Response(document_id, status=status.HTTP_200_OK)
+            return Response({"id": document_id}, status=status.HTTP_200_OK)
         print(doc_dto.errors)
         return Response('DTO not VALID', status=status.HTTP_400_BAD_REQUEST)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
