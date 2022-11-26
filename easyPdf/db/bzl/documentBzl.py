@@ -36,9 +36,10 @@ def create_doc(request):
     if request.method == 'POST':
         doc_dto = DocumentSerializer(data=request.data)
         if doc_dto.is_valid():
-            doc_dto.save()
-            document_id = doc_dto.data.get('id')
-            return Response({"id": document_id}, status=status.HTTP_200_OK)
+            doc = doc_dto.save()
+            print('DOCUMENT WTF')
+            print(doc.id)
+            return Response({'id': doc.id}, status=status.HTTP_200_OK)
         print(doc_dto.errors)
         return Response('DTO not VALID', status=status.HTTP_400_BAD_REQUEST)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
@@ -106,11 +107,17 @@ def get_pdf(request):
         image_path = []
         images = IMG.objects.all()
         for img in images:
-            if img.document_fk == doc_id:
-                image_path.append(img.path)
+            if img.document_fk:
+                print(f'IMG.doc_fk: {type(img.document_fk.id)}')
+                print(type(doc_id))
+                print(f'Egalitate: {img.document_fk.id == doc_id}')
+                if img.document_fk.id == doc_id:
+                    print(f'PLM SUNT PE FELIE')
+                    image_path.append(img.image)
 
+        print(len(image_path))
         if len(image_path) > 0:
             pdf_path = ImageToPdf.image_to_pdf_list(image_path, settings.MEDIA_ROOT, pdf_name)
-            pdf = FileResponse(open(pdf_path, 'rb').read())
-            return Response(pdf, status=status.HTTP_200_OK)
+            pdf = FileResponse(open(pdf_path, 'rb'))
+            return pdf
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)

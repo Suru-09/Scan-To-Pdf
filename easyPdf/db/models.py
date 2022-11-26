@@ -59,6 +59,9 @@ class Document(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
     size = models.IntegerField(null=False, default=0)
 
+    def __str__(self):
+        return f'{self.id}'
+
 
 class IMG(models.Model):
     url = models.CharField(max_length=512, default='', blank=True, help_text="Insert a link to an image")
@@ -69,7 +72,7 @@ class IMG(models.Model):
     document_fk = models.ForeignKey(Document, null=True, on_delete=models.CASCADE, db_column='document_id')
 
     def __str__(self):
-        return f'{self.document_fk} url: {self.url}'
+        return f'{self.image} url: {self.url}'
 
     def get_hash(self):
         self.hash = hash(self.url)

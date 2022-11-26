@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -10,7 +9,6 @@ from rest_framework.response import Response
 import os
 import base64
 
-from .ImageToPdf import ImageToPdf
 # serializers
 from ..serializers.documentSerializer import DocIDSerializer
 from ..serializers.imageSerializer import ImageSerializer, ImgB64Serializer, EntireImageSerialiser
@@ -45,7 +43,8 @@ def create_image(request):
         image_serializer = ImgB64Serializer(data=request.data)
         if image_serializer.is_valid():
             image = image_serializer.save()
-            return Response(JsonResponse({'id': image.id}), status=status.HTTP_200_OK)
+            print(image.id)
+            return Response({'id': image.id}, status=status.HTTP_200_OK)
         print(image_serializer.errors)
         return Response(image_serializer.errors, status=status.HTTP_417_EXPECTATION_FAILED)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)

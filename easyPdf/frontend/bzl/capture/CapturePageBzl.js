@@ -37,9 +37,11 @@ export const createDocAndSaveImgs = async (user, imageArr, doc_name) => {
     console.log(imageArr[0].uri);
     console.log(imageArr.length);
     const doc_pk = await createDocument(user.id, {"name": doc_name, "size": 150});
-    console.log(`Doc_pk: ${doc_pk}`);
-    console.log(JSON.stringify(doc_pk));
-    const resp = await saveImages(imageArr, doc_pk.id);
+    const doc_json = await doc_pk.json()
+    console.log(doc_json.id)
+    //console.log(`Doc_pk: ${doc_pk}`); r
+    //console.log(JSON.stringify(doc_pk));
+    const resp = await saveImages(imageArr, doc_json.id);
 
     if (resp.ok === false)
     {
