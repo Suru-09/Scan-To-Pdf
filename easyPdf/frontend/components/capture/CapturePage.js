@@ -2,7 +2,8 @@ import React, {useEffect, useRef, useState} from "react";
 
 // React-native materials
 import { HStack, Box} from 'react-native-flex-layout';
-import {AppBar, IconComponentProvider, Icon, IconButton, FAB} from "@react-native-material/core";
+import {AppBar, IconComponentProvider, Icon, IconButton, FAB, Button} from "@react-native-material/core";
+import { Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 
@@ -13,9 +14,10 @@ import { Camera, CameraType } from 'expo-camera';
 // Bzl
 import {createDocAndSaveImgs} from '../../bzl/capture/CapturePageBzl.js'
 import isBase64 from "is-base64";
+import {StyleSheet} from "react-native";
 
 
-const CapturePage = () => {
+const CapturePage = ({navigation}) => {
 
     const[permission, requestPermission] = Camera.useCameraPermissions();
     const[photoArray, setPhotoArray] = useState([]);
@@ -74,63 +76,58 @@ const CapturePage = () => {
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
-            <Box>
-                 <AppBar
-                    position="static"
-                    color="#3F4041"
-                    leading={props => (
-                      <IconButton icon={props => <Icon name="home" size="large" {...props} />} {...props} />
-                    )}
-                    trailing={props => (
-                        <IconButton
-                          icon={props => <Icon name="magnify" {...props} />}
-                          {...props}
-                        />
-                    )}
-                 />
 
-                <Box w='100%' h='87%' style={{ backgroundColor: '#2C2E30' }}>
-                     <Camera ref={cameraRef}
-                             type={CameraType.back}
-                             style={{height: "90%"}}
-                             onCameraReady={onCameraReady}
-                     />
-                    <IconButton
-                        onPress={takePicture}
-                        variant="extended"
-                        icon={props => <Icon name="camera-iris" size={55} {...props} />}
-                        style={{
-                            height: "15%",
-                            bottom: "3%",
-                            width: "15%",
-                            left: "42.5%",
-                        }}
-                        color="white" useNativeDriver="false" />
-                </Box>
+            <Appbar.Header
+                style={[styles.top]}
+             >
 
-                <AppBar
-                    position="static"
-                    variant="bottom"
-                    color="#3F4041"
-                    leading={props => (
-                      <IconButton onPress ={onSaveDoc} icon={props => <Icon name="image-multiple" {...props} />} {...props} />
-                    )}
-                    trailing={props => (
-                        <HStack style={{alignItems: 'center'}}>
-                            <IconButton
-                              icon={props => <Icon name="circle" size='big' {...props} />}
-                              {...props}
-                            />
-                            <IconButton
-                              icon={props => <Icon name="magnify" {...props} />}
-                              {...props}
-                            />
-                        </HStack>
-                    )}
+                <Appbar.Action icon="home"  onPress={async () =>{navigation.navigate('Home')}}/>
+                <Button
+                    variant="text"
+                    title='Save PDF'
+                    color="#84CBE8"
+                    uppercase={false}
+                    style={{variant: "titleLarge"}}
+                    onPress={async () =>{navigation.navigate('EditPage')}}
                 />
+             </Appbar.Header>
+
+            <Box w='100%' h='100%' style={{ backgroundColor: '#2C2E30' }}>
+                 <Camera ref={cameraRef}
+                         type={CameraType.back}
+                         style={{height: "90%"}}
+                         onCameraReady={onCameraReady}
+                 />
             </Box>
+
+            <Appbar
+                style={[styles.bottom]}
+            >
+
+                <Appbar.Action icon="image-multiple"  />
+                <Appbar.Action icon="camera-iris" onPress={takePicture} />
+                <Appbar.Action icon="magnify"  />
+            </Appbar>
+
         </IconComponentProvider>
     )
 }
+
+const styles = StyleSheet.create({
+    bottom: {
+            backgroundColor: '#3F4041',
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+          },
+    top: {
+            backgroundColor: '#3F4041',
+            flexDirection: "row",
+            justifyContent: "space-between",
+          },
+});
 
 export default CapturePage;
