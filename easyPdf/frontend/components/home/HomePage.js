@@ -8,6 +8,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 import {httpsUrl} from "../../constants/HttpsUrl";
 import {StyleSheet} from "react-native";
+import SettingPage from "../settingPage/SettingPage";
 
 const HomePage = ({navigation}) => {
     const [visible, setVisible] = React.useState(false);
@@ -19,7 +20,7 @@ const HomePage = ({navigation}) => {
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
 
             <Appbar.Header style={[styles.top]}>
-                <Appbar.Action icon="account-circle-outline" onPress={showModal} />
+                <Appbar.Action icon="account-circle-outline" onPress={async () =>{navigation.navigate('SettingPage')}} />
                 <Searchbar
                   placeholder="Search"
                   style={[styles.searchBar]}
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
             iconColor: '#FFFFFF',
           },
     menuDoc: {
-        backgroundColor: '#3F4041',
+        backgroundColor: '#2C2E30',
         padding: 10,
         position: 'absolute',
         flexDirection: 'column',

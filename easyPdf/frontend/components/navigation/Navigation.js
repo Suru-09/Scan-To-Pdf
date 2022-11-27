@@ -11,6 +11,7 @@ import ChangePassword from "../profileEdits/ChangePassword";
 import ChangeUsername from "../profileEdits/ChangeUsername";
 import CapturePage from "../capture/CapturePage";
 import EditPage from "../edit/EditPDFPage";
+import SettingPage from "../settingPage/SettingPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ const Navigation = () => {
                 <Stack.Screen name="ChangeUsername" component={ChangeUsername} />
                 <Stack.Screen name="CapturePage" component={CapturePage} />
                 <Stack.Screen name="EditPage" component={EditPage} />
+                <Stack.Screen name="SettingPage" component={SettingPage} />
                 <Stack.Screen name="Home" component={HomePage}/>
             </Stack.Navigator>
         </NavigationContainer>
