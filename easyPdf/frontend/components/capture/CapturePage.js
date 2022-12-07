@@ -84,9 +84,9 @@ const CapturePage = ({navigation}) => {
                 <Button
                     variant="text"
                     title='Save PDF'
+                    style={{variant: "titleLarge"}}
                     color="#84CBE8"
                     uppercase={false}
-                    style={{variant: "titleLarge"}}
                     onPress={async () =>{navigation.navigate('EditPage')}}
                 />
             </Appbar.Header>
