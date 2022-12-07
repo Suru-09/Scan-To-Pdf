@@ -112,7 +112,6 @@ def get_pdf(request):
                 print(type(doc_id))
                 print(f'Egalitate: {img.document_fk.id == doc_id}')
                 if img.document_fk.id == doc_id:
-                    print(f'PLM SUNT PE FELIE')
                     image_path.append(img.image)
 
         print(len(image_path))

@@ -1,15 +1,14 @@
-import React , {useState} from "react";
+import React from "react";
 
 // React-native materials
 import { VStack, Stack, Box} from 'react-native-flex-layout';
 import { Surface, IconComponentProvider, Icon, Button, IconButton, Text} from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
-import {httpsUrl} from "../../constants/HttpsUrl";
 import {StyleSheet} from "react-native";
 import { Divider } from "react-native-elements";
 
-const Option = ({iconname, text}) =>{
+const option = ({iconname, text}) =>{
     return(
         <Stack style={{flexDirection: "row"}}>
             <IconButton
@@ -18,6 +17,7 @@ const Option = ({iconname, text}) =>{
         </Stack>
     );
 }
+
 const SettingPage = ({navigation}) => {
 
 
@@ -28,7 +28,7 @@ const SettingPage = ({navigation}) => {
 
                 <VStack items="center" spacing='10%'style={[styles.stack]}>
 
-                    <Surface elevation={8}style={[styles.surfaceUser]}>
+                    <Surface elevation={8} style={[styles.surfaceUser]}>
                         <Stack style={{flexDirection: "row"}}>
                             <Icon name="account-circle-outline" size={45} color="white" style={{marginLeft: 10, marginRight: 20}}/>
                             <Stack style={{flexDirection: "column"}}>
@@ -39,27 +39,25 @@ const SettingPage = ({navigation}) => {
                     </Surface>
 
                     <Surface elevation={8} style={[styles.surfaceDoc]}>
-                        <Option iconname="account-edit" text="Edit username"/>
+                        <option iconname="account-edit" text="Edit username"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <Option iconname="email-edit-outline" text="Edit email"/>
+                        <option iconname="email-edit-outline" text="Edit email"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <Option iconname="pencil-lock-outline" text="Edit password"/>
+                        <option iconname="pencil-lock-outline" text="Edit password"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <Option iconname="information-outline" text="About app"/>
+                        <option iconname="information-outline" text="About app"/>
                     </Surface>
 
                     <Surface elevation={8} style={[styles.surfaceDoc]}>
-                        <Option iconname="help-circle-outline" text="Help"/>
+                        <option iconname="help-circle-outline" text="Help"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <Option iconname="star-circle" text="Rate app"/>
+                        <option iconname="star-circle" text="Rate app"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
                         <Button uppercase={false} color="white" variant="text" title="Sign Out" titleStyle={{fontSize: 32}}/>
                     </Surface>
 
                 </VStack>
-
             </Box>
-
         </IconComponentProvider>
 
     )
@@ -101,7 +99,6 @@ const styles = StyleSheet.create({
             width: '100%',
             orientation: "horizontal",
     },
-
 });
 
 export default SettingPage;

@@ -6,13 +6,11 @@ import {IconComponentProvider, Icon, Button, TextInput, IconButton, Text} from "
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 
-
+// Redux
 import {useDispatch} from "react-redux";
 
 // Bzl and Api
 import {signUserUp} from "../../bzl/signup/SignupBzl";
-
-
 
 const SignupPage = ({navigation}) => {
     const [user, setUser] = useState({

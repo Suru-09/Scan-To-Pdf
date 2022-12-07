@@ -13,6 +13,7 @@ import {useDispatch} from "react-redux";
 import {loginUser} from "../../redux/actions/userActions";
 import {logUserIn} from "../../bzl/login/LoginBzl";
 import {httpsUrl} from "../../constants/HttpsUrl";
+import {Alert} from "react-native";
 
 
 const LoginPage = ({navigation}) => {
@@ -31,12 +32,14 @@ const LoginPage = ({navigation}) => {
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
             <VStack spacing={30} style={{ marginHorizontal:"10%",  justifyContent: "center", alignItems: "center", display:"flex", maxWidth:"80%", marginTop:"40%", marginBottom:"40%" }} >
                 <Icon name="account-circle" size={50} color="black" />
+
                 <TextInput
                     onChangeText={(text) => setUser({...user, username: text})}
                     variant="outlined" label="username" style={{ width:"100%" }}
                     placeholder="username"
                     value={user.username}
                 />
+
                 <TextInput
                   onChangeText={(text) => {
                       setUser({...user, password: text})
@@ -53,6 +56,7 @@ const LoginPage = ({navigation}) => {
                         icon={props => <Icon name={visual.passwordVisibility ? 'eye-off' : 'eye'} {...props} />} {...props} />
                   )}
                 />
+
                 <Button
                     onPress={async () => {
                         logUserIn(user).then(response => {
@@ -65,6 +69,9 @@ const LoginPage = ({navigation}) => {
                             else
                             {
                                 // TO DO: handle error log in maybe with an alert pop-up(invalid whatever).
+                                Alert.alert(
+                                    "Username or password are incorrect!Try again."
+                                );
                             }
                         });
                         console.log(httpsUrl);

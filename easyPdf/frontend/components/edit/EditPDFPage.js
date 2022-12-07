@@ -1,12 +1,11 @@
-import React , {useState} from "react";
+import React from "react";
 import { StyleSheet } from 'react-native';
 
 // React-native materials
 import {Box} from 'react-native-flex-layout';
-import { IconComponentProvider, Icon, Button,  IconButton, Text} from "@react-native-material/core";
+import { IconComponentProvider, Icon, Button} from "@react-native-material/core";
 import { Appbar, TextInput } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
 
 const EditPage = ({navigation}) => {
     return(
@@ -15,9 +14,9 @@ const EditPage = ({navigation}) => {
              <Appbar.Header
                 style={[styles.top]}
              >
-
-                <TextInput mode="flat"  placeholder="Scan name" style={[styles.nameInput]}
-                trailing={props => <Icon name="square-edit-outline" {...props} />}
+                <TextInput mode="flat"
+                           placeholder="Scan name" style={[styles.nameInput]}
+                           trailing={props => <Icon name="square-edit-outline" {...props} />}
                 />
                 <Button
                     variant="text"
@@ -28,8 +27,7 @@ const EditPage = ({navigation}) => {
                 />
              </Appbar.Header>
 
-            <Box style={[styles.box]}>
-            </Box>
+            <Box style={[styles.box]}/>
 
             <Appbar
                 style={[styles.bottom]}
@@ -39,7 +37,6 @@ const EditPage = ({navigation}) => {
                 <Appbar.Action icon="eraser"  />
                 <Appbar.Action icon="delete-outline"  />
             </Appbar>
-
         </IconComponentProvider>
     )
 }
@@ -75,7 +72,6 @@ const styles = StyleSheet.create({
             multiline: false,
             backgroundColor: '#2C2E30',
           },
-
 });
 
 export default EditPage;

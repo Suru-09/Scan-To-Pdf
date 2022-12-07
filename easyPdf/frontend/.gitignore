@@ -12,3 +12,8 @@ web-build/
 
 # macOS
 .DS_Store
+
+# Ignore package-lock, generated based on the dependencies from package-lock
+package-lock.json
+
+frontend/constants/httpUrl.json

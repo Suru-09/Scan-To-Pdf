@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from "react";
 
 // React-native materials
-import { HStack, Box} from 'react-native-flex-layout';
-import {AppBar, IconComponentProvider, Icon, IconButton, FAB, Button} from "@react-native-material/core";
+import {Box} from 'react-native-flex-layout';
+import {IconComponentProvider, Button} from "@react-native-material/core";
 import { Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
@@ -13,7 +13,6 @@ import { Camera, CameraType } from 'expo-camera';
 
 // Bzl
 import {createDocAndSaveImgs} from '../../bzl/capture/CapturePageBzl.js'
-import isBase64 from "is-base64";
 import {StyleSheet} from "react-native";
 
 
@@ -79,7 +78,7 @@ const CapturePage = ({navigation}) => {
 
             <Appbar.Header
                 style={[styles.top]}
-             >
+            >
 
                 <Appbar.Action icon="home"  onPress={async () =>{navigation.navigate('Home')}}/>
                 <Button
@@ -90,7 +89,7 @@ const CapturePage = ({navigation}) => {
                     style={{variant: "titleLarge"}}
                     onPress={async () =>{navigation.navigate('EditPage')}}
                 />
-             </Appbar.Header>
+            </Appbar.Header>
 
             <Box w='100%' h='100%' style={{ backgroundColor: '#2C2E30' }}>
                  <Camera ref={cameraRef}
@@ -108,7 +107,6 @@ const CapturePage = ({navigation}) => {
                 <Appbar.Action icon="camera-iris" onPress={takePicture} />
                 <Appbar.Action icon="magnify"  />
             </Appbar>
-
         </IconComponentProvider>
     )
 }

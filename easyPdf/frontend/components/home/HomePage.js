@@ -1,12 +1,11 @@
 import React , {useState} from "react";
 
 // React-native materials
-import { VStack, HStack, Box} from 'react-native-flex-layout';
-import { AppBar,Surface, IconComponentProvider, Icon, Button, TextInput, IconButton, Text} from "@react-native-material/core";
+import { VStack, Box} from 'react-native-flex-layout';
+import {Surface, IconComponentProvider, Icon, IconButton} from "@react-native-material/core";
 import { Appbar, Searchbar,  Modal, Portal, Menu,Divider, Provider} from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
-import {httpsUrl} from "../../constants/HttpsUrl";
 import {StyleSheet} from "react-native";
 import SettingPage from "../settingPage/SettingPage";
 
@@ -18,7 +17,6 @@ const HomePage = ({navigation}) => {
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
-
             <Appbar.Header style={[styles.top]}>
                 <Appbar.Action icon="account-circle-outline" onPress={async () =>{navigation.navigate('SettingPage')}} />
                 <Searchbar
@@ -71,7 +69,6 @@ const HomePage = ({navigation}) => {
                 </Portal>
             </Provider>
         </IconComponentProvider>
-
     )
 }
 
