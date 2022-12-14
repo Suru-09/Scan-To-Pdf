@@ -65,6 +65,7 @@ const HomePage = ({navigation}) => {
                       <Menu.Item icon="book-lock-outline" title="Protect PDF" titleStyle={{fontSize: 20, color: 'white'}} />
                         <Divider bold={true}/>
                       <Menu.Item icon="book-edit-outline" title="Edit PDF"  titleStyle={{fontSize: 20, color: 'white'}}/>
+                        <Menu.Item icon="book-edit-outline" title="Maybe deleted"  titleStyle={{fontSize: 20, color: 'white'}}/>
                     </Modal>
                 </Portal>
             </Provider>
