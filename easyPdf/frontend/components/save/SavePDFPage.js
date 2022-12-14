@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet } from 'react-native';
+import React, {useState} from "react";
+import {Image, StyleSheet} from 'react-native';
 
 // React-native materials
 import {Box} from 'react-native-flex-layout';
@@ -7,10 +7,24 @@ import { IconComponentProvider, Icon, Button} from "@react-native-material/core"
 import { Appbar, TextInput } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-// Image SliderBox
-import Carousel from 'react-native-snap-carousel';
 
-const SavePage = ({navigation, photosList }) => {
+import  ImageSlider  from './ImageSlider'
+import {useSwipe} from "../hooks/Swipe";
+
+
+
+const SavePage = ({navigation, route }) => {
+    const [photosList] = useState(route.params.photosList);
+    const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 15);
+
+    const onSwipeLeft = () => {
+        console.log('Swipe left');
+    }
+
+    const onSwipeRight = () => {
+        console.log('Swipe right');
+    }
+
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
 
@@ -30,7 +44,10 @@ const SavePage = ({navigation, photosList }) => {
                 />
              </Appbar.Header>
 
-            <Box style={[styles.box]}>
+
+            <Box style={[styles.box]}  onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} >
+                {console.log(`Din SavePage: ${photosList[0].uri}`)}
+                <ImageSlider photosArray={photosList}/>
 
             </Box>
 

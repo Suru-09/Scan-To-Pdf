@@ -87,11 +87,13 @@ const CapturePage = ({navigation}) => {
                     style={{variant: "titleLarge"}}
                     color="#84CBE8"
                     uppercase={false}
-                    onPress={async () => {
+                    onPress={() => {
                         navigation.navigate('SavePage', {
                             photosList: photoArray
                         })
-                    }}
+                        console.log(photoArray[0].uri);
+                        }
+                    }
                 />
             </Appbar.Header>
 
