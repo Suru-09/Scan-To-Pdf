@@ -7,7 +7,10 @@ import { IconComponentProvider, Icon, Button} from "@react-native-material/core"
 import { Appbar, TextInput } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-const EditPage = ({navigation}) => {
+// Image SliderBox
+import Carousel from 'react-native-snap-carousel';
+
+const SavePage = ({navigation, photosList }) => {
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
 
@@ -27,7 +30,9 @@ const EditPage = ({navigation}) => {
                 />
              </Appbar.Header>
 
-            <Box style={[styles.box]}/>
+            <Box style={[styles.box]}>
+
+            </Box>
 
             <Appbar
                 style={[styles.bottom]}
@@ -74,4 +79,4 @@ const styles = StyleSheet.create({
           },
 });
 
-export default EditPage;
+export default SavePage;

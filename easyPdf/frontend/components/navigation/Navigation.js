@@ -10,7 +10,7 @@ import ChangeEmail from "../profileEdits/ChangeEmail";
 import ChangePassword from "../profileEdits/ChangePassword";
 import ChangeUsername from "../profileEdits/ChangeUsername";
 import CapturePage from "../capture/CapturePage";
-import EditPage from "../edit/EditPDFPage";
+import SavePage from "../save/SavePDFPage";
 import SettingPage from "../settingPage/SettingPage";
 
 const Stack = createNativeStackNavigator();
@@ -25,7 +25,7 @@ const Navigation = () => {
                 <Stack.Screen name="ChangePassword" component={ChangePassword} />
                 <Stack.Screen name="ChangeUsername" component={ChangeUsername} />
                 <Stack.Screen name="CapturePage" component={CapturePage} />
-                <Stack.Screen name="EditPage" component={EditPage} />
+                <Stack.Screen name="SavePage" component={SavePage} />
                 <Stack.Screen name="SettingPage" component={SettingPage} />
                 <Stack.Screen name="Home" component={HomePage}/>
             </Stack.Navigator>
