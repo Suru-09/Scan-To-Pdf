@@ -12,6 +12,9 @@ import ChangeUsername from "../profileEdits/ChangeUsername";
 import CapturePage from "../capture/CapturePage";
 import SavePage from "../save/SavePDFPage";
 import SettingPage from "../settingPage/SettingPage";
+import AboutPage from "../settingPage/AboutPage";
+import RateAppPage from "../settingPage/RateAppPage";
+import HelpPage from "../settingPage/HelpPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +22,7 @@ const Navigation = () => {
     return(
         <NavigationContainer >
             <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'#303030'}}}>
-                <Stack.Screen name="LoginPage" component={LoginPage} />
+                <Stack.Screen name="LoginPage" component={HelpPage} />
                 <Stack.Screen name="SignupPage" component={SignupPage} />
                 <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
                 <Stack.Screen name="ChangePassword" component={ChangePassword} />
