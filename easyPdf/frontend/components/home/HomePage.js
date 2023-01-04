@@ -8,9 +8,10 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 import {StyleSheet} from "react-native";
 import SettingPage from "../settingPage/SettingPage";
+import {Document} from "../document/Document";
 
 const HomePage = ({navigation}) => {
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = useState(false);
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -24,88 +25,79 @@ const HomePage = ({navigation}) => {
                   style={[styles.searchBar]}
                 />
             </Appbar.Header>
+
+            {/*Last created document*/}
             <Surface
               elevation={8}
               style={[styles.lastDocSurface]}
-            />
-            <Box style={[styles.box]}>
+            >
+                <Document/>
+            </Surface>
 
-                <VStack items="center" spacing='7%'style={[styles.stack]}>
+            <Divider  color="#3F4041" width={15} style={[styles.divider]}/>
 
-                    <Surface
-                      elevation={8}
-                      style={[styles.surfaceDoc]}
-                    />
-                    <Surface
-                      elevation={8}
-                      style={[styles.surfaceDoc]}
-                    />
-                    <Surface
-                      elevation={8}
-                      style={[styles.multiButton]}
-                    >
-                        <IconButton
-                            onPress={async () =>{navigation.navigate('CapturePage')}}
-                            icon={props => <Icon name="camera" {...props} />} />
-                        <IconButton
-                            onPress={async () =>{navigation.navigate('EditPage')}}
-                            icon={props => <Icon name="image" {...props} />} />
-                    </Surface>
-                </VStack>
+            <VStack items="center" spacing='7%'style={[styles.stack]}>
+                <Surface
+                  elevation={8}
+                  style={[styles.surfaceDoc]}
+                >
+                    <Document/>
+                </Surface>
 
-            </Box>
-            <Provider>
-                <Portal>
-                    <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.menuDoc}>
-                      <Menu.Item title="Name of Scan" titleStyle={{fontSize: 32, color: 'white'}} />
-                        <Divider  bold={true}/>
-                      <Menu.Item icon="download" title="Download to device" titleStyle={{fontSize: 20, color: 'white'}} />
-                        <Divider bold={true}/>
-                      <Menu.Item icon="file-export-outline" title="Export PDF"  titleStyle={{fontSize: 20, color: 'white'}}/>
-                      <Menu.Item icon="book-lock-outline" title="Protect PDF" titleStyle={{fontSize: 20, color: 'white'}} />
-                        <Divider bold={true}/>
-                      <Menu.Item icon="book-edit-outline" title="Edit PDF"  titleStyle={{fontSize: 20, color: 'white'}}/>
-                    </Modal>
-                </Portal>
-            </Provider>
+                <Surface
+                  elevation={8}
+                  style={[styles.surfaceDoc]}
+                >
+                    <Document/>
+                </Surface>
+
+                {/*Buttons image and take to photo*/}
+                <Surface
+                  elevation={8}
+                  style={[styles.multiButton]}
+                >
+                    <IconButton
+                        onPress={async () =>{navigation.navigate('CapturePage')}}
+                        icon={props => <Icon name="camera" {...props} />} />
+                    <IconButton
+                        onPress={async () =>{navigation.navigate('EditPage')}}
+                        icon={props => <Icon name="image" {...props} />} />
+                </Surface>
+            </VStack>
+
         </IconComponentProvider>
     )
 }
 
 const styles = StyleSheet.create({
     top: {
-            backgroundColor: '#3F4041',
-            flexDirection: "row",
-            justifyContent: "space-between",
-
-          },
-    box: {
-            backgroundColor: '#2C2E30',
-            w: '100%',
-            h: '100%',
-
-          },
+        backgroundColor: '#3F4041',
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
     surfaceDoc: {
             width: '100%',
-            height: '35%',
+            height: '40%',
             backgroundColor: '#3F4041',
             borderRadius: 10,
           },
     lastDocSurface: {
-            width: '100%',
-            height: '25%',
-            backgroundColor: '#3F4041',
-            borderRadius: 0,
+        display: "flex",
+        flexWrap: "wrap",
+        marginBottom: '5%',
+        width: '100%',
+        height: '30%',
+        backgroundColor: '#3F4041',
 
     },
     stack: {
-            marginTop:"0%",
-            marginBottom:"30%",
-            marginHorizontal:"10%",
-            justifyContent: "center",
-            alignItems: "center",
-            display:"flex"
-
+        height: '50%',
+        marginTop:"0%",
+        marginBottom:"30%",
+        marginHorizontal:"10%",
+        justifyContent: "center",
+        alignItems: "center",
+        display:"flex"
     },
     multiButton: {
         width: '26%',
@@ -120,7 +112,7 @@ const styles = StyleSheet.create({
     searchBar: {
             margin: 20,
             height: 35,
-            width: 170,
+            width: '55%',
             alignSelf: "center",
             textAlign: "center",
             multiline: false,
@@ -135,6 +127,10 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         opacity: 75,
     },
+    divider: {
+        width: '100%',
+        orientation: "horizontal",
+    }
 });
 
 export default HomePage;
