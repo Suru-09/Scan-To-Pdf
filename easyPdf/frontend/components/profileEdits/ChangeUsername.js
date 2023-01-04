@@ -1,20 +1,22 @@
-import React , {useState} from "react";
+import React from "react";
 
 // React-native materials
 import { VStack } from 'react-native-flex-layout';
 import { IconComponentProvider, Icon, Button, TextInput, IconButton, Text} from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
+import {Alert} from "react-native";
 
 
+// redux
+import store from '../../redux/store.js'
 import {useDispatch} from "react-redux";
-// Bzl and Api
-import {loginUser} from "../../redux/actions/userActions";
-import {logUserIn} from "../../bzl/login/LoginBzl";
-import {httpsUrl} from "../../constants/HttpsUrl";
-import {useIsFocused} from "@react-navigation/native";
-import {Keyboard} from "react-native";
 
+// bzl
+import {changeUsername} from "../../bzl/changeUser/ChangeUserBzl";
+
+// hooks
+import {useEffect, useState} from "react";
 
 const ChangeUsername = ({navigation}) => {
     const [user, setUser] = useState({
@@ -25,6 +27,14 @@ const ChangeUsername = ({navigation}) => {
     const [visual, setVisual] = useState({
         passwordVisibility: false,
     })
+    const [state, setState] = useState(null)
+    useEffect(() => {
+        async function loadReduxState() {
+            const state = await store.getState()
+            setState(state)
+        }
+        loadReduxState().then(() => console.log("Redux state has been retrieved!"))
+    }, [state])
 
     const dispatch = useDispatch()
 
@@ -56,10 +66,17 @@ const ChangeUsername = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
-                        navigation.navigate('Home');
+                        console.log(await state.userReducer.loginUser)
+                        const userId = await state.userReducer.loginUser.id;
+                        const neededUser = {id: userId, password: user.password, new_username: user.username}
+                        console.log(`I am the neededUser: ${neededUser}`);
+                        console.log(neededUser);
+                        changeUsername(neededUser).then(r => {
+                            console.log(r);
+                            r ? navigation.navigate('Home') : Alert.alert('Invalid password. Enter password again!');;
+                        });
+
                     }}
-                        // dispatch(loginUser(user));
-                        // console.log(httpsUrl);
                     title="Save"
                 />
             </VStack>

@@ -42,7 +42,7 @@ async function signUserUp(user) {
 }
 
 async function changeUserName(user) {
-  const {username, password, newUsername } = user;
+  const {id, password, new_username } = user;
   return fetch(`${httpsUrl}/db/users/change-username`, {
       method: 'UPDATE',
       headers: {
@@ -50,9 +50,9 @@ async function changeUserName(user) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: username,
+        id: id,
         password: password,
-        newUsername: newUsername,
+        new_username: new_username,
       })
     })
 }
@@ -74,7 +74,7 @@ async function changePw(user) {
 }
 
 async function changeEmail(user) {
-  const {username, password, newEmail } = user;
+  const {id, password, new_email } = user;
   return fetch(`${httpsUrl}/db/users/change-email`, {
       method: 'UPDATE',
       headers: {
@@ -82,9 +82,9 @@ async function changeEmail(user) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: username,
+        id: id,
         password: password,
-        newEmail: newEmail,
+        new_email: new_email,
       })
     })
 }

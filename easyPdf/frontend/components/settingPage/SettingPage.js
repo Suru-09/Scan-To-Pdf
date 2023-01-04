@@ -8,10 +8,17 @@ import flex from "react-native-flex-layout/src/Flex";
 import {StyleSheet} from "react-native";
 import { Divider } from "react-native-elements";
 
-const Option = ({iconname, text}) =>{
+// hooks
+import {useEffect, useState} from "react";
+import store from '../../redux/store.js'
+
+const Option = ({iconname, text, page, navigation}) =>{
     return(
         <Stack style={{flexDirection: "row"}}>
             <IconButton
+                onPress={()=> {
+                    navigation.navigate(page)
+                }}
             icon={props => <Icon name={iconname} size={35} color="white" />} />
             <Text variant="h4" color="white">{text}</Text>
         </Stack>
@@ -20,6 +27,23 @@ const Option = ({iconname, text}) =>{
 
 const SettingPage = ({navigation}) => {
 
+    const [currentUser, setUser] = useState({username: "Empty", email: "empty@gmail.com"})
+    const [state, setState] = useState(null)
+    useEffect(() => {
+        async function loadReduxState() {
+            const state = await store.getState();
+            setState(state);
+        }
+        async function loadUser() {
+            if(state != null) {
+                const user = await state.userReducer.loginUser;
+                setUser(user);
+            }
+        }
+        loadReduxState().then(r => console.log("State has been set!"));
+        loadUser().then(r => console.log("User has been set!"));
+
+    }, [state, currentUser]);
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
@@ -32,18 +56,24 @@ const SettingPage = ({navigation}) => {
                         <Stack style={{flexDirection: "row"}}>
                             <Icon name="account-circle-outline" size={45} color="white" style={{marginLeft: 10, marginRight: 20}}/>
                             <Stack style={{flexDirection: "column"}}>
-                                <Text variant="h4" color="white">Username</Text>
-                                <Text variant="h6" color="white">email</Text>
+                                <Text variant="h4" color="white">{currentUser.username}</Text>
+                                <Text variant="h6" color="white">{currentUser.email}</Text>
                             </Stack>
                         </Stack>
                     </Surface>
 
                     <Surface elevation={8} style={[styles.surfaceDoc]}>
-                        <Option iconname="account-edit" text="Edit username"/>
+                        <Option iconname="account-edit" text="Edit username"
+                                page='ChangeUsername' navigation={navigation}
+                        />
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <Option iconname="email-edit-outline" text="Edit email"/>
+                        <Option iconname="email-edit-outline" text="Edit email"
+                                page='ChangeEmail' navigation={navigation}
+                        />
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <Option iconname="pencil-lock-outline" text="Edit password"/>
+                        <Option iconname="pencil-lock-outline" text="Edit password"
+                                page='ChangePassword' navigation={navigation}
+                        />
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
                         <Option iconname="information-outline" text="About app"/>
                     </Surface>

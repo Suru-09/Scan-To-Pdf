@@ -36,7 +36,7 @@ const LoginPage = ({navigation}) => {
                 <TextInput
                     onChangeText={(text) => setUser({...user, username: text})}
                     variant="outlined" label="username" style={{ width:"100%" }}
-                    placeholder="username"
+                    placeholder="username" autoCapitalize={"none"}
                     value={user.username}
                 />
 

@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React from "react";
 
 // React-native materials
 import { VStack } from 'react-native-flex-layout';
@@ -6,15 +6,16 @@ import { IconComponentProvider, Icon, Button, TextInput, IconButton, Text} from 
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
 
-
 // Bzl and Api
 import {changePassword} from "../../bzl/changeUser/ChangeUserBzl";
 
+// hooks
+import {useEffect, useState} from 'react'
+
 // redux
 import store from '../../redux/store.js'
+import {Alert} from "react-native";
 
-
-const state = store.getState();
 
 const ChangePassword = ({navigation}) => {
     const [user, setUser] = useState({
@@ -27,6 +28,14 @@ const ChangePassword = ({navigation}) => {
         newPasswordVisibility: false,
         confirmPasswordVisibility: false,
     })
+    const [state, setState] = useState(null)
+    useEffect(() => {
+        async function loadReduxState() {
+            const state = await store.getState()
+            setState(state)
+        }
+        loadReduxState().then(() => console.log("Redux state has been retrieved!"))
+    }, [state])
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
@@ -82,13 +91,14 @@ const ChangePassword = ({navigation}) => {
                 />
                 <Button
                     onPress={async () => {
+                        console.log(await state.userReducer.loginUser)
                         const userId = await state.userReducer.loginUser.id;
                         const neededUser = {id: userId, password: user.password, new_password: user.newPassword}
                         console.log(`I am the neededUser: ${neededUser}`);
                         console.log(neededUser);
                         changePassword(neededUser).then(r => {
                             console.log(r);
-                            r ? navigation.navigate('Home') : null;
+                            r ? navigation.navigate('Home') : Alert.alert('Invalid password. Enter password again!');
                         });
 
                     }}

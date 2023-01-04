@@ -66,7 +66,6 @@ def find_user(request):
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
 
-
 @csrf_exempt
 @api_view(['UPDATE'])
 @permission_classes([AllowAny])
@@ -81,6 +80,41 @@ def change_password(request):
             return Response('Password does not match!', status=status.HTTP_401_UNAUTHORIZED)
         user.set_password(request.data['new_password'])
         user.save()
-        return Response("User has been updated!", status=status.HTTP_200_OK)
+        return Response("User has password been updated!", status=status.HTTP_200_OK)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
+
+@csrf_exempt
+@api_view(['UPDATE'])
+@permission_classes([AllowAny])
+def change_email(request):
+    if request.method == 'UPDATE':
+        my_user_id = request.data['id']
+        password = request.data['password']
+        user = MyUser.objects.get(id=my_user_id)
+        if not user:
+            return Response('Could not find user!', status=status.HTTP_404_NOT_FOUND)
+        if not user.check_password(password):
+            return Response('Password does not match!', status=status.HTTP_401_UNAUTHORIZED)
+        user.email = request.data['new_email']
+        user.save()
+        return Response("User email has been updated!", status=status.HTTP_200_OK)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
+@api_view(['UPDATE'])
+@permission_classes([AllowAny])
+def change_username(request):
+    if request.method == 'UPDATE':
+        my_user_id = request.data['id']
+        password = request.data['password']
+        user = MyUser.objects.get(id=my_user_id)
+        if not user:
+            return Response('Could not find user!', status=status.HTTP_404_NOT_FOUND)
+        if not user.check_password(password):
+            return Response('Password does not match!', status=status.HTTP_401_UNAUTHORIZED)
+        user.username = request.data.get('new_username')
+        user.save()
+        return Response("User has been updated!", status=status.HTTP_200_OK)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
