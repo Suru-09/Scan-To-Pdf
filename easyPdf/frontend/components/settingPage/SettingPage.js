@@ -8,7 +8,7 @@ import flex from "react-native-flex-layout/src/Flex";
 import {StyleSheet} from "react-native";
 import { Divider } from "react-native-elements";
 
-const option = ({iconname, text}) =>{
+const Option = ({iconname, text}) =>{
     return(
         <Stack style={{flexDirection: "row"}}>
             <IconButton
@@ -39,19 +39,19 @@ const SettingPage = ({navigation}) => {
                     </Surface>
 
                     <Surface elevation={8} style={[styles.surfaceDoc]}>
-                        <option iconname="account-edit" text="Edit username"/>
+                        <Option iconname="account-edit" text="Edit username"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <option iconname="email-edit-outline" text="Edit email"/>
+                        <Option iconname="email-edit-outline" text="Edit email"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <option iconname="pencil-lock-outline" text="Edit password"/>
+                        <Option iconname="pencil-lock-outline" text="Edit password"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <option iconname="information-outline" text="About app"/>
+                        <Option iconname="information-outline" text="About app"/>
                     </Surface>
 
                     <Surface elevation={8} style={[styles.surfaceDoc]}>
-                        <option iconname="help-circle-outline" text="Help"/>
+                        <Option iconname="help-circle-outline" text="Help"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <option iconname="star-circle" text="Rate app"/>
+                        <Option iconname="star-circle" text="Rate app"/>
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
                         <Button uppercase={false} color="white" variant="text" title="Sign Out" titleStyle={{fontSize: 32}}/>
                     </Surface>

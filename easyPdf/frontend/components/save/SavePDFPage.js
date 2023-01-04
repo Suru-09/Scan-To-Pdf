@@ -46,8 +46,7 @@ const SavePage = ({navigation, route }) => {
 
 
             <Box style={[styles.box]}  onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} >
-                {console.log(`Din SavePage: ${photosList[0].uri}`)}
-                <ImageSlider photosArray={photosList}/>
+                {/*<ImageSlider photosArray={photosList}/>*/}
 
             </Box>
 

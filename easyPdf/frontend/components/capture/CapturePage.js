@@ -91,7 +91,7 @@ const CapturePage = ({navigation}) => {
                         navigation.navigate('SavePage', {
                             photosList: photoArray
                         })
-                        console.log(photoArray[0].uri);
+                        //console.log(photoArray[0].uri);
                         }
                     }
                 />
