@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 // React-native materials
 import { VStack, Box} from 'react-native-flex-layout';
@@ -10,11 +10,36 @@ import {StyleSheet} from "react-native";
 import SettingPage from "../settingPage/SettingPage";
 import {Document} from "../document/Document";
 
-const HomePage = ({navigation}) => {
-    const [visible, setVisible] = useState(false);
+// redux
+import store from '../../redux/store'
 
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
+// bzl
+import {loadImages} from "../../bzl/home/HomePage";
+
+const HomePage = ({navigation}) => {
+    const [images, setImages] = useState(null);
+    const [state, setState] = useState(null);
+
+    useEffect(() => {
+        async function loadState() {
+            const state = await store.getState();
+            setState(state);
+        }
+        async function loadImg() {
+            if(state !== null) {
+                const imgs = await loadImages(state.userReducer.loginUser.id);
+                console.log('wtf');
+                const imgList = []
+                for(const img of imgs) {
+                    imgList.push(img);
+                }
+                console.log(imgs.document_fk);
+                setImages(imgList);
+            }
+        }
+        loadState().then(() => console.log("State has been loaded in HomePage!"));
+        loadImg().then(() => console.log("Images have been loaded in HomePage!"))
+    }, [state]);
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
@@ -31,7 +56,7 @@ const HomePage = ({navigation}) => {
               elevation={8}
               style={[styles.lastDocSurface]}
             >
-                <Document/>
+                { images != null ? <Document image={images[0]}/> : null}
             </Surface>
 
             <Divider  color="#3F4041" width={15} style={[styles.divider]}/>
@@ -41,14 +66,14 @@ const HomePage = ({navigation}) => {
                   elevation={8}
                   style={[styles.surfaceDoc]}
                 >
-                    <Document/>
+                    { images != null && images.length > 1 ? <Document image={images[1]}/> : null }
                 </Surface>
 
                 <Surface
                   elevation={8}
                   style={[styles.surfaceDoc]}
                 >
-                    <Document/>
+                    { images != null && images.length > 2 ? <Document image={images[2]}/> : null}
                 </Surface>
 
                 {/*Buttons image and take to photo*/}

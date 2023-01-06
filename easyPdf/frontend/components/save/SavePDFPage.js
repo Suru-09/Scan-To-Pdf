@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {Image, StyleSheet} from 'react-native';
 
 // React-native materials
@@ -7,15 +7,30 @@ import { IconComponentProvider, Icon, Button} from "@react-native-material/core"
 import { Appbar, TextInput } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-
-import  ImageSlider  from './ImageSlider'
 import {useSwipe} from "../hooks/Swipe";
+
+// redux
+import store from "../../redux/store";
+
+// bzl
+import {createDocAndSaveImgs} from '../../bzl/capture/CapturePageBzl'
+import {useEffect, useState} from "react";
 
 
 
 const SavePage = ({navigation, route }) => {
+    const [documentName, setDocumentName] = useState('')
     const [photosList] = useState(route.params.photosList);
     const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 15);
+
+    const [state, setState] = useState(null)
+    useEffect(() => {
+        async function loadReduxState() {
+            const state = await store.getState()
+            setState(state)
+        }
+        loadReduxState().then(() => console.log("Redux state has been retrieved!"))
+    }, [state])
 
     const onSwipeLeft = () => {
         console.log('Swipe left');
@@ -25,19 +40,32 @@ const SavePage = ({navigation, route }) => {
         console.log('Swipe right');
     }
 
+    const save = () => {
+        if(documentName !== '' && photosList.length > 0) {
+            createDocAndSaveImgs(state.userReducer.loginUser, photosList, documentName)
+        }
+    }
+
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
 
              <Appbar.Header
                 style={[styles.top]}
              >
-                <TextInput mode="flat"
-                           placeholder="Scan name" style={[styles.nameInput]}
-                           trailing={props => <Icon name="square-edit-outline" {...props} />}
+                <TextInput
+                   onChangeText={(text) => {
+                        setDocumentName(text)
+                   }}
+                   mode="flat"
+                   placeholder="Scan name" style={[styles.nameInput]}
+                   trailing={props => <Icon name="square-edit-outline" {...props} />}
                 />
                 <Button
                     variant="text"
                     title='Save PDF'
+                    onPress={() => {
+                        save()
+                    }}
                     color="#84CBE8"
                     uppercase={false}
                     style={{variant: "titleLarge"}}

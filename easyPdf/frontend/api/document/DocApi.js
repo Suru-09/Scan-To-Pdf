@@ -5,6 +5,7 @@ import {httpsUrl} from "../../constants/HttpsUrl";
 export const DocAPI = {
     createDocument: createDoc,
     deleteDocument: deleteDoc,
+    getFirstThreeDocsIds: getFirstThreeDocsID,
 }
 
 async function createDoc(userID, docInformation)
@@ -36,4 +37,16 @@ async function deleteDoc(docID)
             id: docID
         })
     });
+}
+
+async function getFirstThreeDocsID(userId)
+{
+    const requestOptions = {
+                method: "GET",
+                headers: {
+                Accept: "application/json",
+                'Content-Type': 'application/json'
+                }
+    };
+    return fetch(`${httpsUrl}/db/documents/first-three-docs-ids` + '?user_id=' + userId, requestOptions);
 }

@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.core import serializers
+from django.http import HttpResponse, FileResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -8,13 +10,16 @@ from rest_framework.response import Response
 # Python imports
 import os
 import base64
+from PIL import Image
+import tempfile
+from zipfile import ZipFile
 
 # serializers
 from ..serializers.documentSerializer import DocIDSerializer
 from ..serializers.imageSerializer import ImageSerializer, ImgB64Serializer, EntireImageSerialiser
 
 # models
-from ..models import IMG
+from ..models import IMG, Document
 
 
 @csrf_exempt
@@ -67,6 +72,37 @@ def get_images_for_document(request):
 
 
 @csrf_exempt
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_three_images_homepage(request):
+    if request.method == 'GET':
+        us_id = request.GET.get('id')
+        print(f'User_id: {us_id}')
+
+        temp_dir = tempfile.TemporaryDirectory()
+        image_paths = []
+        docs = Document.objects.filter(user_fk=us_id).order_by('-date')[:3]
+        for doc in docs:
+            img = IMG.objects.filter(order_no=1, document_fk=doc.id)[:1][0]
+            image_path = str(settings.BASE_DIR) + img.image.url
+            image_path = os.path.abspath(os.path.expanduser(image_path))
+            image_paths.append(image_path)
+
+        for path in image_paths:
+            image = Image.open(path).resize((800, 600))
+            image.save(os.path.join(temp_dir.name, path))
+
+        with ZipFile(os.path.join(temp_dir.name, 'images.zip'), 'w') as zip_file:
+            for path in image_paths:
+                zip_file.write(os.path.join(temp_dir.name, path), arcname=os.path.basename(path))
+
+        response = FileResponse(open(os.path.join(temp_dir.name, 'images.zip'), 'rb'), content_type='application/zip')
+        temp_dir.cleanup()
+        return response
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
 @api_view(['DELETE'])
 @permission_classes([AllowAny])
 def delete_image(request):
@@ -111,6 +147,47 @@ def get_b64_image_after_id(request):
                     "size": img.size,
                     "document_fk": img.document_fk.id
                 }
+                return Response(response_dict,
+                                status=status.HTTP_200_OK)
+            except FileNotFoundError:
+                return Response("Image ID is invalid, could not find an image/image path!",
+                                status=status.HTTP_404_NOT_FOUND)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_image_after_id(request):
+    if request.method == 'GET':
+        doc_id = request.GET.get('doc_id')
+        print(doc_id)
+        img_querry = IMG.objects.all().filter(document_fk=doc_id)[:1]
+        img = None
+        if len(img_querry) > 0:
+            img = img_querry[0]
+        print(img)
+        if img:
+            try:
+                image_path = str(settings.BASE_DIR) + img.image.url
+                image_path = os.path.abspath(os.path.expanduser(image_path))
+                image = Image.open(image_path).resize((800, 600))
+                temp_path = f"temp_${doc_id}.jpg"
+                image.save(temp_path)
+                with open(temp_path, 'rb') as image_file:
+                    image_data = base64.b64encode(image_file.read()).decode('utf-8')
+                    # Test to see whether creating a pdf works
+                    # ImageToPdf.image_to_pdf_list([image_path], settings.MEDIA_ROOT, "myPdf")
+                response_dict = {
+                    "image_b64": image_data,
+                    "id": img.id,
+                    "url": img.url,
+                    "order_no": img.order_no,
+                    "size": img.size,
+                    "document_fk": img.document_fk.id
+                }
+                os.remove(temp_path)
                 return Response(response_dict,
                                 status=status.HTTP_200_OK)
             except FileNotFoundError:

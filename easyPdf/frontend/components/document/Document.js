@@ -5,14 +5,16 @@ import { VStack, HStack, Box} from 'react-native-flex-layout';
 import {Icon, IconButton, Surface} from "@react-native-material/core";
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
-export const Document = () => {
+export const Document = (image) => {
+    console.log("DOCUMENT PAGE:");
+    console.log(image["image"].image_b64);
+
     return(
         <View style={styles.root}>
             <Surface elevation={15} style={styles.image}>
-                <Image style={{aspectRatio: 2 / 3, width: '70%', height: undefined, borderRadius: 3}}
-                    source={{ uri:
-                            'https://upload.wikimedia.org/wikipedia/commons/c/c9/Moon.jpg'
-                     }}
+                <Image
+                    style={{aspectRatio: 2 / 3, width: '70%', height: undefined, borderRadius: 3}}
+                    source={{ uri: `data:image/jpeg;base64,${image["image"].image_b64}` }}
                 />
             </Surface>
 
