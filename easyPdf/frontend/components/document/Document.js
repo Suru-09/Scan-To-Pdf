@@ -1,8 +1,7 @@
 import React from 'react';
 
 // react-native materials
-import { VStack, HStack, Box} from 'react-native-flex-layout';
-import {Icon, IconButton, Surface} from "@react-native-material/core";
+import {Icon, Surface} from "@react-native-material/core";
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 export const Document = (image) => {
@@ -22,11 +21,15 @@ export const Document = (image) => {
             <View style={styles.verticalView}>
                 <TouchableOpacity  style={styles.touchableOpac}>
                     <Icon name="share-variant-outline" size={30} color="#ffffff" />
-                    <Text style={{color: 'white', fontSize: 18}}> Share</Text>
+                    <Text style={styles.touchText}> Share</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.touchableOpac}>
                     <Icon name="download" size={30} color="#ffffff" />
-                    <Text style={{color: 'white', fontSize: 18}} >Download</Text>
+                    <Text style={styles.touchText} >Download</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.touchableOpac}>
+                    <Icon name="delete" size={30} color="#ffffff" />
+                    <Text style={styles.touchText} >Delete</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -56,5 +59,9 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         display: "flex",
         flexDirection: "row",
+    },
+    touchText: {
+        color: 'white',
+        fontSize: 18
     }
 });

@@ -9,6 +9,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 // React-native camera
 import { Camera, CameraType } from 'expo-camera';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 
 // Bzl
@@ -28,7 +29,7 @@ const CapturePage = ({navigation}) => {
         if (cameraRef.current && isCameraReady)
         {
             console.log("Camera ref\n");
-            const options = {quality: 1, base64: true};
+            const options = {quality: 0.5, base64: true, exif: true};
             const photo = await cameraRef.current.takePictureAsync(options);
             if(photo.uri)
             {
@@ -36,6 +37,13 @@ const CapturePage = ({navigation}) => {
                 var isBase64 = require('is-base64');
                 console.log(isBase64(photo.base64));
             }
+            ImageManipulator.manipulateAsync(photo.uri, [], {
+                base64:true}).then(
+                ({exif ,base64}) => {
+                    console.log(exif);
+                    photo.base64 = base64;
+                }
+            )
             setPhotoArray(oldArray => [...oldArray, photo]);
         }
     }
