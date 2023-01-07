@@ -74,14 +74,12 @@ def get_first_three_docs_IDs(request):
 @permission_classes([AllowAny])
 def delete_doc(request):
     if request.method == 'DELETE':
-        doc_serializer = DocIDSerializer(data=request.data)
-        if doc_serializer.is_valid():
-            doc = Document.objects.get(id=doc_serializer.data.get('id'))
-            if doc:
-                doc.delete()
-                return Response("Document has been successfully deleted", status=status.HTTP_200_OK)
-            return Response("[Invalid ID] Document was not found!", status=status.HTTP_404_NOT_FOUND)
-        print(doc_serializer.errors)
+        print(request.data.get('id'))
+        doc = Document.objects.get(id=request.data.get('id'))
+        if doc:
+            doc.delete()
+            return Response("Document has been successfully deleted", status=status.HTTP_200_OK)
+        return Response("[Invalid ID] Document was not found!", status=status.HTTP_404_NOT_FOUND)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -109,8 +107,8 @@ def add_images_to_doc(request):
 @permission_classes([AllowAny])
 def get_pdf(request):
     if request.method == 'GET':
-        doc_id = request.data.get('doc_id')
-        pdf_name = request.data.get('pdf_name')
+        doc_id = int(request.GET.get('doc_id'))
+        pdf_name = request.GET.get('pdf_name')
         doc = Document.objects.get(id=doc_id)
         if not doc:
             return Response('Invalid document id!', status=status.HTTP_400_BAD_REQUEST)

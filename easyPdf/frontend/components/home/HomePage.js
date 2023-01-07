@@ -14,7 +14,7 @@ import {Document} from "../document/Document";
 import store from '../../redux/store'
 
 // bzl
-import {loadImages} from "../../bzl/home/HomePage";
+import {loadImages} from "../../bzl/home/HomeBzl";
 
 const HomePage = ({navigation}) => {
     const [images, setImages] = useState(null);

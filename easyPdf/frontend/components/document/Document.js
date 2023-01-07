@@ -2,11 +2,79 @@ import React from 'react';
 
 // react-native materials
 import {Icon, Surface} from "@react-native-material/core";
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {colors} from '../../constants/Colors'
+
+// React hooks
+import {useState} from 'react';
+
+// Bzl
+import {downloadPdf, deleteDocument} from "../../bzl/home/DocumentBzl";
 
 export const Document = (image) => {
     console.log("DOCUMENT PAGE:");
-    console.log(image["image"].image_b64);
+    //console.log(image["image"].image_b64);
+
+    const[info, setInfo] = useState({
+        sharePressed: false,
+        downloadPressed: false,
+        deletePressed: false
+    });
+
+    const [response, setResponse] = useState(false);
+
+    const handleSharePressed = () => {
+        setInfo({
+            ...info,
+            sharePressed: !info.sharePressed
+        });
+    };
+
+    const handleDownloadPressed = () => {
+        setInfo({
+            ...info,
+            downloadPressed: !info.downloadPressed
+        });
+    };
+
+    const handleDeletePressed = () => {
+        setInfo({
+            ...info,
+            deletePressed: !info.deletePressed
+        });
+    };
+
+    const handleDownloadPdf = async () => {
+        console.log(downloadPdf(image["image"].document_fk, "random"))
+    }
+
+    const handleDeletePdf = async() => {
+        Alert.alert(
+            'WARNING',
+            'Are you sure you want to delete this document?',
+            [
+                {
+                    text: 'Yes',
+                    onPress: () => setResponse(true)
+                },
+                {
+                    text: 'No',
+                    onPress: () => setResponse(false)
+                }
+            ]
+        )
+        if(response) {
+            console.log(`intru aci`);
+           const doc_fk = image["image"].document_fk;
+           const resp = await deleteDocument(doc_fk);
+           if(resp) {
+               console.log(`Document with fk: [${doc_fk}] has been deleted!`);
+           }
+           else {
+               console.log(`Document with fk: [${doc_fk}] WAS NOT deleted!`);
+           }
+        }
+    }
 
     return(
         <View style={styles.root}>
@@ -19,17 +87,38 @@ export const Document = (image) => {
 
 
             <View style={styles.verticalView}>
-                <TouchableOpacity  style={styles.touchableOpac}>
-                    <Icon name="share-variant-outline" size={30} color="#ffffff" />
-                    <Text style={styles.touchText}> Share</Text>
+                <TouchableOpacity
+                    style={styles.touchableOpac}
+                    onPressIn={handleSharePressed}
+                    onPressOut={handleSharePressed}
+                    onPress={handleDownloadPdf}
+                >
+                    <Icon style={info.sharePressed ? styles.sharePressed: null}
+                        name="share-variant-outline" size={30} color={info.sharePressed ? colors.teal_text : '#ffffff'} />
+                    <Text
+                        style={[styles.touchText, info.sharePressed ? styles.sharePressed : null]}
+                    >
+                        Share
+                    </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.touchableOpac}>
-                    <Icon name="download" size={30} color="#ffffff" />
-                    <Text style={styles.touchText} >Download</Text>
+
+                <TouchableOpacity
+                    style={styles.touchableOpac}
+                    onPressIn={handleDownloadPressed}
+                    onPressOut={handleDownloadPressed}
+                    onPress={handleDownloadPdf}
+                >
+                    <Icon name="download" size={30} color={info.downloadPressed ? colors.teal_text : '#ffffff'} />
+                    <Text style={[styles.touchText, info.downloadPressed ? styles.downloadPressed : null]} >Download</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.touchableOpac}>
-                    <Icon name="delete" size={30} color="#ffffff" />
-                    <Text style={styles.touchText} >Delete</Text>
+                <TouchableOpacity
+                    style={styles.touchableOpac}
+                    onPressIn={handleDeletePressed}
+                    onPressOut={handleDeletePressed}
+                    onPress={handleDeletePdf}
+                >
+                    <Icon name="delete" size={30} color={info.deletePressed ? 'red' : '#ffffff'} />
+                    <Text style={[styles.touchText, info.deletePressed ? styles.deletePressed : null]} >Delete</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -63,5 +152,14 @@ const styles = StyleSheet.create({
     touchText: {
         color: 'white',
         fontSize: 18
+    },
+    sharePressed: {
+        color: colors.teal_text,
+    },
+    downloadPressed: {
+        color: colors.teal_text,
+    },
+    deletePressed: {
+        color: 'red',
     }
 });

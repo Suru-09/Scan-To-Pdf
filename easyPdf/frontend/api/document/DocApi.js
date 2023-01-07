@@ -6,6 +6,7 @@ export const DocAPI = {
     createDocument: createDoc,
     deleteDocument: deleteDoc,
     getFirstThreeDocsIds: getFirstThreeDocsID,
+    getPdf: getPDF,
 }
 
 async function createDoc(userID, docInformation)
@@ -49,4 +50,16 @@ async function getFirstThreeDocsID(userId)
                 }
     };
     return fetch(`${httpsUrl}/db/documents/first-three-docs-ids` + '?user_id=' + userId, requestOptions);
+}
+
+async function getPDF(docId, pdfName)
+{
+    const requestOptions = {
+                method: "GET",
+                headers: {
+                Accept: "application/json",
+                'Content-Type': 'application/json'
+                }
+    };
+    return fetch(`${httpsUrl}/db/documents/pdf?doc_id=${docId}` + '&pdf_name=' + pdfName, requestOptions);
 }
