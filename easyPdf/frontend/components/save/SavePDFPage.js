@@ -7,6 +7,8 @@ import { IconComponentProvider, Icon, Button} from "@react-native-material/core"
 import { Appbar, TextInput } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
+
+import  PdfSlider  from './PDFSlider'
 import {useSwipe} from "../hooks/Swipe";
 
 // redux
@@ -74,7 +76,7 @@ const SavePage = ({navigation, route }) => {
 
 
             <Box style={[styles.box]}  onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} >
-                {/*<ImageSlider photosArray={photosList}/>*/}
+                <PdfSlider photosArray={photosList}/>
 
             </Box>
 
@@ -107,9 +109,16 @@ const styles = StyleSheet.create({
 
           },
     box: {
-            backgroundColor: '#2C2E30',
-            w: '100%',
-            h: '100%',
+            marginTop: "10%",
+            marginBottom: "10%",
+            display: "flex",
+            flexWrap: "wrap",
+            height: "80%",
+            flexDirection: "row",
+            backgroundColor: 'transparent',
+            justifyContent: "center",
+            alignItems: "center",
+            position: "absolute"
 
           },
     nameInput: {
