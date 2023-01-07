@@ -3,29 +3,29 @@ import { StyleSheet, SafeAreaView} from "react-native";
 import {ImageSlider} from "react-native-image-slider-banner";
 
 const PdfSlider = ({ photosArray }) => {
-    const [imageArray] = useState([]);
-
-    useEffect(() => {
-        async function loadImage() {
-            for(const img of photosArray){
-                const url = 'data:image/jpeg;base64,img.base64' + img.base64;
-                imageArray.push(url);
-            }
-        }
-        loadImage().then(() => console.log(`Photo Loaded`));
-
-    }, [])
+    // const [imageArray] = useState([]);
+    //
+    // useEffect(() => {
+    //     async function loadImage() {
+    //         for(const img of photosArray){
+    //             const url = 'data:image/jpeg;base64,img.base64' + img.base64;
+    //             imageArray.push(url);
+    //         }
+    //     }
+    //     loadImage().then(() => console.log(`Photo Loaded`));
+    //
+    // }, [])
 
     return (
       <SafeAreaView style={styles.imgView}>
-            <ImageSlider
-                data={imageArray}
-                autoPlay={false}
-                preview={false}
-                localImg
-                caroselImageStyle={styles.slider}
-                closeIconColor="#fff"
-            />
+            {/*<ImageSlider*/}
+            {/*    data={imageArray}*/}
+            {/*    autoPlay={false}*/}
+            {/*    preview={false}*/}
+            {/*    localImg*/}
+            {/*    caroselImageStyle={styles.slider}*/}
+            {/*    closeIconColor="#fff"*/}
+            {/*/>*/}
       </SafeAreaView>
     );
 };
