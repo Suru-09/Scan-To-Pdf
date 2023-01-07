@@ -21,7 +21,7 @@ async function createDoc(userID, docInformation)
         body: JSON.stringify({
             name: name,
             user_fk: userID,
-            size: size
+            size: size,
         })
     });
 }

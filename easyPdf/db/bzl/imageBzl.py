@@ -179,13 +179,16 @@ def get_image_after_id(request):
                     image_data = base64.b64encode(image_file.read()).decode('utf-8')
                     # Test to see whether creating a pdf works
                     # ImageToPdf.image_to_pdf_list([image_path], settings.MEDIA_ROOT, "myPdf")
+                doc = Document.objects.all().get(id=doc_id)
                 response_dict = {
                     "image_b64": image_data,
                     "id": img.id,
                     "url": img.url,
                     "order_no": img.order_no,
                     "size": img.size,
-                    "document_fk": img.document_fk.id
+                    "document_fk": img.document_fk.id,
+                    "date": doc.date,
+                    "name": doc.name
                 }
                 os.remove(temp_path)
                 return Response(response_dict,

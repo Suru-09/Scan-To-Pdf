@@ -6,15 +6,18 @@ import {Surface, IconComponentProvider, Icon, IconButton} from "@react-native-ma
 import { Appbar, Searchbar,  Modal, Portal, Menu,Divider, Provider} from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import flex from "react-native-flex-layout/src/Flex";
-import {StyleSheet} from "react-native";
+import {ScrollView, StyleSheet, View} from "react-native";
 import SettingPage from "../settingPage/SettingPage";
 import {Document} from "../document/Document";
 
 // redux
 import store from '../../redux/store'
+import {colors} from '../../constants/Colors'
 
 // bzl
 import {loadImages} from "../../bzl/home/HomeBzl";
+import {img} from "react-native/Libraries/Animated/AnimatedWeb";
+import {InLineDocument} from "../document/InLineDocument";
 
 const HomePage = ({navigation}) => {
     const [images, setImages] = useState(null);
@@ -43,70 +46,83 @@ const HomePage = ({navigation}) => {
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
-            <Appbar.Header style={[styles.top]}>
-                <Appbar.Action icon="keyboard-backspace" onPress={async () =>{navigation.navigate('LoginPage')}} />
-                <Appbar.Action icon="account-circle-outline" onPress={async () =>{navigation.navigate('SettingPage')}} />
-                <Searchbar
-                  placeholder="Search"
-                  style={[styles.searchBar]}
-                />
-            </Appbar.Header>
+            <View style={styles.root}>
+                <Appbar.Header style={[styles.top]}>
+                    <Appbar.Action icon="keyboard-backspace" onPress={async () =>{navigation.navigate('LoginPage')}} />
+                    <Appbar.Action icon="account-circle-outline" onPress={async () =>{navigation.navigate('SettingPage')}} />
+                    <Searchbar
+                      placeholder="Search"
+                      style={[styles.searchBar]}
+                    />
+                </Appbar.Header>
 
-            {/*Last created document*/}
-            <Surface
-              elevation={8}
-              style={[styles.lastDocSurface]}
-            >
-                { images != null ? <Document image={images[0]}/> : null}
-            </Surface>
-
-            <Divider  color="#3F4041" width={15} style={[styles.divider]}/>
-
-            <VStack items="center" spacing='7%'style={[styles.stack]}>
+                {/*Last created document*/}
                 <Surface
                   elevation={8}
-                  style={[styles.surfaceDoc]}
+                  style={[styles.lastDocSurface]}
                 >
-                    { images != null && images.length > 1 ? <Document image={images[1]}/> : null }
+                    { images != null ? <Document image={images[0]}/> : null}
                 </Surface>
 
-                <Surface
-                  elevation={8}
-                  style={[styles.surfaceDoc]}
-                >
-                    { images != null && images.length > 2 ? <Document image={images[2]}/> : null}
-                </Surface>
+                <Divider  color="#3F4041" width={15} style={[styles.divider]}/>
 
-                {/*Buttons image and take to photo*/}
-                <Surface
-                  elevation={8}
-                  style={[styles.multiButton]}
-                >
-                    <IconButton
-                        onPress={async () =>{navigation.navigate('CapturePage')}}
-                        icon={props => <Icon name="camera" {...props} />} />
-                    <IconButton
-                        onPress={async () =>{navigation.navigate('EditPage')}}
-                        icon={props => <Icon name="image" {...props} />} />
-                </Surface>
-            </VStack>
+                <VStack items="center" spacing='7%'style={[styles.stack]}>
+                    <ScrollView style={styles.scroll}>
+                    {
+                        images != null ? images.map((image) => {
+                            console.log(`Eu sunt image bre!:`);
+                            console.log(image.id);
+                            return (
+                              <Surface
+                                  elevation={8}
+                                  style={[styles.surfaceDoc]}
+                              >
+                                  <InLineDocument image={image}/>
+                              </Surface>
+                        )}) : null
+                    }
+                    </ScrollView>
 
+                    {/*Buttons image and take to photo*/}
+                    <Surface
+                      elevation={8}
+                      style={[styles.multiButton]}
+                    >
+                        <IconButton
+                            onPress={async () =>{navigation.navigate('CapturePage')}}
+                            icon={props => <Icon name="camera" {...props} />} />
+                        <IconButton
+                            onPress={async () =>{navigation.navigate('EditPage')}}
+                            icon={props => <Icon name="image" {...props} />} />
+                    </Surface>
+                </VStack>
+            </View>
         </IconComponentProvider>
     )
 }
 
 const styles = StyleSheet.create({
+    scroll: {
+      width: "100%",
+    },
+    root: {
+        backgroundColor: colors.darker_background
+    },
     top: {
         backgroundColor: '#3F4041',
         flexDirection: "row",
         justifyContent: "space-between",
     },
     surfaceDoc: {
-            width: '100%',
-            height: '40%',
-            backgroundColor: '#3F4041',
-            borderRadius: 10,
-          },
+        display: "flex",
+        flexWrap: "wrap",
+        minHeight: 175,
+        maxHeight: 180,
+        flexDirection: "column",
+        marginBottom: 15,
+        backgroundColor: '#3F4041',
+        borderRadius: 10,
+  },
     lastDocSurface: {
         display: "flex",
         flexWrap: "wrap",
@@ -114,7 +130,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '30%',
         backgroundColor: '#3F4041',
-
     },
     stack: {
         height: '50%',
@@ -123,9 +138,12 @@ const styles = StyleSheet.create({
         marginHorizontal:"10%",
         justifyContent: "center",
         alignItems: "center",
-        display:"flex"
+        display:"flex",
+        backgroundColor: colors.darker_background
     },
     multiButton: {
+        position: "absolute",
+        top: "85%",
         width: '26%',
         alignSelf: 'flex-end' ,
         height: '8%',
@@ -136,15 +154,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     searchBar: {
-            margin: 20,
-            height: 35,
-            width: '55%',
-            alignSelf: "center",
-            textAlign: "center",
-            multiline: false,
-            backgroundColor: '#2C2E30',
-            iconColor: '#FFFFFF',
-          },
+        margin: 20,
+        height: 35,
+        width: '55%',
+        alignSelf: "center",
+        textAlign: "center",
+        multiline: false,
+        backgroundColor: '#2C2E30',
+        iconColor: '#FFFFFF',
+    },
     menuDoc: {
         backgroundColor: '#2C2E30',
         padding: 10,

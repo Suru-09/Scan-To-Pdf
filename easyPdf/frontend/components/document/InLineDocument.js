@@ -2,7 +2,7 @@ import React from 'react';
 
 // react-native materials
 import {Icon, Surface} from "@react-native-material/core";
-import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Alert, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {colors} from '../../constants/Colors'
 
 // React hooks
@@ -11,9 +11,9 @@ import {useState} from 'react';
 // Bzl
 import {downloadPdf, deleteDocument} from "../../bzl/home/DocumentBzl";
 
-export const Document = (image) => {
-    console.log("DOCUMENT PAGE:");
-    //console.log(image["image"].image_b64);
+export const InLineDocument = (image) => {
+    console.log("IN LINE DOCUMENT PAGE:");
+    //console.log(image["image"]);
 
     const[info, setInfo] = useState({
         sharePressed: false,
@@ -77,7 +77,7 @@ export const Document = (image) => {
     }
 
     return(
-        <View style={styles.root}>
+        <SafeAreaView style={styles.root}>
             <Surface elevation={15} style={styles.image}>
                 <Image
                     style={{aspectRatio: 2 / 3, width: undefined, height: "90%", borderRadius: 3}}
@@ -85,43 +85,46 @@ export const Document = (image) => {
                 />
             </Surface>
 
-
             <View style={styles.verticalView}>
-                <TouchableOpacity
-                    style={styles.touchableOpac}
-                    onPressIn={handleSharePressed}
-                    onPressOut={handleSharePressed}
-                    onPress={handleDownloadPdf}
-                >
-                    <Icon style={info.sharePressed ? styles.sharePressed: null}
-                        name="share-variant-outline" size={30} color={info.sharePressed ? colors.teal_text : '#ffffff'} />
-                    <Text
-                        style={[styles.touchText, info.sharePressed ? styles.sharePressed : null]}
-                    >
-                        Share
-                    </Text>
-                </TouchableOpacity>
 
-                <TouchableOpacity
-                    style={styles.touchableOpac}
-                    onPressIn={handleDownloadPressed}
-                    onPressOut={handleDownloadPressed}
-                    onPress={handleDownloadPdf}
-                >
-                    <Icon name="download" size={30} color={info.downloadPressed ? colors.teal_text : '#ffffff'} />
-                    <Text style={[styles.touchText, info.downloadPressed ? styles.downloadPressed : null]} >Download</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.touchableOpac}
-                    onPressIn={handleDeletePressed}
-                    onPressOut={handleDeletePressed}
-                    onPress={handleDeletePdf}
-                >
-                    <Icon name="delete" size={30} color={info.deletePressed ? 'red' : '#ffffff'} />
-                    <Text style={[styles.touchText, info.deletePressed ? styles.deletePressed : null]} >Delete</Text>
-                </TouchableOpacity>
+                <Text style={{color: colors.text, fontWeight: "bold", fontSize: "17"}}>
+                    {image["image"].name}
+                </Text>
+                <Text style={{color: colors.text, fontSize: "17"}}>
+                    {image["image"].date.substring(0, 10)}
+                </Text>
+
+                <View style={styles.horizontalView}>
+                    <TouchableOpacity
+                        style={styles.touchableOpac}
+                        onPressIn={handleSharePressed}
+                        onPressOut={handleSharePressed}
+                        onPress={handleDownloadPdf}
+                    >
+                        <Icon style={info.sharePressed ? styles.sharePressed: null}
+                            name="share-variant-outline" size={30} color={info.sharePressed ? colors.teal_text : '#ffffff'} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.touchableOpac}
+                        onPressIn={handleDownloadPressed}
+                        onPressOut={handleDownloadPressed}
+                        onPress={handleDownloadPdf}
+                    >
+                        <Icon name="download" size={30} color={info.downloadPressed ? colors.teal_text : '#ffffff'} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.touchableOpac}
+                        onPressIn={handleDeletePressed}
+                        onPressOut={handleDeletePressed}
+                        onPress={handleDeletePdf}
+                    >
+                        <Icon name="delete" size={30} color={info.deletePressed ? 'red' : '#ffffff'} />
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+
+        </SafeAreaView>
     )
 }
 
@@ -129,25 +132,35 @@ const styles = StyleSheet.create({
     image: {
         display: "flex",
         flexDirection: "row",
-        width: '40%',
+        flexWrap: "wrap",
+        flexGrow: 2,
         backgroundColor: 'transparent',
     },
     root: {
-        marginTop: "5%",
+        marginTop: "7%",
+        marginLeft: "10%",
         display: "flex",
         flexWrap: "wrap",
-        flexDirection: "row",
-        backgroundColor: 'transparent',
-        justifyContent: "center",
-    },
-    verticalView: {
         flexDirection: "column",
-        marginTop: "9%",
+        backgroundColor: 'transparent',
+        justifyContent: "space-between",
     },
-    touchableOpac: {
-        marginBottom: 10,
+    horizontalView: {
         display: "flex",
         flexDirection: "row",
+        justifyContent: "flex-end",
+        marginTop: "10%",
+    },
+    verticalView: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        marginLeft: 35,
+    },
+    touchableOpac: {
+        display: "flex",
+        flexDirection: "row",
+        marginRight: 15,
     },
     touchText: {
         color: 'white',

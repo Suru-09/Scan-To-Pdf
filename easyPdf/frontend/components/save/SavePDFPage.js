@@ -1,10 +1,10 @@
 import React from "react";
-import {Image, StyleSheet} from 'react-native';
+import {Image, StyleSheet, TextInput} from 'react-native';
 
 // React-native materials
 import {Box} from 'react-native-flex-layout';
 import { IconComponentProvider, Icon, Button} from "@react-native-material/core";
-import { Appbar, TextInput } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 
@@ -17,7 +17,7 @@ import store from "../../redux/store";
 // bzl
 import {createDocAndSaveImgs} from '../../bzl/capture/CapturePageBzl'
 import {useEffect, useState} from "react";
-
+import {colors} from '../../constants/Colors'
 
 
 const SavePage = ({navigation, route }) => {
@@ -42,9 +42,9 @@ const SavePage = ({navigation, route }) => {
         console.log('Swipe right');
     }
 
-    const save = () => {
+    const save = async () => {
         if(documentName !== '' && photosList.length > 0) {
-            createDocAndSaveImgs(state.userReducer.loginUser, photosList, documentName)
+            await createDocAndSaveImgs(state.userReducer.loginUser, photosList, documentName);
         }
     }
 
@@ -55,12 +55,12 @@ const SavePage = ({navigation, route }) => {
                 style={[styles.top]}
              >
                 <TextInput
-                   onChangeText={(text) => {
-                        setDocumentName(text)
-                   }}
+                   color={colors.text}
                    mode="flat"
-                   placeholder="Scan name" style={[styles.nameInput]}
-                   trailing={props => <Icon name="square-edit-outline" {...props} />}
+                   placeholder="Scan name"
+                   style={[styles.nameInput]}
+                   trailing={props => <Icon name="square-edit-outline" {...props}/>}
+                   onChangeText={(text) => setDocumentName(text)}
                 />
                 <Button
                     variant="text"
@@ -76,7 +76,7 @@ const SavePage = ({navigation, route }) => {
 
 
             <Box style={[styles.box]}  onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} >
-                <PdfSlider photosArray={photosList}/>
+                {/*<PdfSlider photosArray={photosList}/>*/}
 
             </Box>
 

@@ -15,25 +15,22 @@ import SettingPage from "../settingPage/SettingPage";
 import AboutPage from "../settingPage/AboutPage";
 import RateAppPage from "../settingPage/RateAppPage";
 import HelpPage from "../settingPage/HelpPage";
+import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
     return(
-        <NavigationContainer >
+        <NavigationContainer>
             <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'#303030'}, headerShown: false}}>
                 <Stack.Screen name="LoginPage" component={LoginPage} />
                 <Stack.Screen name="SignupPage" component={SignupPage} />
-                <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
-                <Stack.Screen name="ChangePassword" component={ChangePassword} />
-                <Stack.Screen name="ChangeUsername" component={ChangeUsername} />
                 <Stack.Screen name="CapturePage" component={CapturePage} />
                 <Stack.Screen name="About" component={AboutPage} />
                 <Stack.Screen name="RateApp" component={RateAppPage} />
                 <Stack.Screen name="Help" component={HelpPage} />
                 <Stack.Screen name="SavePage" component={SavePage} initialParams={{ photosList: []}} />
-                <Stack.Screen name="SettingPage" component={SettingPage} />
-                <Stack.Screen name="Home" component={HomePage}/>
+                <Stack.Screen name="Home" component={DrawerNavigator}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

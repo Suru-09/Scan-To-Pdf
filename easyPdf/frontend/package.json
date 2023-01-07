@@ -12,6 +12,7 @@
     "@expo/vector-icons": "^13.0.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-material/core": "^1.3.7",
+    "@react-navigation/drawer": "^6.5.6",
     "@react-navigation/native": "^6.0.0",
     "@react-navigation/native-stack": "^6.9.1",
     "@reduxjs/toolkit": "^1.9.0",
@@ -23,6 +24,7 @@
     "expo-camera": "~12.4.0",
     "expo-file-system": "~14.1.0",
     "expo-image-manipulator": "^11.0.0",
+    "expo-sharing": "~10.3.0",
     "expo-status-bar": "~1.4.0",
     "is-base64": "^1.1.0",
     "ngrok": "^4.3.3",
@@ -42,8 +44,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-zip-archive": "^6.0.9",
     "react-redux": "^8.0.5",
-    "redux": "^4.2.0",
-    "expo-sharing": "~10.3.0"
+    "redux": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
