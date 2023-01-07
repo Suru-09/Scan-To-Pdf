@@ -75,13 +75,19 @@ const SettingPage = ({navigation}) => {
                                 page='ChangePassword' navigation={navigation}
                         />
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <Option iconname="information-outline" text="About app"/>
+                        <Option iconname="information-outline" text="About app"
+                            page='AboutApp' navigation={navigation}
+                        />
                     </Surface>
 
                     <Surface elevation={8} style={[styles.surfaceDoc]}>
-                        <Option iconname="help-circle-outline" text="Help"/>
+                        <Option iconname="help-circle-outline" text="Help"
+                                page='Help' navigation={navigation}
+                        />
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
-                        <Option iconname="star-circle" text="Rate app"/>
+                        <Option iconname="star-circle" text="Rate app"
+                                page='RateApp' navigation={navigation}
+                        />
                         <Divider  color="#3F4041" width={5} style={[styles.divider]}/>
                         <Button uppercase={false} color="white" variant="text" title="Sign Out" titleStyle={{fontSize: 32}}/>
                     </Surface>

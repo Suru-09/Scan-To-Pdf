@@ -44,6 +44,7 @@ const HomePage = ({navigation}) => {
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
             <Appbar.Header style={[styles.top]}>
+                <Appbar.Action icon="keyboard-backspace" onPress={async () =>{navigation.navigate('LoginPage')}} />
                 <Appbar.Action icon="account-circle-outline" onPress={async () =>{navigation.navigate('SettingPage')}} />
                 <Searchbar
                   placeholder="Search"

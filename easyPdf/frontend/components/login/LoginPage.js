@@ -1,15 +1,6 @@
 import React , {useState} from "react";
 
 // React-native materials
-
-// redux
-import {useDispatch} from "react-redux";
-import {colors} from '../../constants/Colors'
-
-// Bzl and Api
-import {loginUser} from "../../redux/actions/userActions";
-import {logUserIn} from "../../bzl/login/LoginBzl";
-import {httpsUrl} from "../../constants/HttpsUrl";
 import {
     View,
     Text,
@@ -23,6 +14,16 @@ import {
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+
+// redux
+import {useDispatch} from "react-redux";
+import {colors} from '../../constants/Colors'
+
+// Bzl and Api
+import {loginUser} from "../../redux/actions/userActions";
+import {logUserIn} from "../../bzl/login/LoginBzl";
+import {httpsUrl} from "../../constants/HttpsUrl";
+
 
 
 const LoginPage = ({navigation}) => {
@@ -218,7 +219,7 @@ const LoginPage = ({navigation}) => {
 
                 { info.validPassword ? null :
                     <Animatable.View animation="fadeInLeft" duration={500}>
-                    <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
+                    <Text style={styles.errorMsg}>Password must at least {info.passwordMinLength} characters long.</Text>
                     </Animatable.View>
                 }
 
@@ -232,13 +233,14 @@ const LoginPage = ({navigation}) => {
                         style={[styles.signIn, {
                             borderColor: '#009387',
                             borderWidth: 1,
-                            marginTop: 15
+                            marginTop: 15,
+                            backgroundColor: colors.teal_text,
                         }]}
                         onPress={async () => {loginHandle(user)}}
                     >
 
                     <Text style={[styles.textSign, {
-                        color: colors.teal_text
+                        color: colors.text
                     }]}>Sign In</Text>
 
                     </TouchableOpacity>
@@ -252,7 +254,7 @@ const LoginPage = ({navigation}) => {
                         }]}
                     >
                         <Text style={[styles.textSign, {
-                            color: '#009387'
+                            color: colors.text
                         }]}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>

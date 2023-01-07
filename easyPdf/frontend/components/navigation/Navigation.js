@@ -28,6 +28,9 @@ const Navigation = () => {
                 <Stack.Screen name="ChangePassword" component={ChangePassword} />
                 <Stack.Screen name="ChangeUsername" component={ChangeUsername} />
                 <Stack.Screen name="CapturePage" component={CapturePage} />
+                <Stack.Screen name="About" component={AboutPage} />
+                <Stack.Screen name="RateApp" component={RateAppPage} />
+                <Stack.Screen name="Help" component={HelpPage} />
                 <Stack.Screen name="SavePage" component={SavePage} initialParams={{ photosList: []}} />
                 <Stack.Screen name="SettingPage" component={SettingPage} />
                 <Stack.Screen name="Home" component={HomePage}/>
