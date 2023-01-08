@@ -15,6 +15,7 @@ import {useSwipe} from "../hooks/Swipe";
 import store from "../../redux/store";
 
 // bzl
+import {ImageViewer} from "./ImageViewer";
 import {createDocAndSaveImgs} from '../../bzl/capture/CapturePageBzl'
 import {useEffect, useState} from "react";
 import {colors} from '../../constants/Colors'
@@ -102,6 +103,7 @@ const SavePage = ({navigation, route }) => {
 
             <Box style={[styles.box]}  onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} >
                 {/*<PdfSlider photosArray={photosList}/>*/}
+                <ImageViewer images={photosList}></ImageViewer>
 
             </Box>
 
@@ -134,16 +136,16 @@ const styles = StyleSheet.create({
 
           },
     box: {
-            marginTop: "10%",
-            marginBottom: "10%",
-            display: "flex",
-            flexWrap: "wrap",
-            height: "80%",
-            flexDirection: "row",
-            backgroundColor: 'transparent',
-            justifyContent: "center",
-            alignItems: "center",
-            position: "absolute"
+            // marginTop: "10%",
+            // marginBottom: "10%",
+            // display: "flex",
+            // flexWrap: "wrap",
+            // height: "80%",
+            // flexDirection: "row",
+            // backgroundColor: 'transparent',
+            // justifyContent: "center",
+            // alignItems: "center",
+            // position: "absolute"
 
           },
     nameInput: {

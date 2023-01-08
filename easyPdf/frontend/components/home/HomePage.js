@@ -114,8 +114,6 @@ const HomePage = ({navigation}) => {
                     <ScrollView style={styles.scroll}>
                     {
                         images != null && images.length > 0 ? images.slice(1).map((image) => {
-                            console.log(`Eu sunt image bre!:`);
-                            console.log(image.id);
                             return (
                               <Surface
                                   elevation={8}
