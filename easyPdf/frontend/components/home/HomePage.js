@@ -46,8 +46,10 @@ const HomePage = ({navigation}) => {
                 setLoading(false);
             }
         }
-        loadState().then(() => console.log("State has been loaded in HomePage!"));
-        loadImg().then(() => console.log("Images have been loaded in HomePage!"))
+        loadState().then(() => {
+            loadImg().then(() => console.log("Use Effect done in HomePage!"))
+        });
+
     }, [state]);
 
     const imageArrayFromImgPicker = async () => {

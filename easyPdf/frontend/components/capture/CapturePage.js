@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 // React-native materials
 import {Box} from 'react-native-flex-layout';
 import {IconComponentProvider} from "@react-native-material/core";
-import {Button, Text, TouchableOpacity, View} from "react-native";
+import {Alert, Button, Text, TouchableOpacity, View} from "react-native";
 import { Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import {StyleSheet} from "react-native";
@@ -50,15 +50,36 @@ const CapturePage = ({navigation}) => {
         }
     }
 
+    const resetCapturePage = () => {
+        setPreview(false);
+        setPhotoArray([]);
+    }
+
     const dropImage = () => {
         console.log("Dropping last picture taken!");
-        setPhotoArray(photoArray.splice(-1));
+        console.log(photoArray.length);
+        photoArray.splice(-1);
+        console.log(photoArray.length);
         cameraRef.current.resumePreview();
+        setPreview(false);
     }
 
     const continueTakingPhotos = () => {
         setPreview(false);
         cameraRef.current.resumePreview();
+    }
+
+    const checkMoveToSavePage = async () => {
+        if(photoArray && photoArray.length > 0) {
+            navigation.navigate
+                ('SavePage', {
+                    photosList: photoArray,
+                    resetCapture: resetCapturePage
+                });
+        }
+        else {
+            Alert.alert("Before going to saving page, you should make some at least 1 photo!");
+        }
     }
 
     // The idea is something like:
@@ -107,13 +128,7 @@ const CapturePage = ({navigation}) => {
                                 flexDirection: "row",
                                 color: colors.text,
                             }}
-                            onPress={() => {
-                                navigation.navigate('SavePage', {
-                                    photosList: photoArray
-                                })
-                                //console.log(photoArray[0].uri);
-                                }
-                            }
+                            onPress={async () => {await checkMoveToSavePage()}}
                         >
                             <FontAwesome5Icon name="save" size={20} color={colors.text}> </FontAwesome5Icon>
                             <Text
@@ -161,7 +176,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#3F4041',
         flexDirection: "row",
         justifyContent: "space-evenly",
-        height:"12%",
+        height:"13%",
         width: "100%",
     },
     mid: {

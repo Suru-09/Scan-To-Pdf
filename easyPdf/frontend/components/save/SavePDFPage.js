@@ -50,6 +50,7 @@ const SavePage = ({navigation, route }) => {
     }
 
     const navigateToHome = async () => {
+        route.params.resetCapture();
         await Alert.alert(
             'WARNING',
             'Are you sure you want to go back to home page? you will lose your photos!',
@@ -81,7 +82,7 @@ const SavePage = ({navigation, route }) => {
                      icon="keyboard-backspace" onPress={async () =>{await navigateToHome()}}
                  />
                 <TextInput
-                   color={colors.text}
+                   color={"black"}
                    mode="flat"
                    placeholder="Scan name"
                    style={[styles.nameInput]}
@@ -128,6 +129,7 @@ const styles = StyleSheet.create({
             bottom: 0,
             flexDirection: "row",
             justifyContent: "space-evenly",
+            height: "10%",
           },
     top: {
             backgroundColor: '#3F4041',
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
             // marginBottom: "10%",
             // display: "flex",
             // flexWrap: "wrap",
-            // height: "80%",
+            height: "85%",
             // flexDirection: "row",
             // backgroundColor: 'transparent',
             // justifyContent: "center",
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
             alignSelf: "center",
             textAlign: "center",
             multiline: false,
-            backgroundColor: '#2C2E30',
+            backgroundColor: '#7393B3',
           },
 });
 
