@@ -10,6 +10,9 @@ import {ScrollView, StyleSheet, View} from "react-native";
 import SettingPage from "../settingPage/SettingPage";
 import {Document} from "../document/Document";
 
+// Expo
+import * as ImagePicker from "expo-image-picker/src/ImagePicker";
+
 // redux
 import store from '../../redux/store'
 import {colors} from '../../constants/Colors'
@@ -43,6 +46,26 @@ const HomePage = ({navigation}) => {
         loadState().then(() => console.log("State has been loaded in HomePage!"));
         loadImg().then(() => console.log("Images have been loaded in HomePage!"))
     }, [state]);
+
+    const imageArrayFromImgPicker = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsMultipleSelection: true,
+            base64: true,
+            aspect: [4, 3],
+            quality: 0.5,
+        });
+
+        if(result) {
+            console.log("Futute-n gura!");
+            const imgs = []
+            result.selected.forEach((asset) => {
+                imgs.push(asset);
+            })
+            return imgs
+        }
+        return []
+    }
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
@@ -91,7 +114,11 @@ const HomePage = ({navigation}) => {
                             onPress={async () =>{navigation.navigate('CapturePage')}}
                             icon={props => <Icon name="camera" {...props} />} />
                         <IconButton
-                            onPress={async () =>{navigation.navigate('EditPage')}}
+                            onPress={async () =>{
+                                    navigation.navigate('SavePage', {
+                                        photosList: await imageArrayFromImgPicker()
+                                    })
+                                }}
                             icon={props => <Icon name="image" {...props} />} />
                     </Surface>
                 </VStack>

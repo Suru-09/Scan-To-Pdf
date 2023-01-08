@@ -173,7 +173,11 @@ def get_image_after_id(request):
                 image_path = str(settings.BASE_DIR) + img.image.url
                 image_path = os.path.abspath(os.path.expanduser(image_path))
                 image = Image.open(image_path).resize((800, 600))
-                temp_path = f"temp_${doc_id}.jpg"
+                print("iMage url: ")
+                print(str(img.image))
+                print(str(img.image).rsplit('.', 1)[1])
+                image_extension = str(img.image).rsplit('.', 1)[1]
+                temp_path = f"temp_{doc_id}.{image_extension}"
                 image.save(temp_path)
                 with open(temp_path, 'rb') as image_file:
                     image_data = base64.b64encode(image_file.read()).decode('utf-8')
