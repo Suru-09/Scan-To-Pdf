@@ -161,12 +161,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#3F4041',
         flexDirection: "row",
         justifyContent: "space-evenly",
-        height:"14%",
+        height:"12%",
         width: "100%",
     },
     mid: {
         justifyContent: "center",
-        height: "75%",
+        height: "76%",
         width: "100%",
     },
     top: {

@@ -118,3 +118,34 @@ def change_username(request):
         user.save()
         return Response("User has been updated!", status=status.HTTP_200_OK)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
+@api_view(['UPDATE'])
+@permission_classes([AllowAny])
+def update_rating(request):
+    if request.method == 'UPDATE':
+        my_user_id = request.data['id']
+        user = MyUser.objects.get(id=my_user_id)
+        if not user:
+            return Response('Could not find user!', status=status.HTTP_404_NOT_FOUND)
+        print(float(request.data.get('rating')))
+        user.rating = float(request.data.get('rating'))
+        user.save()
+        return Response("User has been updated!", status=status.HTTP_200_OK)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_rating(request):
+    if request.method == 'GET':
+        my_user_id = request.GET.get('id')
+        user = MyUser.objects.get(id=my_user_id)
+        if not user:
+            return Response('Could not find user!', status=status.HTTP_404_NOT_FOUND)
+        rate = user.rating if user.rating else False
+        return Response({"rating": rate}, status=status.HTTP_200_OK)
+    return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)
+

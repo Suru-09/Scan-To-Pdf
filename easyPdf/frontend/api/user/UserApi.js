@@ -8,6 +8,8 @@ export const UserAPI = {
     changeUsername: changeUserName,
     changePassword: changePw,
     changeMail: changeEmail,
+    updateRating: updateStars,
+    getRating: getRate,
 }
 
 async function loginUser(user) {
@@ -87,4 +89,29 @@ async function changeEmail(user) {
         new_email: new_email,
       })
     })
+}
+
+async function updateStars(userId, userRating) {
+  return fetch(`${httpsUrl}/db/users/update-rating`, {
+      method: 'UPDATE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: userId,
+        rating: userRating,
+      })
+    })
+}
+
+async function getRate(userId) {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            'Content-Type': 'application/json'
+        },
+    };
+    return fetch(`${httpsUrl}/db/users/get-rating` + '?id=' + userId, requestOptions);
 }

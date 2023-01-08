@@ -2,7 +2,7 @@ from django.urls import path, include
 
 # users
 from .bzl.userBzl import find_user, get_all_create_user, \
-    change_password, change_username, change_email
+    change_password, change_username, change_email, update_rating, get_rating
 
 # documents
 from .bzl.documentBzl import get_all_create_doc, delete_doc, \
@@ -18,6 +18,8 @@ user_patterns = [
     path('change-password', change_password),
     path('change-username', change_username),
     path('change-email', change_email),
+    path('update-rating', update_rating),
+    path('get-rating', get_rating)
 ]
 
 document_patterns = [
@@ -26,7 +28,7 @@ document_patterns = [
     path('first-three-docs', get_first_three_docs),
     path('images_to_doc', add_images_to_doc),
     path('pdf', get_pdf),
-    path('first-three-docs-ids', get_first_three_docs_IDs)
+    path('first-three-docs-ids', get_first_three_docs_IDs),
 ]
 
 images_patterns = [

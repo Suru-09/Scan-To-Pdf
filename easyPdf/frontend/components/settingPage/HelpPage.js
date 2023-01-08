@@ -8,6 +8,11 @@ import flex from "react-native-flex-layout/src/Flex";
 import {StyleSheet} from "react-native";
 import { Divider } from "react-native-elements";
 
+// constants
+import {colors} from '../../constants/Colors'
+import {useEffect, useState} from "react";
+import store from "../../redux/store";
+
 const Option = ({iconname, text}) =>{
     return(
         <Stack style={{flexDirection: "row", marginLeft: 5}}>
@@ -18,7 +23,24 @@ const Option = ({iconname, text}) =>{
 }
 
 const HelpPage = () => {
+    const [currentUser, setUser] = useState({username: "Empty", email: "empty@gmail.com"})
+    const [state, setState] = useState(null);
 
+    useEffect(() => {
+        async function loadReduxState() {
+            const state = await store.getState();
+            setState(state);
+        }
+        async function loadUser() {
+            if(state != null) {
+                const user = await state.userReducer.loginUser;
+                setUser(user);
+            }
+        }
+        loadReduxState().then(r => console.log("State has been set!"));
+        loadUser().then(r => console.log("User has been set!"));
+
+    }, [state, currentUser]);
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
@@ -29,8 +51,8 @@ const HelpPage = () => {
                         <Stack style={{flexDirection: "row"}}>
                             <Icon name="account-circle-outline" size={45} color="white" style={{marginLeft: 10, marginRight: 20}}/>
                             <Stack style={{flexDirection: "column"}}>
-                                <Text variant="h4" color="white">Username</Text>
-                                <Text variant="h6" color="white">email</Text>
+                                <Text variant="h4" color="white">{currentUser.username}</Text>
+                                <Text variant="h6" color="white">{currentUser.email}</Text>
                             </Stack>
                         </Stack>
                     </Surface>
@@ -62,29 +84,30 @@ const HelpPage = () => {
 
 const styles = StyleSheet.create({
     surfaceDoc: {
-            width: '90%',
-            height: '42%',
-            backgroundColor: '#2C2E30',
-            borderRadius: 0,
-            alignItems: "flex-start",
-          },
+        width: '90%',
+        height: '42%',
+        backgroundColor: '#2C2E30',
+        borderRadius: 3,
+        alignItems: "flex-start",
+    },
     surfaceUser: {
-            width: '100%',
-            height: '20%',
-            marginTop: 20,
-            backgroundColor: '#2C2E30',
-            borderRadius: 0,
-            alignItems: "flex-start",
-            justifyContent: "center"
-          },
+        width: '100%',
+        height: '20%',
+        marginTop: 150,
+        backgroundColor: '#2C2E30',
+        borderRadius: 0,
+        alignItems: "flex-start",
+        justifyContent: "center"
+    },
     stack: {
-            marginTop:"0%",
-            marginBottom:"0%",
-            marginHorizontal:"0%",
-            justifyContent: "center",
-            alignItems: "center",
-            display:"flex"
-
+        display:"flex",
+        height: "100%",
+        marginTop:"0%",
+        marginBottom:"0%",
+        marginHorizontal:"0%",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        backgroundColor: colors.darker_background,
     },
     divider: {
             width: '100%',

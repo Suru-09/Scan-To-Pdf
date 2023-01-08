@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -34,6 +35,10 @@ class MyUser(AbstractBaseUser):
     username = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    rating = models.FloatField(null=True,
+                               validators=[
+                                   MinValueValidator(0.0),
+                                   MaxValueValidator(5.0)])
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
