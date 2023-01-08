@@ -15,7 +15,32 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {colors} from '../../constants/Colors'
 
+// hooks
+import {useEffect, useState} from "react";
+
+import store from "../../redux/store";
+
 const CustomDrawer = props => {
+    const [currentUser, setUser] = useState({username: "Empty", email: "empty@gmail.com"})
+    const [state, setState] = useState(null);
+
+    useEffect(() => {
+        async function loadReduxState() {
+            const state = await store.getState();
+            setState(state);
+        }
+        async function loadUser() {
+            if(state != null) {
+                const user = await state.userReducer.loginUser;
+                setUser(user);
+            }
+        }
+        loadReduxState().then(r => console.log("State has been set!"));
+        loadUser().then(r => console.log("User has been set!"));
+
+    }, [state, currentUser]);
+
+
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView
@@ -34,43 +59,35 @@ const CustomDrawer = props => {
               fontSize: 18,
               marginBottom: 5,
             }}>
-            John Doe
+              {currentUser.username}
           </Text>
           <View style={{flexDirection: 'row'}}>
+            <FontAwesome5
+                style={{marginLeft: 5, marginRight: 5}}
+                name="envelope" size={20} color={colors.text} />
             <Text
               style={{
                 color: colors.text,
-                marginRight: 5,
+                fontSize: 18,
               }}>
-              280 Coins
+              {currentUser.email}
             </Text>
-            <FontAwesome5 name="coins" size={14} color={colors.text} />
           </View>
         </ImageBackground>
-        <View style={{flex: 1, backgroundColor: colors.darker_background, paddingTop: 10}}>
+        <View style={{flex: 1, backgroundColor: colors.lighter_background, paddingTop: 10}}>
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
       <View style={{padding: 20, borderTopWidth: 1, borderTopColor: colors.teal_text}}>
-        <TouchableOpacity onPress={() => {props.navigation.navigate('Home')}} style={{paddingVertical: 15}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Ionicons name="home" size={22} />
-            <Text
-              style={{
-                fontSize: 15,
-                marginLeft: 15,
-              }}>
-              Home
-            </Text>
-          </View>
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Ionicons name="exit-outline" size={22} />
+            <Ionicons color="white" name="exit-outline" size={22} />
             <Text
               style={{
+                color: colors.text,
                 fontSize: 15,
                 marginLeft: 15,
+                fontWeight: "bold",
               }}>
               Sign Out
             </Text>

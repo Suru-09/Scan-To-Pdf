@@ -49,7 +49,7 @@ const HomePage = ({navigation}) => {
             <View style={styles.root}>
                 <Appbar.Header style={[styles.top]}>
                     <Appbar.Action icon="keyboard-backspace" onPress={async () =>{navigation.navigate('LoginPage')}} />
-                    <Appbar.Action icon="account-circle-outline" onPress={async () =>{navigation.navigate('SettingPage')}} />
+                    <Appbar.Action icon="account-circle-outline" onPress={async () =>{navigation.openDrawer()}} />
                     <Searchbar
                       placeholder="Search"
                       style={[styles.searchBar]}
@@ -63,7 +63,6 @@ const HomePage = ({navigation}) => {
                 >
                     { images != null ? <Document image={images[0]}/> : null}
                 </Surface>
-
                 <Divider  color="#3F4041" width={15} style={[styles.divider]}/>
 
                 <VStack items="center" spacing='7%'style={[styles.stack]}>
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.darker_background
     },
     top: {
-        backgroundColor: '#3F4041',
+        backgroundColor: colors.darker_background,
         flexDirection: "row",
         justifyContent: "space-between",
     },
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
         maxHeight: 180,
         flexDirection: "column",
         marginBottom: 15,
-        backgroundColor: '#3F4041',
+        backgroundColor: '#242424',
         borderRadius: 10,
   },
     lastDocSurface: {
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
         marginBottom: '5%',
         width: '100%',
         height: '30%',
-        backgroundColor: '#3F4041',
+        backgroundColor: '#242424',
     },
     stack: {
         height: '50%',
@@ -160,7 +159,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         textAlign: "center",
         multiline: false,
-        backgroundColor: '#2C2E30',
+        backgroundColor: '#7393B3',
         iconColor: '#FFFFFF',
     },
     menuDoc: {

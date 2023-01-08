@@ -81,7 +81,7 @@ def get_three_images_homepage(request):
 
         temp_dir = tempfile.TemporaryDirectory()
         image_paths = []
-        docs = Document.objects.filter(user_fk=us_id).order_by('-date')[:3]
+        docs = Document.objects.filter(user_fk=us_id).order_by('-date')
         for doc in docs:
             img = IMG.objects.filter(order_no=1, document_fk=doc.id)[:1][0]
             image_path = str(settings.BASE_DIR) + img.image.url

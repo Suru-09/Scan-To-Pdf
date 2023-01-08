@@ -4,25 +4,24 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 // My components
 import LoginPage from "../login/LoginPage";
-import HomePage from "../home/HomePage";
 import SignupPage from "../signup/SignupPage";
-import ChangeEmail from "../profileEdits/ChangeEmail";
-import ChangePassword from "../profileEdits/ChangePassword";
-import ChangeUsername from "../profileEdits/ChangeUsername";
 import CapturePage from "../capture/CapturePage";
 import SavePage from "../save/SavePDFPage";
-import SettingPage from "../settingPage/SettingPage";
 import AboutPage from "../settingPage/AboutPage";
 import RateAppPage from "../settingPage/RateAppPage";
 import HelpPage from "../settingPage/HelpPage";
 import DrawerNavigator from "./DrawerNavigator";
+
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
     return(
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'#303030'}, headerShown: false}}>
+            <Stack.Navigator screenOptions={{
+                contentStyle:{backgroundColor:'#303030'}, headerShown: false,
+                gestureEnabled: false
+            }}>
                 <Stack.Screen name="LoginPage" component={LoginPage} />
                 <Stack.Screen name="SignupPage" component={SignupPage} />
                 <Stack.Screen name="CapturePage" component={CapturePage} />

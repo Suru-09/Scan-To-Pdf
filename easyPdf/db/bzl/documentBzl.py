@@ -63,7 +63,7 @@ def get_first_three_docs(request, *args, **kwargs):
 def get_first_three_docs_IDs(request):
     if request.method == 'GET':
         user_fk = request.GET.get('user_id')
-        documents = Document.objects.all().filter(user_fk=user_fk).order_by('-date')[:3][::-1]
+        documents = Document.objects.all().filter(user_fk=user_fk).order_by('-date')[::-1]
         doc_dto = DocumentSerializer(documents, many=True)
         return Response(doc_dto.data)
     return Response('BAD REQUEST', status=status.HTTP_400_BAD_REQUEST)

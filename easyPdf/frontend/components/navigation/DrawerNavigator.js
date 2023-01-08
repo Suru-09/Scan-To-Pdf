@@ -12,6 +12,8 @@ import ChangeEmail from "../profileEdits/ChangeEmail";
 import ChangePassword from "../profileEdits/ChangePassword";
 import ChangeUsername from "../profileEdits/ChangeUsername";
 
+import {colors} from '../../constants/Colors';
+
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
@@ -20,8 +22,13 @@ const DrawerNavigator = () => {
             drawerContent={props => <CustomDrawer {...props} />}
             useLegacyImplementation={true}
             screenOptions={{
-                drawerStyle:{backgroundColor:'#303030'}, headerShown: false,
+                drawerStyle:{backgroundColor: colors.lighter_background}, headerShown: false,
                 drawerType: "back", drawerActiveBackgroundColor:'#303030',
+                drawerActiveTintColor: 'blue',
+                drawerLabelStyle: {
+                    fontSize: 17,
+                    color: colors.text,
+                }
         }}
         >
             <Drawer.Screen name="Home" component={HomePage} />
