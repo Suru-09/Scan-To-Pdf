@@ -1,5 +1,4 @@
 import React from "react";
-import {NavigationContainer} from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 // My components
@@ -32,11 +31,32 @@ const DrawerNavigator = () => {
         }}
         >
             <Drawer.Screen name="Home" component={HomePage} />
-            <Drawer.Screen name="ChangeEmail" component={ChangeEmail} />
-            <Drawer.Screen name="ChangePassword" component={ChangePassword} />
-            <Drawer.Screen name="ChangeUsername" component={ChangeUsername} />
+            <Drawer.Screen
+                options={{
+                    title:"Change your email"
+                }}
+                 name="ChangeEmail" component={ChangeEmail} />
+
+            <Drawer.Screen
+                options={{
+                    title:"Change your password"
+                }}
+                name="ChangePassword" component={ChangePassword} />
+
+            <Drawer.Screen
+                options={{
+                    title:"Change your username"
+                }}
+                name="ChangeUsername" component={ChangeUsername} />
+
             <Drawer.Screen name="About" component={AboutPage} />
-            <Drawer.Screen name="RateApp" component={RateAppPage} />
+
+            <Drawer.Screen
+                options={{
+                    title:"Rate our appplication!"
+                }}
+                name="RateApp" component={RateAppPage} />
+
             <Drawer.Screen name="Help" component={HelpPage} />
         </Drawer.Navigator>
     )

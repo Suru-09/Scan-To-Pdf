@@ -11,17 +11,16 @@ import {useState} from 'react';
 // Bzl
 import {downloadPdf, deleteDocument} from "../../bzl/home/DocumentBzl";
 
-export const Document = (image) => {
+export const Document = (props) => {
     console.log("DOCUMENT PAGE:");
     //console.log(image["image"].image_b64);
+    console.log(props.isBase64);
 
     const[info, setInfo] = useState({
         sharePressed: false,
         downloadPressed: false,
         deletePressed: false
     });
-
-    const [response, setResponse] = useState(false);
 
     const handleSharePressed = () => {
         setInfo({
@@ -45,7 +44,7 @@ export const Document = (image) => {
     };
 
     const handleDownloadPdf = async () => {
-        console.log(downloadPdf(image["image"].document_fk, "random"))
+        console.log(downloadPdf(props.image.document_fk, "random"))
     }
 
     const handleDeletePdf = async() => {
@@ -55,39 +54,48 @@ export const Document = (image) => {
             [
                 {
                     text: 'Yes',
-                    onPress: () => setResponse(true)
+                    onPress: await deleteDoc
                 },
                 {
                     text: 'No',
-                    onPress: () => setResponse(false)
+                    onPress: () => null
                 }
             ]
         )
-        if(response) {
-            console.log(`intru aci`);
-           const doc_fk = image["image"].document_fk;
-           const resp = await deleteDocument(doc_fk);
-           if(resp) {
-               console.log(`Document with fk: [${doc_fk}] has been deleted!`);
-           }
-           else {
-               console.log(`Document with fk: [${doc_fk}] WAS NOT deleted!`);
-           }
+    }
+
+    const deleteDoc = async () => {
+        const doc_fk = image["image"].document_fk;
+        const resp = await deleteDocument(doc_fk);
+        if(resp) {
+            console.log(`Document with fk: [${doc_fk}] has been deleted!`);
+        }
+        else {
+            console.log(`Document with fk: [${doc_fk}] WAS NOT deleted!`);
         }
     }
 
     return(
         <View style={styles.root}>
             <Surface elevation={15} style={styles.image}>
-                <Image
-                    style={{aspectRatio: 2 / 3, width: undefined, height: "90%", borderRadius: 3}}
-                    source={{ uri: `data:image/jpeg;base64,${image["image"].image_b64}` }}
-                />
+                {props.isBase64 === true ?
+                    <Image
+                        style={{aspectRatio: 2 / 3, width: undefined, height: "90%", borderRadius: 3}}
+                        source={{ uri: `data:image/jpeg;base64,${props.image.image_b64}` }}
+                    />
+                    :
+                    <Image
+                        style={{aspectRatio: 2 / 3, width: undefined, height: "90%", borderRadius: 3}}
+                        source={ require('../../assets/empty.jpg') }
+                    />
+                }
+
             </Surface>
 
 
             <View style={styles.verticalView}>
                 <TouchableOpacity
+                    disabled={!props.isBase64}
                     style={styles.touchableOpac}
                     onPressIn={handleSharePressed}
                     onPressOut={handleSharePressed}
@@ -103,6 +111,7 @@ export const Document = (image) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
+                    disabled={!props.isBase64}
                     style={styles.touchableOpac}
                     onPressIn={handleDownloadPressed}
                     onPressOut={handleDownloadPressed}
@@ -112,6 +121,7 @@ export const Document = (image) => {
                     <Text style={[styles.touchText, info.downloadPressed ? styles.downloadPressed : null]} >Download</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                    disabled={!props.isBase64}
                     style={styles.touchableOpac}
                     onPressIn={handleDeletePressed}
                     onPressOut={handleDeletePressed}

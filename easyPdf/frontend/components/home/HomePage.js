@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from "react";
 
 // React-native materials
-import { VStack, Box} from 'react-native-flex-layout';
-import {Surface, IconComponentProvider, Icon, IconButton} from "@react-native-material/core";
-import { Appbar, Searchbar,  Modal, Portal, Menu,Divider, Provider} from 'react-native-paper';
+import { IconComponentProvider} from "@react-native-material/core";
+import {Appbar, Divider, IconButton, Searchbar, Surface} from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import flex from "react-native-flex-layout/src/Flex";
-import {ScrollView, StyleSheet, View} from "react-native";
-import SettingPage from "../settingPage/SettingPage";
+import {ScrollView, View, StyleSheet} from "react-native";
+import {ActivityIndicator} from "react-native";
 import {Document} from "../document/Document";
 
 // Expo
@@ -19,10 +17,12 @@ import {colors} from '../../constants/Colors'
 
 // bzl
 import {loadImages} from "../../bzl/home/HomeBzl";
-import {img} from "react-native/Libraries/Animated/AnimatedWeb";
 import {InLineDocument} from "../document/InLineDocument";
+import {VStack} from "react-native-flex-layout";
+import {Icon} from "react-native-elements";
 
 const HomePage = ({navigation}) => {
+    const [isLoading, setLoading] = useState(true);
     const [images, setImages] = useState(null);
     const [state, setState] = useState(null);
 
@@ -36,11 +36,14 @@ const HomePage = ({navigation}) => {
                 const imgs = await loadImages(state.userReducer.loginUser.id);
                 console.log('wtf');
                 const imgList = []
-                for(const img of imgs) {
-                    imgList.push(img);
+                if (imgs) {
+                    for(const img of imgs) {
+                        imgList.push(img);
+                    }
+                    console.log(imgs.document_fk);
+                    setImages(imgList);
                 }
-                console.log(imgs.document_fk);
-                setImages(imgList);
+                setLoading(false);
             }
         }
         loadState().then(() => console.log("State has been loaded in HomePage!"));
@@ -67,11 +70,16 @@ const HomePage = ({navigation}) => {
         return []
     }
 
+    const goToLogin = async () => {
+        setImages(null);
+        navigation.navigate('LoginPage');
+    }
+
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
             <View style={styles.root}>
                 <Appbar.Header style={[styles.top]}>
-                    <Appbar.Action icon="keyboard-backspace" onPress={async () =>{navigation.navigate('LoginPage')}} />
+                    <Appbar.Action icon="keyboard-backspace" onPress={async () =>{goToLogin()}} />
                     <Appbar.Action icon="account-circle-outline" onPress={async () =>{navigation.openDrawer()}} />
                     <Searchbar
                       placeholder="Search"
@@ -84,14 +92,28 @@ const HomePage = ({navigation}) => {
                   elevation={8}
                   style={[styles.lastDocSurface]}
                 >
-                    { images != null ? <Document image={images[0]}/> : null}
+                    { images != null && images.length > 0 ?
+                        <Document image={images[0]} isBase64={true}/>
+                        :
+                            isLoading === false ?
+                                <Document isBase64={false}/>
+                                :
+                                <ActivityIndicator
+                                    size={"large"}
+                                    style={{
+                                        paddingLeft: "45%",
+                                        top: "50%",
+                                    }}
+                                    color={colors.text}
+                                />
+                    }
                 </Surface>
                 <Divider  color="#3F4041" width={15} style={[styles.divider]}/>
 
-                <VStack items="center" spacing='7%'style={[styles.stack]}>
+                <VStack items="center" spacing='7%' style={[styles.stack]}>
                     <ScrollView style={styles.scroll}>
                     {
-                        images != null ? images.map((image) => {
+                        images != null && images.length > 0 ? images.slice(1).map((image) => {
                             console.log(`Eu sunt image bre!:`);
                             console.log(image.id);
                             return (
@@ -99,7 +121,7 @@ const HomePage = ({navigation}) => {
                                   elevation={8}
                                   style={[styles.surfaceDoc]}
                               >
-                                  <InLineDocument image={image}/>
+                                  <InLineDocument image={image} isBase64={true}/>
                               </Surface>
                         )}) : null
                     }
@@ -124,7 +146,7 @@ const HomePage = ({navigation}) => {
                 </VStack>
             </View>
         </IconComponentProvider>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

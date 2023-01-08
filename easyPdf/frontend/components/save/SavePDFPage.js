@@ -1,5 +1,5 @@
 import React from "react";
-import {Image, StyleSheet, TextInput} from 'react-native';
+import {Alert, Image, StyleSheet, TextInput} from 'react-native';
 
 // React-native materials
 import {Box} from 'react-native-flex-layout';
@@ -22,7 +22,7 @@ import {colors} from '../../constants/Colors'
 
 const SavePage = ({navigation, route }) => {
     const [documentName, setDocumentName] = useState('')
-    const [photosList] = useState(route.params.photosList);
+    const [photosList, setPhotosList] = useState(route.params.photosList);
     const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 15);
 
     const [state, setState] = useState(null)
@@ -48,12 +48,37 @@ const SavePage = ({navigation, route }) => {
         }
     }
 
+    const navigateToHome = async () => {
+        await Alert.alert(
+            'WARNING',
+            'Are you sure you want to go back to home page? you will lose your photos!',
+            [
+                {
+                    text: 'Yes',
+                    onPress: await goToCapture
+                },
+                {
+                    text: 'No',
+                    onPress: null
+                }
+            ]
+        )
+    }
+
+    const goToCapture = async () => {
+        setPhotosList([]);
+        navigation.navigate('CapturePage');
+    }
+
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
 
              <Appbar.Header
                 style={[styles.top]}
              >
+                 <Appbar.Action
+                     icon="keyboard-backspace" onPress={async () =>{await navigateToHome()}}
+                 />
                 <TextInput
                    color={colors.text}
                    mode="flat"

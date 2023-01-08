@@ -55,7 +55,7 @@ export const InLineDocument = (image) => {
             [
                 {
                     text: 'Yes',
-                    onPress: () => setResponse(true)
+                    onPress: await deleteDoc
                 },
                 {
                     text: 'No',
@@ -63,16 +63,16 @@ export const InLineDocument = (image) => {
                 }
             ]
         )
-        if(response) {
-            console.log(`intru aci`);
-           const doc_fk = image["image"].document_fk;
-           const resp = await deleteDocument(doc_fk);
-           if(resp) {
-               console.log(`Document with fk: [${doc_fk}] has been deleted!`);
-           }
-           else {
-               console.log(`Document with fk: [${doc_fk}] WAS NOT deleted!`);
-           }
+    }
+
+    const deleteDoc = async () => {
+        const doc_fk = image["image"].document_fk;
+        const resp = await deleteDocument(doc_fk);
+        if(resp) {
+            console.log(`Document with fk: [${doc_fk}] has been deleted!`);
+        }
+        else {
+            console.log(`Document with fk: [${doc_fk}] WAS NOT deleted!`);
         }
     }
 
