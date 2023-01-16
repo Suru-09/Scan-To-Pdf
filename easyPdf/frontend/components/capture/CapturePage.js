@@ -115,7 +115,7 @@ const CapturePage = ({navigation}) => {
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
             <View style={styles.root}>
                 <View style={styles.top}>
-                    <Appbar.Header>
+                    <Appbar.Header style={styles.header}>
                         <Appbar.Action icon="home"
                            size={26}
                            style={{
@@ -135,7 +135,7 @@ const CapturePage = ({navigation}) => {
                                 style={{
                                     fontSize: 17, fontWeight: "bold",
                                     color: colors.text,
-                                    marginLeft: 10,
+                                    marginLeft: 5,
                                 }}
                             >
                                 Save PDF
@@ -193,6 +193,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "flex-start",
    },
+    header: {
+        backgroundColor: '#3F4041',
+    }
 });
 
 export default CapturePage;

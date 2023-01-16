@@ -27,7 +27,7 @@ export const ImageViewer = (props) => {
                 images && images.length > 0 ?
                     <Image
                         style={{
-                        aspectRatio: 2 / 3, width: "100%", height: undefined
+                        aspectRatio: 2 / 3, width: "90%", height: undefined, alignSelf: "center", marginTop: 10
                         }}
                         source={{ uri: 'data:image/jpeg;base64,' + images[currentIndex].base64 }}
                     />
@@ -39,20 +39,20 @@ export const ImageViewer = (props) => {
                     style={styles.prevTouch}
                     onPress={handlePrevPress}
                 >
-                    <Ionicons name={"arrow-back"} size={30} color={colors.text}/>
-                    <Text  style={styles.prevText} color={colors.teal_text}>
-                        Prev
-                    </Text>
+                    <Ionicons name={"md-chevron-back-circle-sharp"} size={40} color={colors.text}/>
+                    {/*<Text  style={styles.prevText} color={colors.teal_text}>*/}
+                    {/*    Prev*/}
+                    {/*</Text>*/}
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={styles.nextTouch}
                      onPress={handleNextPress}
                 >
-                    <Text  style={styles.nextText}  color={colors.teal_text}>
-                        Next
-                    </Text>
-                    <Ionicons name={"arrow-forward"} size={30} color={colors.text}/>
+                    {/*<Text  style={styles.nextText}  color={colors.teal_text}>*/}
+                    {/*    Next*/}
+                    {/*</Text>*/}
+                    <Ionicons name={"md-chevron-forward-circle-sharp"} size={40} color={colors.text}/>
                 </TouchableOpacity>
 
             </View>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         marginLeft: "5%",
         justifyContent: "center",
         width: "30%",
-        backgroundColor: colors.teal_text,
+        backgroundColor: 'transparent',
         alignItems: "center"
     },
     nextTouch: {
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         marginRight: "5%",
         justifyContent: "center",
         width: "30%",
-        backgroundColor: colors.teal_text,
+        backgroundColor: 'transparent',
         alignItems: "center"
     },
     buttonsView: {

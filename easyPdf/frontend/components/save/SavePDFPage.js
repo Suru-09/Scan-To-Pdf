@@ -8,7 +8,6 @@ import { Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 
-import  PdfSlider  from './PDFSlider'
 import {useSwipe} from "../hooks/Swipe";
 
 // redux
@@ -95,7 +94,7 @@ const SavePage = ({navigation, route }) => {
                     onPress={() => {
                         save()
                     }}
-                    color="#84CBE8"
+                    color={colors.teal_text}
                     uppercase={false}
                     style={{variant: "titleLarge"}}
                 />
@@ -124,6 +123,7 @@ const styles = StyleSheet.create({
     bottom: {
             backgroundColor: '#3F4041',
             position: 'absolute',
+            alignSelf: "flex-end",
             left: 0,
             right: 0,
             bottom: 0,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
             alignSelf: "center",
             textAlign: "center",
             multiline: false,
-            backgroundColor: '#7393B3',
+            backgroundColor: colors.teal_text,
           },
 });
 
