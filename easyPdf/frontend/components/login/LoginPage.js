@@ -110,7 +110,7 @@ const LoginPage = ({navigation}) => {
             if (response.ok)
             {
                 dispatch(loginUser(response.loggedUser));
-                navigation.navigate('Home');
+                navigation.navigate('DrawerNavigator');
             }
             else
             {
@@ -224,9 +224,9 @@ const LoginPage = ({navigation}) => {
                 }
 
 
-                <TouchableOpacity>
-                    <Text style={{color: colors.text, marginTop:15}}>Forgot password?</Text>
-                </TouchableOpacity>
+                {/*<TouchableOpacity>*/}
+                {/*    <Text style={{color: colors.text, marginTop:15}}>Forgot password?</Text>*/}
+                {/*</TouchableOpacity>*/}
 
                 <View style={styles.button}>
                     <TouchableOpacity
@@ -236,7 +236,7 @@ const LoginPage = ({navigation}) => {
                             marginTop: 15,
                             backgroundColor: colors.teal_text,
                         }]}
-                        onPress={async () => {loginHandle(user)}}
+                        onPress={async () => {await loginHandle(user)}}
                     >
 
                     <Text style={[styles.textSign, {

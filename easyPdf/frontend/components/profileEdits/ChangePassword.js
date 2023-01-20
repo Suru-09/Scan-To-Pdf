@@ -96,7 +96,23 @@ const ChangePassword = ({navigation}) => {
             const neededUser = {id: userId, password: inputUser.password, new_password: inputUser.newpassword}
             changePassword(neededUser).then(r => {
                 console.log(r);
-                r ? navigation.navigate('Home') : Alert.alert('Invalid password. Enter your password again!');
+                if(r)
+                {
+                    Alert.alert(
+                    'Warning',
+                    'Changes will be seen only after you log out and log in again',
+                    [
+                        {
+                            text: 'Ok',
+                            onPress: navigation.navigate('Home')
+
+                        }
+                    ]);
+                }
+                else
+                {
+                    Alert.alert('Invalid password. Try again!');
+                }
             });
         }
         else{

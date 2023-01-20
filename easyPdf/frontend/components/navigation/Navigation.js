@@ -29,7 +29,7 @@ const Navigation = () => {
                 <Stack.Screen name="RateApp" component={RateAppPage} />
                 <Stack.Screen name="Help" component={HelpPage} />
                 <Stack.Screen name="SavePage" component={SavePage} initialParams={{ photosList: []}} />
-                <Stack.Screen name="Home" component={DrawerNavigator}/>
+                <Stack.Screen name="DrawerNavigator" component={DrawerNavigator}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

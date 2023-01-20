@@ -19,6 +19,7 @@ import {useState, useEffect} from "react";
 import {getRating, updateRating} from "../../bzl/drawer/RateBzl";
 
 const RateAppPage = () => {
+    const [count, setCount] = useState(0);
     const [currentUser, setUser] = useState({username: "Empty", email: "empty@gmail.com"})
     const [state, setState] = useState(null);
     const [rating, setRating] = useState(null);
@@ -45,10 +46,16 @@ const RateAppPage = () => {
         loadUser().then(r => console.log("User has been set!"));
         loadRating().then(r => console.log(rating));
 
-    }, [state, currentUser]);
+    }, [state, currentUser, rating]);
+
+    const updateCount = () => {
+        setCount(count + 1);
+    }
 
     const updateRate = async (rating) => {
         const result = await updateRating(currentUser.id, rating);
+        setRating(result["rating"]);
+        updateCount();
         console.log(`Result of updating rating:`);
         console.log(result);
     }

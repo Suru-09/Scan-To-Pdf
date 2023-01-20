@@ -86,7 +86,23 @@ const ChangeEmail= ({navigation}) => {
         const neededUser = {id: userId, password: inputUser.password, new_email: inputUser.email}
         changeEmail(neededUser).then(r => {
             console.log(r);
-            r ? navigation.navigate('Home') : Alert.alert('Invalid password. Enter password again!');;
+            if(r)
+            {
+                Alert.alert(
+                'Warning',
+                'Changes will be seen only after you log out and log in again',
+                [
+                    {
+                        text: 'Ok',
+                        onPress: navigation.navigate('Home')
+
+                    }
+                ]);
+            }
+            else
+            {
+                Alert.alert('Invalid password. Try again!');
+            }
         });
     }
 
