@@ -1,5 +1,5 @@
 import React from "react";
-import {Alert, Image, StyleSheet, TextInput} from 'react-native';
+import {Alert, Image, StyleSheet, TextInput, View} from 'react-native';
 
 // React-native materials
 import {Box} from 'react-native-flex-layout';
@@ -7,11 +7,10 @@ import { IconComponentProvider, Icon, Button} from "@react-native-material/core"
 import { Appbar } from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-
-import {useSwipe} from "../hooks/Swipe";
-
 // redux
 import store from "../../redux/store";
+import {useDispatch} from "react-redux";
+import {reloadHome} from "../../redux/actions/reloadHomeActions";
 
 // bzl
 import {ImageViewer} from "./ImageViewer";
@@ -21,9 +20,10 @@ import {colors} from '../../constants/Colors'
 
 
 const SavePage = ({navigation, route }) => {
+    const dispatch = useDispatch();
+
     const [documentName, setDocumentName] = useState('')
     const [photosList, setPhotosList] = useState(route.params.photosList);
-    const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 15);
 
     const [state, setState] = useState(null)
     useEffect(() => {
@@ -34,25 +34,19 @@ const SavePage = ({navigation, route }) => {
         loadReduxState().then(() => console.log("Redux state has been retrieved!"))
     }, [state])
 
-    const onSwipeLeft = () => {
-        console.log('Swipe left');
-    }
-
-    const onSwipeRight = () => {
-        console.log('Swipe right');
-    }
-
     const save = async () => {
         if(documentName !== '' && photosList.length > 0) {
             await createDocAndSaveImgs(state.userReducer.loginUser, photosList, documentName);
         }
+        dispatch(reloadHome(true));
+        setTimeout(() => {  navigation.navigate('Home') }, 200);
     }
 
-    const navigateToHome = async () => {
-        route.params.resetCapture();
+    const navigateToCapture = async () => {
+        await route.params.resetCapture();
         await Alert.alert(
             'WARNING',
-            'Are you sure you want to go back to home page? you will lose your photos!',
+            'Are you sure you want to go back to capture page? you will lose your photos!',
             [
                 {
                     text: 'Yes',
@@ -73,12 +67,12 @@ const SavePage = ({navigation, route }) => {
 
     return(
         <IconComponentProvider IconComponent={MaterialCommunityIcons}>
-
-             <Appbar.Header
+            <View style={styles.root}>
+                <Appbar.Header
                 style={[styles.top]}
-             >
+                >
                  <Appbar.Action
-                     icon="keyboard-backspace" onPress={async () =>{await navigateToHome()}}
+                     icon="keyboard-backspace" onPress={async () =>{await navigateToCapture()}}
                  />
                 <TextInput
                    color={"black"}
@@ -91,65 +85,48 @@ const SavePage = ({navigation, route }) => {
                 <Button
                     variant="text"
                     title='Save PDF'
-                    onPress={() => {
-                        save()
+                    onPress={async () => {
+                        await save()
                     }}
                     color={colors.teal_text}
                     uppercase={false}
-                    style={{variant: "titleLarge"}}
                 />
              </Appbar.Header>
 
 
-            <Box style={[styles.box]}  onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} >
-                {/*<PdfSlider photosArray={photosList}/>*/}
-                <ImageViewer images={photosList}></ImageViewer>
+                <Box style={[styles.box]} >
+                    <ImageViewer  images={photosList} navToCapture={navigateToCapture} ></ImageViewer>
+               </Box>
 
-            </Box>
-
-            <Appbar
-                style={[styles.bottom]}
-            >
-                <Appbar.Action icon="crop-rotate"  />
-                <Appbar.Action icon="file-image-plus-outline"  />
-                <Appbar.Action icon="eraser"  />
-                <Appbar.Action icon="delete-outline"  />
-            </Appbar>
+            </View>
         </IconComponentProvider>
     )
 }
 
 const styles = StyleSheet.create({
-    bottom: {
-            backgroundColor: '#3F4041',
-            position: 'absolute',
-            alignSelf: "flex-end",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            height: "10%",
-          },
+    // bottom: {
+    //         backgroundColor: '#3F4041',
+    //         position: 'absolute',
+    //         alignSelf: "flex-end",
+    //         left: 0,
+    //         right: 0,
+    //         bottom: 0,
+    //         flexDirection: "row",
+    //         justifyContent: "space-evenly",
+    //         height: "10%",
+    //       },
     top: {
-            backgroundColor: '#3F4041',
-            flexDirection: "row",
-            justifyContent: "space-between",
-
-          },
+        backgroundColor: '#3F4041',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 20,
+   },
     box: {
-            // marginTop: "10%",
-            // marginBottom: "10%",
-            // display: "flex",
-            // flexWrap: "wrap",
-            height: "85%",
-            // flexDirection: "row",
-            // backgroundColor: 'transparent',
-            // justifyContent: "center",
-            // alignItems: "center",
-            // position: "absolute"
-
-          },
+        marginTop: 20,
+        height: "84%",
+        width: "100%",
+        alignSelf: "flex-end"
+    },
     nameInput: {
             margin: 25,
             height: 35,
@@ -159,6 +136,11 @@ const styles = StyleSheet.create({
             multiline: false,
             backgroundColor: colors.teal_text,
           },
+    root: {
+        display: 'flex',
+        flexDirection: "column",
+        justifyContent: "space-between",
+    }
 });
 
 export default SavePage;

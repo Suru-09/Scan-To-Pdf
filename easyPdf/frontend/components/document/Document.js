@@ -13,7 +13,6 @@ import {downloadPdf, deleteDocument} from "../../bzl/home/DocumentBzl";
 
 export const Document = (props) => {
     console.log("DOCUMENT PAGE:");
-    //console.log(image["image"].image_b64);
     console.log(props.isBase64);
 
     const[info, setInfo] = useState({
@@ -65,9 +64,10 @@ export const Document = (props) => {
     }
 
     const deleteDoc = async () => {
-        const doc_fk = image["image"].document_fk;
+        const doc_fk = props.image.document_fk;
         const resp = await deleteDocument(doc_fk);
         if(resp) {
+            props.reload();
             console.log(`Document with fk: [${doc_fk}] has been deleted!`);
         }
         else {
@@ -94,6 +94,14 @@ export const Document = (props) => {
 
 
             <View style={styles.verticalView}>
+
+                <Text style={{color: colors.text, fontWeight: "bold", fontSize: "20"}}>
+                    {props.isBase64 === true ? props.image.name : "No document name"}
+                </Text>
+                <Text style={{color: colors.text, fontSize: "18", marginBottom: 20}}>
+                    {props.isBase64 === true ? props.image.date.substring(0, 10) : "No document date"}
+                </Text>
+
                 <TouchableOpacity
                     disabled={!props.isBase64}
                     style={styles.touchableOpac}
@@ -161,7 +169,7 @@ const styles = StyleSheet.create({
     },
     touchText: {
         color: 'white',
-        fontSize: 18
+        fontSize: 18,
     },
     sharePressed: {
         color: colors.teal_text,

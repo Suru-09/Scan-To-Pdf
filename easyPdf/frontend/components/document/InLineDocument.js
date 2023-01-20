@@ -45,7 +45,7 @@ export const InLineDocument = (image) => {
     };
 
     const handleDownloadPdf = async () => {
-        console.log(downloadPdf(image["image"].document_fk, "random"))
+        console.log(downloadPdf(image.image.document_fk, "random"))
     }
 
     const handleDeletePdf = async() => {
@@ -66,9 +66,10 @@ export const InLineDocument = (image) => {
     }
 
     const deleteDoc = async () => {
-        const doc_fk = image["image"].document_fk;
+        const doc_fk = image.image.document_fk;
         const resp = await deleteDocument(doc_fk);
         if(resp) {
+            image.reload();
             console.log(`Document with fk: [${doc_fk}] has been deleted!`);
         }
         else {
@@ -81,17 +82,17 @@ export const InLineDocument = (image) => {
             <Surface elevation={15} style={styles.image}>
                 <Image
                     style={{aspectRatio: 2 / 3, width: undefined, height: "90%", borderRadius: 3}}
-                    source={{ uri: `data:image/jpeg;base64,${image["image"].image_b64}` }}
+                    source={{ uri: `data:image/jpeg;base64,${image.image.image_b64}` }}
                 />
             </Surface>
 
             <View style={styles.verticalView}>
 
                 <Text style={{color: colors.text, fontWeight: "bold", fontSize: "17"}}>
-                    {image["image"].name}
+                    {image.image.name}
                 </Text>
                 <Text style={{color: colors.text, fontSize: "17"}}>
-                    {image["image"].date.substring(0, 10)}
+                    {image.image.date.substring(0, 10)}
                 </Text>
 
                 <View style={styles.horizontalView}>

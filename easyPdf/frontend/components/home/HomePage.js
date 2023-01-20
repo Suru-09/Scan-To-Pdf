@@ -14,23 +14,32 @@ import * as ImagePicker from "expo-image-picker/src/ImagePicker";
 // redux
 import store from '../../redux/store'
 import {colors} from '../../constants/Colors'
+import {useSelector} from "react-redux";
 
 // bzl
 import {loadImages} from "../../bzl/home/HomeBzl";
 import {InLineDocument} from "../document/InLineDocument";
 import {VStack} from "react-native-flex-layout";
 import {Icon} from "react-native-elements";
+import {useIsFocused} from "@react-navigation/native";
 
 const HomePage = ({navigation}) => {
     const [isLoading, setLoading] = useState(true);
     const [images, setImages] = useState(null);
     const [state, setState] = useState(null);
+    const isFocused = useIsFocused();
+    const [reload, setReload] = useState(false);
+
+    const reloadPage = () => {
+        setReload(!reload);
+    }
 
     useEffect(() => {
-        async function loadState() {
+        const  loadState = async () => {
             const state = await store.getState();
             setState(state);
         }
+
         async function loadImg() {
             if(state !== null) {
                 const imgs = await loadImages(state.userReducer.loginUser.id);
@@ -50,7 +59,7 @@ const HomePage = ({navigation}) => {
             loadImg().then(() => console.log("Use Effect done in HomePage!"))
         });
 
-    }, [state]);
+    }, [state, isFocused, reload]);
 
     const imageArrayFromImgPicker = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -95,10 +104,10 @@ const HomePage = ({navigation}) => {
                   style={[styles.lastDocSurface]}
                 >
                     { images != null && images.length > 0 ?
-                        <Document image={images[0]} isBase64={true}/>
+                        <Document image={images[0]} isBase64={true} reload={reloadPage}/>
                         :
                             isLoading === false ?
-                                <Document isBase64={false}/>
+                                <Document isBase64={false} reload={reloadPage}/>
                                 :
                                 <ActivityIndicator
                                     size={"large"}
@@ -115,13 +124,13 @@ const HomePage = ({navigation}) => {
                 <VStack items="center" spacing='7%' style={[styles.stack]}>
                     <ScrollView style={styles.scroll}>
                     {
-                        images != null && images.length > 0 ? images.slice(1).map((image) => {
+                        images != null && images.length > 1 ? images.slice(1).map((image) => {
                             return (
                               <Surface
                                   elevation={8}
                                   style={[styles.surfaceDoc]}
                               >
-                                  <InLineDocument image={image} isBase64={true}/>
+                                  <InLineDocument image={image} isBase64={true} reload={reloadPage}/>
                               </Surface>
                         )}) : null
                     }

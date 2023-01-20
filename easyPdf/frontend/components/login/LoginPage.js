@@ -39,8 +39,8 @@ const LoginPage = ({navigation}) => {
         inputChanged: false,
         validUser: true,
         validPassword: true,
-        userNameMinLength: 3,
-        passwordMinLength: 3,
+        userNameMinLength: 6,
+        passwordMinLength: 6,
     })
 
     const updateSecureText = () => {
