@@ -37,13 +37,15 @@ const SavePage = ({navigation, route }) => {
     const save = async () => {
         if(documentName !== '' && photosList.length > 0) {
             await createDocAndSaveImgs(state.userReducer.loginUser, photosList, documentName);
+            navigation.navigate('Home');
         }
-        dispatch(reloadHome(true));
-        setTimeout(() => {  navigation.navigate('Home') }, 200);
     }
 
     const navigateToCapture = async () => {
-        await route.params.resetCapture();
+        if(route.params.resetCapture)
+        {
+            await route.params.resetCapture();
+        }
         await Alert.alert(
             'WARNING',
             'Are you sure you want to go back to capture page? you will lose your photos!',

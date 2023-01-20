@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import { IconComponentProvider} from "@react-native-material/core";
 import {Appbar, Divider, IconButton, Searchbar, Surface} from 'react-native-paper';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import {ScrollView, View, StyleSheet} from "react-native";
+import {ScrollView, View, StyleSheet, Alert} from "react-native";
 import {ActivityIndicator} from "react-native";
 import {Document} from "../document/Document";
 
@@ -55,8 +55,8 @@ const HomePage = ({navigation}) => {
                 setLoading(false);
             }
         }
-        loadState().then(() => {
-            loadImg().then(() => console.log("Use Effect done in HomePage!"))
+        loadState().then(async () => {
+            await loadImg().then(() => console.log("Use Effect done in HomePage!"))
         });
 
     }, [state, isFocused, reload]);
@@ -70,15 +70,14 @@ const HomePage = ({navigation}) => {
             quality: 0.5,
         });
 
-        if(result) {
-            console.log("Futute-n gura!");
-            const imgs = []
+        const imgs = []
+        if(result && result.selected) {
             result.selected.forEach((asset) => {
                 imgs.push(asset);
             })
             return imgs
         }
-        return []
+        return imgs
     }
 
     const goToLogin = async () => {
@@ -145,10 +144,17 @@ const HomePage = ({navigation}) => {
                             onPress={async () =>{navigation.navigate('CapturePage')}}
                             icon={props => <Icon name="camera" {...props} />} />
                         <IconButton
-                            onPress={async () =>{
-                                    navigation.navigate('SavePage', {
-                                        photosList: await imageArrayFromImgPicker()
-                                    })
+                            onPress={async () =>
+                            {
+                                const array = await imageArrayFromImgPicker();
+                                    array && array.length > 0 ?
+                                        navigation.navigate('SavePage', {
+                                            photosList: await imageArrayFromImgPicker
+                                        })
+                                        :
+                                        Alert.alert(
+                                            'You did not select any photos from gallery!'
+                                        );
                                 }}
                             icon={props => <Icon name="image" {...props} />} />
                     </Surface>
